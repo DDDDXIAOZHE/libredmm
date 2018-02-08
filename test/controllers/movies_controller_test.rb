@@ -2,7 +2,7 @@ require 'test_helper'
 
 class MoviesControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @movie = movies(:one)
+    @movie = create(:movie)
   end
 
   test "should get index" do
@@ -17,7 +17,7 @@ class MoviesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create movie" do
     assert_difference('Movie.count') do
-      post movies_url, params: { movie: { actress_types: @movie.actress_types, actresses: @movie.actresses, categories: @movie.categories, code: @movie.code, cover_image: @movie.cover_image, description: @movie.description, directors: @movie.directors, genres: @movie.genres, label: @movie.label, maker: @movie.maker, move_length: @movie.move_length, page: @movie.page, release_date: @movie.release_date, sample_images: @movie.sample_images, series: @movie.series, tags: @movie.tags, thumbnail_image: @movie.thumbnail_image, title: @movie.title } }
+      post movies_url, params: { movie: attributes_for(:movie) }
     end
 
     assert_redirected_to movie_url(Movie.last)
@@ -34,7 +34,7 @@ class MoviesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update movie" do
-    patch movie_url(@movie), params: { movie: { actress_types: @movie.actress_types, actresses: @movie.actresses, categories: @movie.categories, code: @movie.code, cover_image: @movie.cover_image, description: @movie.description, directors: @movie.directors, genres: @movie.genres, label: @movie.label, maker: @movie.maker, move_length: @movie.move_length, page: @movie.page, release_date: @movie.release_date, sample_images: @movie.sample_images, series: @movie.series, tags: @movie.tags, thumbnail_image: @movie.thumbnail_image, title: @movie.title } }
+    patch movie_url(@movie), params: { movie: attributes_for(:movie) }
     assert_redirected_to movie_url(@movie)
   end
 
