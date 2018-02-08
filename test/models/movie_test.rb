@@ -14,4 +14,16 @@ class MovieTest < ActiveSupport::TestCase
       create(:movie, code: '')
     end
   end
+
+  test 'should search details via api before create' do
+    movie = create(:movie)
+    assert_requested(@api_stub)
+  end
+
+  test 'should reject code with no search result' do
+    @api_stub = stub_request(:any, /api\.libredmm\.com/).to_return(status: 404)
+    assert_raise ActiveRecord::RecordInvalid do
+      movie = create(:movie)
+    end
+  end
 end
