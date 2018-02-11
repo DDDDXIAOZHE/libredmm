@@ -12,7 +12,12 @@ class Movie < ApplicationRecord
         end
       end
     rescue
-      raise ActiveRecord::RecordInvalid
+      raise ActiveRecord::RecordNotFound
     end
+    validate!
+  end
+
+  def to_param
+    code
   end
 end

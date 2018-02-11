@@ -5,13 +5,33 @@ class MoviesControllerTest < ActionDispatch::IntegrationTest
     @movie = create(:movie)
   end
 
-  test "should get index" do
+  test 'should get index' do
     get movies_url
     assert_response :success
   end
 
-  test "should show movie" do
+  test 'should show movie' do
     get movie_url(@movie)
     assert_response :success
+  end
+
+  test 'should create movie on show' do
+    @movie = build(:movie)
+    assert_difference 'Movie.count' do
+      get movie_url(@movie)
+    end
+  end
+
+  test 'should redirect on show' do
+    @api_stub = stub_request(:any, /api\.libredmm\.com\/search\?q=/).to_return(
+      body: lambda { |request|
+        {
+          code: 'TEST' + request.uri.query_values['q'],
+        }.to_json
+      },
+    )
+    @movie = build(:movie)
+    get movie_url(@movie)
+    assert_redirected_to id: 'TEST' + @movie.code
   end
 end

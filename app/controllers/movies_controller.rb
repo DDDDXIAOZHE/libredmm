@@ -15,6 +15,9 @@ class MoviesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_movie
-      @movie = Movie.find(params[:id])
+      @movie = Movie.find_or_create_by(code: params[:id])
+      if @movie.code != params[:id]
+        redirect_to id: @movie.code
+      end
     end
 end
