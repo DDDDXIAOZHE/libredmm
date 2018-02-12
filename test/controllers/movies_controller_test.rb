@@ -26,7 +26,10 @@ class MoviesControllerTest < ActionDispatch::IntegrationTest
     @api_stub = stub_request(:any, /api\.libredmm\.com\/search\?q=/).to_return(
       body: lambda { |request|
         {
-          code: 'TEST' + request.uri.query_values['q'],
+          Code: 'TEST' + request.uri.query_values['q'],
+          CoverImage: 'https://dummyimage.com/800',
+          Page: 'https://dummyimage.com/',
+          Title: 'Dummy Movie',
         }.to_json
       },
     )

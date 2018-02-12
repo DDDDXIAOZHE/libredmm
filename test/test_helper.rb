@@ -12,7 +12,10 @@ class ActiveSupport::TestCase
     @api_stub = stub_request(:any, /api\.libredmm\.com\/search\?q=/).to_return(
       body: lambda { |request|
         {
-          code: request.uri.query_values['q'],
+          Code: request.uri.query_values['q'],
+          CoverImage: 'https://dummyimage.com/800',
+          Page: 'https://dummyimage.com/',
+          Title: 'Dummy Movie',
         }.to_json
       },
     )

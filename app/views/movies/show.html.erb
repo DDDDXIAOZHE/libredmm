@@ -1,93 +1,32 @@
-<p id="notice"><%= notice %></p>
+<h1>
+  <span><%= @movie.code %></span>
+  <span><%= @movie.title %></span>
+</h1>
 
-<p>
-  <strong>Actresses:</strong>
-  <%= @movie.actresses %>
-</p>
-
-<p>
-  <strong>Actress types:</strong>
-  <%= @movie.actress_types %>
-</p>
-
-<p>
-  <strong>Categories:</strong>
-  <%= @movie.categories %>
-</p>
-
-<p>
-  <strong>Code:</strong>
-  <%= @movie.code %>
-</p>
-
-<p>
-  <strong>Cover image:</strong>
-  <%= @movie.cover_image %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @movie.description %>
-</p>
-
-<p>
-  <strong>Directors:</strong>
-  <%= @movie.directors %>
-</p>
-
-<p>
-  <strong>Genres:</strong>
-  <%= @movie.genres %>
-</p>
-
-<p>
-  <strong>Label:</strong>
-  <%= @movie.label %>
-</p>
-
-<p>
-  <strong>Maker:</strong>
-  <%= @movie.maker %>
-</p>
-
-<p>
-  <strong>Movie length:</strong>
-  <%= @movie.movie_length %>
-</p>
-
-<p>
-  <strong>Page:</strong>
-  <%= @movie.page %>
-</p>
-
-<p>
-  <strong>Release date:</strong>
-  <%= @movie.release_date %>
-</p>
-
-<p>
-  <strong>Sample images:</strong>
-  <%= @movie.sample_images %>
-</p>
-
-<p>
-  <strong>Series:</strong>
-  <%= @movie.series %>
-</p>
-
-<p>
-  <strong>Tags:</strong>
-  <%= @movie.tags %>
-</p>
-
-<p>
-  <strong>Thumbnail image:</strong>
-  <%= @movie.thumbnail_image %>
-</p>
-
-<p>
-  <strong>Title:</strong>
-  <%= @movie.title %>
-</p>
-
-<%= link_to 'Back', movies_path %>
+<div class="row">
+  <div class="col-8">
+  <%= image_tag @movie.cover_image, class: "img-fluid"%>
+  </div>
+  <div class="col-4">
+    <dl>
+      <%- @movie.attributes.except("id", "code", "cover_image", "page", "title", "created_at", "updated_at").each do |k, v| -%>
+        <%- unless v.blank? -%>
+          <dt><%= k.titleize %></dt>
+          <dd>
+            <%- if v.is_a? Array -%>
+              <ul class="list-inline">
+                <%- v.each do |i| -%>
+                  <li class="list-inline-item"><%= i %></li>
+                <%- end -%>
+              </ul>
+            <%- else -%>
+              <%= v %>
+            <%- end -%>
+          </dd>
+        <%- end -%>
+      <%- end -%>
+      <dt>Data Source</dt>
+      <dd><%= link_to @movie.page %></dd>
+    </dl>
+  </div>
+</div>
