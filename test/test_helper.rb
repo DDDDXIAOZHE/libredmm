@@ -11,12 +11,9 @@ class ActiveSupport::TestCase
   setup do
     @api_stub = stub_request(:any, /api\.libredmm\.com\/search\?q=/).to_return(
       body: lambda { |request|
-        {
-          Code: request.uri.query_values['q'],
-          CoverImage: 'https://dummyimage.com/800',
-          Page: 'https://dummyimage.com/',
-          Title: 'Dummy Movie',
-        }.to_json
+        attributes_for(:movie, code: request.uri.query_values['q']).map { |k ,v|
+          [k.to_s.camelize, v]
+        }.to_h.to_json
       },
     )
   end
