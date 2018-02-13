@@ -20,3 +20,6 @@
 
 # Ignore test coverage report
 coverage
+
+# Ignore env vars
+.env
