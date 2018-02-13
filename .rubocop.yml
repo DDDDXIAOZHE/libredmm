@@ -1,14 +1,21 @@
-Style/EmptyMethod:
-  Enabled: false
+AllCops:
+  Exclude:
+    - 'db/**/*.rb'
 
 Style/BlockComments:
-  Enabled: false
-
-Style/TrailingCommaInArguments:
   Enabled: false
 
 Style/BlockDelimiters:
   Enabled: false
 
+Style/Documentation:
+  Enabled: false
+
+Style/EmptyMethod:
+  Enabled: false
+
 Style/NumericLiterals:
+  Enabled: false
+
+Style/TrailingCommaInArguments:
   Enabled: false
