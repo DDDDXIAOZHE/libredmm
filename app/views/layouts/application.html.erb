@@ -45,7 +45,12 @@
     <main role="main" class="container">
       <div id="flash">
         <% flash.each do |key, value| -%>
-          <div id="flash_<%= key %>"><%=h value %></div>
+          <div id="flash_<%= key %>" class="alert alert-info alert-dismissable fade show" role="alert">
+            <%=h value %>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
         <% end %>
       </div>
       <%= yield %>
