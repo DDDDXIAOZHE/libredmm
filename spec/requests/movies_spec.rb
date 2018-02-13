@@ -35,7 +35,8 @@ RSpec.describe 'Movies', type: :request do
         },
       )
       @movie = build(:movie)
-      expect(get(movie_url(@movie))).to redirect_to(id: 'TEST' + @movie.code)
+      get(movie_url(@movie))
+      expect(response).to redirect_to(id: 'TEST' + @movie.code)
     end
   end
 end
