@@ -30,12 +30,12 @@
                 <%= current_user.email %>
               </a>
               <div class="dropdown-menu" aria-labelledby="userDropdownMenu">
-                <%= link_to 'Sign out', sign_out_path, method: :delete, class: 'dropdown-item' %>
+                <%= link_to (t '.sign_out'), sign_out_path, method: :delete, class: 'dropdown-item' %>
               </div>
             </li>
           <% else %>
             <li class="nav-item">
-              <%= link_to 'Sign in', sign_in_path, class: 'nav-link'%>
+              <%= link_to (t '.sign_in'), sign_in_path, class: 'nav-link'%>
             </li>
           <% end %>
         </ul>
@@ -43,6 +43,11 @@
     </nav>
 
     <main role="main" class="container">
+      <div id="flash">
+        <% flash.each do |key, value| -%>
+          <div id="flash_<%= key %>"><%=h value %></div>
+        <% end %>
+      </div>
       <%= yield %>
     </main>
   </body>
