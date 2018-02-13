@@ -1,0 +1,14 @@
+<div id="clearance" class="sign-up">
+  <h2><%= t(".title") %></h2>
+
+  <%= form_for @user, html: { class: 'pt-3' } do |form| %>
+    <%= render partial: '/users/email_field', locals: { form: form } %>
+    <%= render partial: '/users/password_field', locals: { form: form, allow_forgot: false } %>
+    <%= render partial: '/users/submit_field', locals: { form: form } %>
+
+    <div class="form-group other-links">
+      Already have an account?
+      <%= link_to t(".sign_in"), sign_in_path, class: 'btn btn-info ml-2' %>
+    </div>
+  <% end %>
+</div>

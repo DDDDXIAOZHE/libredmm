@@ -1,0 +1,10 @@
+<div id="clearance" class="password-reset">
+  <h2><%= t(".title") %></h2>
+
+  <p><%= t(".description") %></p>
+
+  <%= form_for :password, url: passwords_path, html: { class: 'pt-3' } do |form| %>
+    <%= render partial: '/users/email_field', locals: { form: form } %>
+    <%= render partial: '/users/submit_field', locals: { form: form } %>
+  <% end %>
+</div>
