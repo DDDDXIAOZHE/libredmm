@@ -9,8 +9,6 @@ class MoviesController < ApplicationController
   # GET /movies/1.json
   def show
     @movie = Movie.find_or_create_by(code: params[:id])
-    if @movie.code != params[:id]
-      redirect_to id: @movie.code
-    end
+    redirect_to id: @movie.code if @movie.code != params[:id]
   end
 end

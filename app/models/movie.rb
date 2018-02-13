@@ -6,12 +6,12 @@ class Movie < ApplicationRecord
 
   before_validation on: :create do
     begin
-      open "http://api.libredmm.com/search?q=#{self.code}" do |f|
+      open "http://api.libredmm.com/search?q=#{code}" do |f|
         JSON.parse(f.read).each do |k, v|
-          self.write_attribute(k.underscore, v)
+          write_attribute(k.underscore, v)
         end
       end
-    rescue
+    rescue StandardError
       raise ActiveRecord::RecordNotFound
     end
   end

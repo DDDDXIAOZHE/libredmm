@@ -1,0 +1,14 @@
+Style/EmptyMethod:
+  Enabled: false
+
+Style/BlockComments:
+  Enabled: false
+
+Style/TrailingCommaInArguments:
+  Enabled: false
+
+Style/BlockDelimiters:
+  Enabled: false
+
+Style/NumericLiterals:
+  Enabled: false

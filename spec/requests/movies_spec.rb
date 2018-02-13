@@ -22,14 +22,14 @@ RSpec.describe 'Movies', type: :request do
         Movie.count
       }.by(1)
     end
-    
+
     it 'redirects if code changes after creating movie' do
       stub_request(:any, /api\.libredmm\.com\/search\?q=/).to_return(
         body: lambda { |request|
           attributes_for(
             :movie,
             code: 'TEST' + request.uri.query_values['q'],
-          ).map { |k ,v|
+          ).map { |k, v|
             [k.to_s.camelize, v]
           }.to_h.to_json
         },
