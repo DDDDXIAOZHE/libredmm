@@ -1,8 +1,17 @@
+env:
+  global:
+    - CC_TEST_REPORTER_ID=2a2766110ffb2b254c46652f9d6933f2f2a4f95def8bc0fa9aeb7d32924ee5e6
 language: ruby
 cache: bundler
 services:
   - postgresql
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
 script:
   - bin/rails db:create RAILS_ENV=test
   - bin/rails db:migrate RAILS_ENV=test
   - bin/rails spec
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
