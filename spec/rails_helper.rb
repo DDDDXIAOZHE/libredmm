@@ -1,5 +1,7 @@
 require 'simplecov'
-SimpleCov.start 'rails'
+SimpleCov.start 'rails' do
+  add_filter %r{^/app/channels/}
+end
 
 if ENV['CI'] == 'true'
   require 'codecov'
