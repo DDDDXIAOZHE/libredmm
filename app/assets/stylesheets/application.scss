@@ -1,6 +1,19 @@
 // Custom bootstrap variables must be set or imported *before* bootstrap.
 @import "bootstrap";
+@import url('https://fonts.googleapis.com/css?family=Special+Elite');
 
 body {
   padding-top: 4.5rem;
+}
+
+.navbar {
+  font-family: 'Special Elite', cursive;
+}
+
+.logo {
+  font-family: 'Special Elite', cursive;
+  font-size: 5rem;
+  margin-top: 5rem;
+  margin-bottom: 1rem;
+  text-align: center;
 }

@@ -21,7 +21,7 @@ class MovieTest < ActiveSupport::TestCase
   end
 
   test 'should reject code with no search result' do
-    @api_stub = stub_request(:any, /api\.libredmm\.com/).to_return(status: 404)
+    @api_stub = stub_request(:any, /api\.libredmm\.com\/search\?q=/).to_return(status: 404)
     assert_raise ActiveRecord::RecordNotFound do
       movie = create(:movie)
     end
