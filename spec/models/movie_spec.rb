@@ -6,16 +6,16 @@ RSpec.describe Movie, type: :model do
     expect(@api_stub).to have_been_requested
   end
 
+  it 'requires a code' do
+    expect {
+      create(:movie, code: '')
+    }.to raise_error(ActiveRecord::RecordInvalid)
+  end
+
   it 'rejects duplicate code' do
     movie = create(:movie)
     expect {
       create(:movie, code: movie.code)
-    }.to raise_error(ActiveRecord::RecordInvalid)
-  end
-
-  it 'rejects empty code' do
-    expect {
-      create(:movie, code: '')
     }.to raise_error(ActiveRecord::RecordInvalid)
   end
 

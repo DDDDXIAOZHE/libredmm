@@ -1,6 +1,8 @@
 require 'open-uri'
 
 class Movie < ApplicationRecord
+  has_many :votes
+
   validates :code, :cover_image, :page, :title, presence: true
   validates :code, uniqueness: true
 

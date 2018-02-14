@@ -31,6 +31,7 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'bootstrap', '~> 4.0.0'
 gem 'jquery-rails'
+gem 'octicons_helper'
 
 gem 'clearance'
 gem 'dotenv-rails', groups: %i[development test]

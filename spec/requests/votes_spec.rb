@@ -1,0 +1,78 @@
+require 'rails_helper'
+
+RSpec.describe 'Votes', type: :request do
+  before(:each) do
+    @movie = create :movie
+    @user = create :user
+  end
+
+  context 'when vote does not exist' do
+    describe 'PUT /movies/:movie_id/vote' do
+      it 'creates vote' do
+        expect {
+          put movie_vote_url(@movie, as: @user), params: { vote: { status: :up } }
+        }.to change {
+          Vote.where(movie: @movie, user: @user).count
+        }.by(1)
+      end
+
+      it 'redirects to movie page' do
+        put movie_vote_url(@movie, as: @user), params: { vote: { status: :up } }
+        expect(response).to redirect_to(@movie)
+      end
+    end
+
+    describe 'DELETE /movies/:movie_id/vote' do
+      it 'does nothing' do
+        expect {
+          delete movie_vote_url(@movie, as: @user)
+        }.not_to change {
+          Vote.where(movie: @movie, user: @user).count
+        }
+      end
+
+      it 'redirects to movie page' do
+        delete movie_vote_url(@movie, as: @user)
+        expect(response).to redirect_to(@movie)
+      end
+    end
+  end
+
+  context 'when vote exists' do
+    before(:each) do
+      @movie = create :movie
+      @user = create :user
+      create :vote, movie: @movie, user: @user, status: :up
+    end
+
+    describe 'PUT /movies/:movie_id/vote' do
+      it 'update vote' do
+        expect {
+          put movie_vote_url(@movie, as: @user), params: { vote: { status: :down } }
+        }.to change {
+          Vote.find_by(movie: @movie, user: @user).status
+        }
+      end
+
+      it 'redirects to movie page' do
+        put movie_vote_url(@movie, as: @user), params: { vote: { status: :up } }
+        expect(response).to redirect_to(@movie)
+      end
+    end
+
+    describe 'DELETE /movies/:movie_id/vote' do
+      it 'deletes vote' do
+        expect {
+          delete movie_vote_url(@movie, as: @user)
+        }.to change {
+          Vote.where(movie: @movie, user: @user).count
+        }.by(-1)
+      end
+
+      it 'redirects to movie page' do
+        delete movie_vote_url(@movie, as: @user)
+        expect(response).to redirect_to(@movie)
+      end
+    end
+  end
+end

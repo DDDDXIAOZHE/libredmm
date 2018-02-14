@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'pages/index' do
-  it 'displays user email if signed in' do
+  it 'renders user email if signed in' do
     user = create :user
     allow(view).to receive(:signed_in?).and_return(true)
     allow(view).to receive(:current_user).and_return(user)
