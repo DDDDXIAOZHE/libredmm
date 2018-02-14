@@ -1,15 +1,21 @@
 <%= paginate @movies %>
 
-<div class="row">
-  <%- @movies.each do |movie| -%>
-    <div class="col-md-3 mt-1 mb-3">
-      <%= image_tag movie.cover_image, class: "img-fluid"%>
-      <%= link_to movie do %>
-        <span><%= movie.code %></span>
-        <span><%= movie.title %></span>
-      <% end %>
-    </div>
-  <%- end -%>
-</div>
+<% @movies.in_groups_of(4).each do |group| %>
+  <div class="card-deck mb-3">
+    <% group.each do |movie| %>
+      <div class="card">
+        <% if movie %>
+          <%= image_tag movie.cover_image, class: "card-image-top img-fluid"%>
+          <div class="card-body">
+            <%= link_to movie, class: 'card-title' do %>
+              <span><%= movie.code %></span>
+              <span><%= movie.title %></span>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
 
 <%= paginate @movies %>
