@@ -26,17 +26,17 @@ RSpec.describe 'Movies', type: :request do
     it 'redirects if code changes after creating movie' do
       stub_request(:any, /api\.libredmm\.com\/search\?q=/).to_return(
         body: lambda { |request|
-          attributes_for(
-            :movie,
-            code: 'TEST' + request.uri.query_values['q'],
-          ).map { |k, v|
-            [k.to_s.camelize, v]
-          }.to_h.to_json
+          {
+            Code: 'TEST' + request.uri.query_values['q'],
+            CoverImage: 'https://dummyimage.com/800',
+            Page: 'https://dummyimage.com/',
+            Title: 'Dummy Movie',
+          }.to_json
         },
       )
-      @movie = build(:movie)
-      get(movie_url(@movie))
-      expect(response).to redirect_to(id: 'TEST' + @movie.code)
+      code = generate :code
+      get(movie_url(id: code))
+      expect(response).to redirect_to(id: 'TEST' + code)
     end
   end
 end

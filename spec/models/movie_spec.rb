@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Movie, type: :model do
+  it 'searches details via api before create' do
+    create(:movie)
+    expect(@api_stub).to have_been_requested
+  end
+
   it 'rejects duplicate code' do
     movie = create(:movie)
     expect {
@@ -14,9 +19,17 @@ RSpec.describe Movie, type: :model do
     }.to raise_error(ActiveRecord::RecordInvalid)
   end
 
-  it 'searches details via api before create' do
-    create(:movie)
-    expect(@api_stub).to have_been_requested
+  it 'rejects code with empty search result' do
+    stub_request(:any, /api\.libredmm\.com\/search\?q=/).to_return(
+      body: lambda { |request|
+        {
+          Code: request.uri.query_values['q'],
+        }.to_json
+      },
+    )
+    expect {
+      create(:movie)
+    }.to raise_error(ActiveRecord::RecordInvalid)
   end
 
   it 'rejects code with no search result' do
