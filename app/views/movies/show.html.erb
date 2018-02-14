@@ -5,7 +5,7 @@
 
 <div class="row mt-3">
   <div class="col-8">
-    <%= image_tag @movie.cover_image, class: "img-fluid"%>
+    <%= render partial: '/movies/carousel', object: [@movie.cover_image] + (@movie.sample_images || []) %>
     <% if signed_in? %>
       <div class="text-center mt-3">
         <%= upvote_link(@movie) %>
@@ -15,7 +15,7 @@
   </div>
   <div class="col-4">
     <dl>
-      <%- @movie.attributes.except("id", "code", "cover_image", "page", "title", "created_at", "updated_at").each do |k, v| -%>
+      <%- @movie.attributes.except("id", "code", "cover_image", "page", "sample_images", "title", "created_at", "updated_at").each do |k, v| -%>
         <%- unless v.blank? -%>
           <dt><%= k.titleize %></dt>
           <dd>
