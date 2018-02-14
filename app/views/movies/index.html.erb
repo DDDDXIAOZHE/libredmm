@@ -1,6 +1,8 @@
+<%= paginate @movies %>
+
 <div class="row">
   <%- @movies.each do |movie| -%>
-    <div class="col-md-3">
+    <div class="col-md-3 mt-1 mb-3">
       <%= image_tag movie.cover_image, class: "img-fluid"%>
       <%= link_to movie do %>
         <span><%= movie.code %></span>
@@ -9,3 +11,5 @@
     </div>
   <%- end -%>
 </div>
+
+<%= paginate @movies %>

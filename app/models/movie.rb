@@ -18,6 +18,8 @@ class Movie < ApplicationRecord
     end
   end
 
+  paginates_per 20
+
   def to_param
     code
   end

@@ -37,6 +37,8 @@ gem 'clearance'
 gem 'dotenv-rails', groups: %i[development test]
 gem 'sendgrid-ruby'
 
+gem 'kaminari'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

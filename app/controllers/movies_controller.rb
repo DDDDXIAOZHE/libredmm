@@ -2,7 +2,7 @@ class MoviesController < ApplicationController
   # GET /movies
   # GET /movies.json
   def index
-    @movies = Movie.order(code: :asc).all
+    @movies = Movie.order(code: :asc).page(params[:page])
   end
 
   # GET /movies/1
