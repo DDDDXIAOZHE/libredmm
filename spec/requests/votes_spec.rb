@@ -16,6 +16,14 @@ RSpec.describe 'Votes', type: :request do
         }.by(1)
       end
 
+      it 'rejects illegal vote status' do
+        expect {
+          put movie_vote_url(@movie, as: @user), params: { vote: { status: :foo } }
+        }.not_to change {
+          Vote.where(movie: @movie, user: @user).count
+        }
+      end
+
       it 'redirects to movie page' do
         put movie_vote_url(@movie, as: @user), params: { vote: { status: :up } }
         expect(response).to redirect_to(@movie)
@@ -51,6 +59,14 @@ RSpec.describe 'Votes', type: :request do
           put movie_vote_url(@movie, as: @user), params: { vote: { status: :down } }
         }.to change {
           Vote.find_by(movie: @movie, user: @user).status
+        }
+      end
+
+      it 'rejects illegal vote status' do
+        expect {
+          put movie_vote_url(@movie, as: @user), params: { vote: { status: :foo } }
+        }.not_to change {
+          Vote.where(movie: @movie, user: @user).count
         }
       end
 

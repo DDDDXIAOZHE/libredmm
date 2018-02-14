@@ -6,11 +6,11 @@ class VotesController < ApplicationController
   # PUT /movies/1/vote.json
   def update
     respond_to do |format|
-      @vote.update_attributes(vote_params)
-      if @vote.save
+      begin
+        @vote.update_attributes(vote_params)
         format.html { redirect_to @movie, notice: "Voted #{@vote.status}!" }
         format.json { render :show, status: :ok, location: @movie }
-      else
+      rescue ArgumentError, ActiveRecord::RecordInvalid
         format.html { redirect_to @movie, notice: 'Vote failed!' }
         format.json { render json: @vote.errors, status: :unprocessable_entity }
       end
