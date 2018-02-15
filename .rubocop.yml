@@ -19,3 +19,6 @@ Style/NumericLiterals:
 
 Style/TrailingCommaInArguments:
   Enabled: false
+
+Style/TrailingCommaInLiteral:
+  Enabled: false

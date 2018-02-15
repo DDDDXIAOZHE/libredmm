@@ -1,23 +1,13 @@
 <div id="imageCarousel" class="carousel slide" data-ride="carousel">
   <ol class="carousel-indicators">
     <% carousel.size.times do |i| %>
-      <% if i == 0 %>
-        <li data-target="#imageCarousel" data-slide-to=<%= i %> class="active"></li>
-      <% else %>
-        <li data-target="#imageCarousel" data-slide-to=<%= i %>></li>
-      <% end %>
+      <%= tag :li, data: { target: '#imageCarousel', "slide-to": i }, class: (i == 0 ? "active" : nil) %>
     <% end %>
   </ol>
   <div class="carousel-inner">
     <% carousel.each_with_index do |img, i|  %>
-      <% if i == 0 %>
-        <div class="carousel-item active">
-          <%= image_tag img, class: "d-block w-100" %>
-        </div>
-      <% else %>
-        <div class="carousel-item">
-          <%= image_tag img, class: "d-block w-100" %>
-        </div>
+      <%= content_tag :div, class: (i == 0 ? "carousel-item active" : "carousel-item") do %>
+        <%= image_tag img, class: "d-block w-100" %>
       <% end %>
     <% end %>
   </div>

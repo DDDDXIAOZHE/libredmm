@@ -5,6 +5,12 @@ RSpec.describe 'movies/show' do
     @movie = create(:movie)
   end
 
+  it 'renders cover image and sample images in a carousel' do
+    render
+    expect(rendered).to have_selector('.carousel-item', count: @movie.sample_images.size + 1)
+    expect(rendered).to have_selector('.carousel-item.active', count: 1)
+  end
+
   context 'when signed in' do
     before(:each) do
       @user = create :user

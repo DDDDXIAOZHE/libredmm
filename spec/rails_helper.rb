@@ -70,6 +70,11 @@ RSpec.configure do |config|
           Code: request.uri.query_values['q'],
           CoverImage: 'https://dummyimage.com/800',
           Page: 'https://dummyimage.com/',
+          SampleImages: [
+            'https://dummyimage.com/555',
+            'https://dummyimage.com/666',
+            'https://dummyimage.com/777',
+          ],
           Title: 'Dummy Movie',
         }.to_json
       },

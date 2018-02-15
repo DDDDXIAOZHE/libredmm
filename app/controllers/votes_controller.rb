@@ -28,14 +28,15 @@ class VotesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_movie_and_vote
-      @movie = Movie.find_or_create_by!(code: params[:movie_id])
-      @vote = @movie.votes.find_or_initialize_by(user: current_user)
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def vote_params
-      params.require(:vote).permit(:status)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_movie_and_vote
+    @movie = Movie.find_or_create_by!(code: params[:movie_id])
+    @vote = @movie.votes.find_or_initialize_by(user: current_user)
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def vote_params
+    params.require(:vote).permit(:status)
+  end
 end
