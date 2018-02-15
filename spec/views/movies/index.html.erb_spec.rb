@@ -18,7 +18,7 @@ RSpec.describe 'movies/index' do
     it 'renders filters' do
       @filter = 'all'
       render
-      expect(rendered).to have_selector("a[href*='movies?filter=']", count: 3)
+      expect(rendered).to have_selector("a[href*='movies?filter=']", count: 4)
       expect(rendered).to have_selector("a[href*='movies?filter=all'][class*='active']", count: 1)
     end
 

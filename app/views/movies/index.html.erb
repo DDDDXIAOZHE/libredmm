@@ -1,7 +1,7 @@
 <% if signed_in? %>
   <nav id="filterNav" class="mb-3">
     <ul class="nav nav-pills">
-      <% ["all", "upvoted", "downvoted"].each do |filter| %>
+      <% ["all", "upvoted", "downvoted", "unvoted"].each do |filter| %>
         <li class="nav-item">
           <%= link_to(
             filter.titleize,

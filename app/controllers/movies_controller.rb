@@ -5,9 +5,11 @@ class MoviesController < ApplicationController
     @filter = params[:filter]
     case @filter
     when 'downvoted'
-      @movies = Movie.joins(:votes).where(votes: { user: current_user, status: :down })
+      @movies = signed_in? ? current_user.downvoted_movies : Movie.none
     when 'upvoted'
-      @movies = Movie.joins(:votes).where(votes: { user: current_user, status: :up })
+      @movies = signed_in? ? current_user.upvoted_movies : Movie.none
+    when 'unvoted'
+      @movies = signed_in? ? current_user.unvoted_movies : Movie.all
     else
       @movies = Movie.all
       @filter = 'all'

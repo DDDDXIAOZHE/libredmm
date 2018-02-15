@@ -44,6 +44,11 @@ RSpec.feature 'List movies', type: :feature do
       visit movies_url(filter: 'downvoted', as: @user)
       expect(page).to have_selector('.card-body', count: @down_vote)
     end
+
+    scenario 'with unvoted filter' do
+      visit movies_url(filter: 'unvoted', as: @user)
+      expect(page).to have_selector('.card-body', count: @no_vote)
+    end
   end
 
   context 'when signed out' do
@@ -54,7 +59,12 @@ RSpec.feature 'List movies', type: :feature do
 
     scenario 'with upvoted filter' do
       visit movies_url(filter: 'upvoted')
-      expect(page).to have_selector('.card-body', count: 0)
+      expect(page).not_to have_selector('.card-body')
+    end
+
+    scenario 'with unvoted filter' do
+      visit movies_url(filter: 'unvoted')
+      expect(page).to have_selector('.card-body', count: @no_vote + @up_vote + @down_vote)
     end
   end
 end
