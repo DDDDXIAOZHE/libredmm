@@ -20,6 +20,11 @@ class Movie < ApplicationRecord
 
   paginates_per 20
 
+  def self.search!(code)
+    movie = find_or_create_by(code: code)
+    movie.changed? ? Movie.find_by!(code: movie.code): movie
+  end
+
   def to_param
     code
   end

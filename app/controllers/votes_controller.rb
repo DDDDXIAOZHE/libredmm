@@ -31,7 +31,7 @@ class VotesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_movie_and_vote
-    @movie = Movie.find_or_create_by!(code: params[:movie_id])
+    @movie = Movie.search!(params[:movie_id])
     @vote = @movie.votes.find_or_initialize_by(user: current_user)
   end
 

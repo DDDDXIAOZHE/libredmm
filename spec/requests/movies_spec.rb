@@ -26,20 +26,11 @@ RSpec.describe 'Movies', type: :request do
         }.by(1)
       end
 
-      it 'redirects if new code is different' do
-        stub_request(:any, /api\.libredmm\.com\/search\?q=/).to_return(
-          body: lambda { |request|
-            {
-              Code: 'TEST' + request.uri.query_values['q'],
-              CoverImage: 'https://dummyimage.com/800',
-              Page: 'https://dummyimage.com/',
-              Title: 'Dummy Movie',
-            }.to_json
-          },
-        )
-        code = generate :code
-        get(movie_url(id: code))
-        expect(response).to redirect_to(id: 'TEST' + code)
+      it 'redirects if new code is returned' do
+        movie = create :movie
+        allow(Movie).to receive(:search!) { movie }
+        get(movie_url(id: generate(:code)))
+        expect(response).to redirect_to(id: movie.code)
       end
     end
   end
