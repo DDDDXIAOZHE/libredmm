@@ -1,5 +1,4 @@
-<%= page_entries_info @movies %>
-<%= paginate @movies %>
+<%= render partial: '/movies/pager', object: @movies %>
 
 <% @movies.in_groups_of(4).each do |group| %>
   <div class="card-deck mb-3">
@@ -19,4 +18,4 @@
   </div>
 <% end %>
 
-<%= paginate @movies %>
+<%= render partial: '/movies/pager', object: @movies %>
