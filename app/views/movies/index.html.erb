@@ -1,12 +1,17 @@
 <% if signed_in? %>
-  <nav id="filterNav" class="mb-3">
+  <nav id="voteNav" class="mb-3">
     <ul class="nav nav-pills">
-      <% ["all", "upvoted", "downvoted", "unvoted"].each do |filter| %>
+      <li class="nav-item">
+        <a class="nav-link">
+          Votes:
+        </a>
+      </li>
+      <% ["all", "up", "down", "none"].each do |vote| %>
         <li class="nav-item">
           <%= link_to(
-            filter.titleize,
-            movies_url(filter: filter),
-            class: (@filter == filter ? 'nav-link active' : 'nav-link')
+            vote.titleize,
+            request.params.merge!(vote: vote),
+            class: (@vote == vote ? 'nav-link active' : 'nav-link')
           ) %>
         </li>
       <% end %>
