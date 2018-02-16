@@ -7,7 +7,7 @@ RSpec.describe Vote, type: :model do
     }.to raise_error(ActiveRecord::RecordInvalid)
   end
 
-  it 'requires an movie' do
+  it 'requires a movie' do
     expect {
       create(:vote, movie: nil)
     }.to raise_error(ActiveRecord::RecordInvalid)
@@ -36,5 +36,11 @@ RSpec.describe Vote, type: :model do
     expect {
       create(:vote, user: vote.user, movie: vote.movie)
     }.to raise_error(ActiveRecord::RecordInvalid)
+  end
+
+  it 'rejects invalid status' do
+    expect {
+      create(:vote, status: :invalid)
+    }.to raise_error(ArgumentError)
   end
 end
