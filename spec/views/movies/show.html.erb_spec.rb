@@ -3,6 +3,13 @@ require 'rails_helper'
 RSpec.describe 'movies/show' do
   before(:each) do
     @movie = create(:movie)
+    2.times do
+      create(:resource, movie: @movie)
+    end
+    allow(view).to receive(:signed_in?).and_return(false)
+    without_partial_double_verification do
+      allow(view).to receive(:signed_in_as_admin?).and_return(false)
+    end
   end
 
   it 'renders cover image and sample images in a carousel' do
@@ -13,9 +20,14 @@ RSpec.describe 'movies/show' do
 
   context 'when signed in' do
     before(:each) do
-      @user = create :user
+      @user = create :user, is_admin: false
       allow(view).to receive(:signed_in?).and_return(true)
       allow(view).to receive(:current_user).and_return(@user)
+    end
+
+    it 'hides resources' do
+      render
+      expect(rendered).not_to have_selector("#resources")
     end
 
     context 'when voted' do
@@ -36,6 +48,27 @@ RSpec.describe 'movies/show' do
         expect(rendered).to have_selector("a[href*='#{@movie.code}/vote'][data-method='put']", count: 2)
         expect(rendered).not_to have_selector("a[href*='#{@movie.code}/vote'][data-method='delete']")
       end
+    end
+  end
+
+  context 'when signed in as admin' do
+    before(:each) do
+      @admin = create :user, is_admin: true
+      allow(view).to receive(:signed_in?).and_return(true)
+      without_partial_double_verification do
+        allow(view).to receive(:signed_in_as_admin?).and_return(true)
+      end
+      allow(view).to receive(:current_user).and_return(@admin)
+    end
+
+    it 'renders all resources' do
+      render
+      expect(rendered).to have_selector("#resources tbody tr", count: @movie.resources.count)
+    end
+
+    it 'renders download uri as link' do
+      render
+      expect(rendered).to have_selector("#resources a[href*='#{@movie.resources.first.download_uri}']")
     end
   end
 

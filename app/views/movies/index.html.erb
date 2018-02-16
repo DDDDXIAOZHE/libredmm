@@ -10,13 +10,34 @@
         <li class="nav-item">
           <%= link_to(
             vote.titleize,
-            request.params.merge!(vote: vote),
+            request.params.merge(vote: vote),
             class: (@vote == vote ? 'nav-link active' : 'nav-link')
           ) %>
         </li>
       <% end %>
     </ul>
   </nav>
+
+  <% if current_user.is_admin? %>
+    <nav id="resourceNav" class="mb-3">
+      <ul class="nav nav-pills">
+        <li class="nav-item">
+          <a class="nav-link">
+            Resources:
+          </a>
+        </li>
+        <% ["all", "any", "none"].each do |resource| %>
+          <li class="nav-item">
+            <%= link_to(
+              resource.titleize,
+              request.params.merge(resource: resource),
+              class: (@resource == resource ? 'nav-link active' : 'nav-link')
+            ) %>
+          </li>
+        <% end %>
+      </ul>
+    </nav>
+  <% end %>
 <% end %>
 
 <%= render partial: '/movies/pager', object: @movies %>

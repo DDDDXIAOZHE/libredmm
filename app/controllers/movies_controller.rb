@@ -3,6 +3,7 @@ class MoviesController < ApplicationController
   # GET /movies.json
   def index
     filter_by_vote
+    filter_by_resource
     @movies = @movies.order(code: :asc).page(params[:page])
   end
 
@@ -27,6 +28,18 @@ class MoviesController < ApplicationController
     else
       @movies = Movie.all
       @vote = 'all'
+    end
+  end
+
+  def filter_by_resource
+    @resource = params[:resource]
+    case @resource
+    when 'any'
+      @movies = signed_in_as_admin? ? @movies.with_resources : Movie.none
+    when 'none'
+      @movies = signed_in_as_admin? ? @movies.without_resources : @movies
+    else
+      @resource = 'all'
     end
   end
 end

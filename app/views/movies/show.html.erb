@@ -36,3 +36,24 @@
     </dl>
   </div>
 </div>
+
+<% if signed_in_as_admin? && @movie.resources %>
+  <table class="table table-striped mt-3" id="resources">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Download URI</th>
+        <th scope="col">Source URI</th>
+        <th scope="col">Note</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @movie.resources.each do |resource| %>
+        <tr>
+          <td><%= link_to resource.download_uri, resource.download_uri %></td>
+          <td><%= resource.source_uri %></td>
+          <td><%= resource.note %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

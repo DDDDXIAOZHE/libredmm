@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-admin = User.create!(email: 'admin@libredmm.com', password: 'password')
+admin = User.create!(email: 'admin@libredmm.com', password: 'password', is_admin: true)
 Movie.search!('AVOP-111')
 Vote.create!(user: admin, movie: Movie.search!('ABP-123'), status: :up)
 Vote.create!(user: admin, movie: Movie.search!('SDDE-222'), status: :down)

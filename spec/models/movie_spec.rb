@@ -84,4 +84,18 @@ RSpec.describe Movie, type: :model do
       }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
+
+  context 'with scopes' do
+    it 'can do with_resources' do
+      create :movie
+      resource = create :resource
+      expect(Movie.with_resources.all).to eq([resource.movie])
+    end
+
+    it 'can do without_resources' do
+      create :resource
+      movie = create :movie
+      expect(Movie.without_resources.all).to eq([movie])
+    end
+  end
 end

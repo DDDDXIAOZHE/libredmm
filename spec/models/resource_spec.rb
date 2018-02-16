@@ -2,9 +2,15 @@ require 'rails_helper'
 
 RSpec.describe Resource, type: :model do
   context 'creating' do
-    it 'requires movie' do
+    it 'rejects empty movie' do
       expect {
         create(:resource, movie: nil)
+      }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+
+    it 'rejects unsaved movie' do
+      expect {
+        create(:resource, movie: build(:movie))
       }.to raise_error(ActiveRecord::RecordInvalid)
     end
 

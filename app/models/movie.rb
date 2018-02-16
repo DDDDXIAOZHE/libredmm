@@ -2,6 +2,10 @@ require 'open-uri'
 
 class Movie < ApplicationRecord
   has_many :votes
+  has_many :resources
+
+  scope :with_resources, -> { joins(:resources) }
+  scope :without_resources, -> { includes(:resources).where(resources: { id: nil }) }
 
   validates :code, :cover_image, :page, :title, presence: true
   validates :code, uniqueness: true

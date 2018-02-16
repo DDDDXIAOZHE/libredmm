@@ -9,7 +9,7 @@ module MoviesHelper
 
   def vote_link(movie, status, icon)
     if movie.votes.find_by(user: current_user).try(:status) == status
-      link_to movie_vote_url(movie), method: :delete, class: 'text-primary' do
+      link_to movie_vote_url(movie), method: :delete, class: 'text-primary align-bottom' do
         octicon icon, height: 32
       end
     else
