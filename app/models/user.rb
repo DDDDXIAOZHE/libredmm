@@ -11,6 +11,6 @@ class User < ApplicationRecord
   has_many :downvoted_movies, through: :downvotes, source: :movie
 
   def unvoted_movies
-    Movie.includes(:votes).where(votes: { user: nil }).or(Movie.includes(:votes).where.not(votes: {user: self}))
+    Movie.includes(:votes).where(votes: { user: nil }).or(Movie.includes(:votes).where.not(votes: { user: self }))
   end
 end

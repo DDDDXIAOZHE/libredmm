@@ -2,7 +2,7 @@ require 'open-uri'
 
 namespace :movie do
   desc 'vote movies'
-  task :vote, [:email, :vote, :url] => :environment do |t, args|
+  task :vote, %i[email vote url] => :environment do |_, args|
     user = User.find_by_email!(args[:email])
     unrecognized = []
     open(args[:url]).each do |code|

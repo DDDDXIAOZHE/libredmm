@@ -14,7 +14,7 @@ RSpec.describe 'movies/index' do
       allow(view).to receive(:signed_in?).and_return(true)
       allow(view).to receive(:current_user).and_return(@user)
     end
-    
+
     it 'renders filters' do
       @filter = 'all'
       render

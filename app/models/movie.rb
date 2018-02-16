@@ -22,7 +22,7 @@ class Movie < ApplicationRecord
 
   def self.search!(code)
     movie = find_or_create_by(code: code)
-    movie.changed? ? Movie.find_by!(code: movie.code): movie
+    movie.changed? ? Movie.find_by!(code: movie.code) : movie
   end
 
   def to_param

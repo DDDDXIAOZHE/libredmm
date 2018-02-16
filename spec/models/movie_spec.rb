@@ -21,7 +21,7 @@ RSpec.describe Movie, type: :model do
       it 'returns existing movie' do
         movie = create(:movie)
         stub_request(:any, /api\.libredmm\.com\/search\?q=/).to_return(
-          body: lambda { |request|
+          body: lambda { |_|
             {
               Code: movie.code,
               CoverImage: 'https://dummyimage.com/800',
