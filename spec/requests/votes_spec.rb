@@ -24,7 +24,16 @@ RSpec.describe 'Votes', type: :request do
         }
       end
 
-      it 'redirects to movie page' do
+      it 'redirects back' do
+        put(
+          movie_vote_url(@movie, as: @user),
+          params: { vote: { status: :up } },
+          headers: { 'HTTP_REFERER' => movies_url },
+        )
+        expect(response).to redirect_to(movies_url)
+      end
+
+      it 'redirects to movie page as fallback' do
         put movie_vote_url(@movie, as: @user), params: { vote: { status: :up } }
         expect(response).to redirect_to(@movie)
       end
@@ -39,7 +48,12 @@ RSpec.describe 'Votes', type: :request do
         }
       end
 
-      it 'redirects to movie page' do
+      it 'redirects back' do
+        delete movie_vote_url(@movie, as: @user), headers: { 'HTTP_REFERER' => movies_url }
+        expect(response).to redirect_to(movies_url)
+      end
+
+      it 'redirects to movie page as fallback' do
         delete movie_vote_url(@movie, as: @user)
         expect(response).to redirect_to(@movie)
       end
@@ -70,7 +84,16 @@ RSpec.describe 'Votes', type: :request do
         }
       end
 
-      it 'redirects to movie page' do
+      it 'redirects back' do
+        put(
+          movie_vote_url(@movie, as: @user),
+          params: { vote: { status: :up } },
+          headers: { 'HTTP_REFERER' => movies_url },
+        )
+        expect(response).to redirect_to(movies_url)
+      end
+
+      it 'redirects to movie page as fallback' do
         put movie_vote_url(@movie, as: @user), params: { vote: { status: :up } }
         expect(response).to redirect_to(@movie)
       end
@@ -85,7 +108,12 @@ RSpec.describe 'Votes', type: :request do
         }.by(-1)
       end
 
-      it 'redirects to movie page' do
+      it 'redirects back' do
+        delete movie_vote_url(@movie, as: @user), headers: { 'HTTP_REFERER' => movies_url }
+        expect(response).to redirect_to(movies_url)
+      end
+
+      it 'redirects to movie page as fallback' do
         delete movie_vote_url(@movie, as: @user)
         expect(response).to redirect_to(@movie)
       end

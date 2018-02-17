@@ -8,10 +8,10 @@ class VotesController < ApplicationController
     respond_to do |format|
       begin
         @vote.update_attributes(vote_params)
-        format.html { redirect_to @movie, notice: "Voted #{@vote.status}!" }
+        format.html { redirect_back fallback_location: @movie, notice: "Voted #{@vote.status}!" }
         format.json { render :show, status: :ok, location: @movie }
       rescue ArgumentError, ActiveRecord::RecordInvalid
-        format.html { redirect_to @movie, notice: 'Vote failed!' }
+        format.html { redirect_back fallback_location: @movie, notice: 'Vote failed!' }
         format.json { render json: @vote.errors, status: :unprocessable_entity }
       end
     end
@@ -22,7 +22,7 @@ class VotesController < ApplicationController
   def destroy
     @vote.destroy
     respond_to do |format|
-      format.html { redirect_to @movie, notice: 'Unvoted!' }
+      format.html { redirect_back fallback_location: @movie, notice: 'Unvoted!' }
       format.json { head :no_content }
     end
   end

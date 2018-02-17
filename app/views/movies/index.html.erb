@@ -54,6 +54,10 @@
               <span><%= movie.title %></span>
             <% end %>
           </div>
+          <div class="card-footer text-right">
+            <%= upvote_link(movie, height: nil) %>
+            <%= downvote_link(movie, height: nil) %>
+          </div>
         <% end %>
       </div>
     <% end %>
