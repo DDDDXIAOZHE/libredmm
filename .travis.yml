@@ -1,6 +1,6 @@
 env:
   global:
-    - CC_TEST_REPORTER_ID=2a2766110ffb2b254c46652f9d6933f2f2a4f95def8bc0fa9aeb7d32924ee5e6
+    - CC_TEST_REPORTER_ID=1985c3183e1b7bbf5f36fe113fdb5f7d8eb72634f111012f0fd998fa0aa8af90
 language: ruby
 cache: bundler
 services:
