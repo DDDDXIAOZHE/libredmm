@@ -18,7 +18,7 @@ RSpec.describe 'movies/index' do
 
     it 'renders vote filters' do
       render
-      expect(rendered).to have_selector("nav#voteNav")
+      expect(rendered).to have_selector('nav#voteNav')
     end
 
     it 'renders current vote filter as active' do
@@ -36,7 +36,7 @@ RSpec.describe 'movies/index' do
 
       it 'renders resource filters' do
         render
-        expect(rendered).to have_selector("nav#resourceNav")
+        expect(rendered).to have_selector('nav#resourceNav')
       end
 
       it 'renders current filters as active' do
@@ -57,7 +57,7 @@ RSpec.describe 'movies/index' do
     context 'as non-admin' do
       it 'hides resource filters' do
         render
-        expect(rendered).not_to have_selector("nav#resourceNav")
+        expect(rendered).not_to have_selector('nav#resourceNav')
       end
     end
   end
@@ -65,12 +65,12 @@ RSpec.describe 'movies/index' do
   context 'when signed out' do
     it 'hides vote filters' do
       render
-      expect(rendered).not_to have_selector("nav#voteNav")
+      expect(rendered).not_to have_selector('nav#voteNav')
     end
 
     it 'hides resource filters' do
       render
-      expect(rendered).not_to have_selector("nav#resourceNav")
+      expect(rendered).not_to have_selector('nav#resourceNav')
     end
   end
 end

@@ -27,7 +27,7 @@ RSpec.describe 'movies/show' do
 
     it 'hides resources' do
       render
-      expect(rendered).not_to have_selector("#resources")
+      expect(rendered).not_to have_selector('#resources')
     end
 
     context 'when voted' do
@@ -63,7 +63,7 @@ RSpec.describe 'movies/show' do
 
     it 'renders all resources' do
       render
-      expect(rendered).to have_selector("#resources tbody tr", count: @movie.resources.count)
+      expect(rendered).to have_selector('#resources tbody tr', count: @movie.resources.count)
     end
 
     it 'renders download uri as link' do
