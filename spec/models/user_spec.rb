@@ -43,4 +43,11 @@ RSpec.describe User, type: :model do
     expect(users[0].unvoted_movies).to eq([movies[1], movies[2]])
     expect(users[1].unvoted_movies).to eq([movies[0], movies[2]])
   end
+
+  it 'can have none unvoted movies' do
+    user = create(:user)
+    create :vote, user: user
+    create :vote, user: user
+    expect(user.unvoted_movies).to be_empty
+  end
 end

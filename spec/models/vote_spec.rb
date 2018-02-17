@@ -1,15 +1,27 @@
 require 'rails_helper'
 
 RSpec.describe Vote, type: :model do
-  it 'requires an user' do
+  it 'rejects empty user' do
     expect {
       create(:vote, user: nil)
     }.to raise_error(ActiveRecord::RecordInvalid)
   end
 
-  it 'requires a movie' do
+  it 'rejects unsaved user' do
+    expect {
+      create(:vote, user: build(:user))
+    }.to raise_error(ActiveRecord::RecordInvalid)
+  end
+
+  it 'rejects empty movie' do
     expect {
       create(:vote, movie: nil)
+    }.to raise_error(ActiveRecord::RecordInvalid)
+  end
+
+  it 'rejects unsaved movie' do
+    expect {
+      create(:vote, movie: build(:movie))
     }.to raise_error(ActiveRecord::RecordInvalid)
   end
 

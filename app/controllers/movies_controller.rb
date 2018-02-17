@@ -2,7 +2,6 @@ class MoviesController < ApplicationController
   # GET /movies
   # GET /movies.json
   def index
-    @movies = Movie.all
     filter_by_vote
     @movies = @movies.order(code: :asc).page(params[:page])
   end
@@ -26,6 +25,7 @@ class MoviesController < ApplicationController
     when 'none'
       @movies = signed_in? ? current_user.unvoted_movies : Movie.all
     else
+      @movies = Movie.all
       @vote = 'all'
     end
   end
