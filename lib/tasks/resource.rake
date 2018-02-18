@@ -8,10 +8,7 @@ namespace :load do
       tokens = line.strip.split
       uri = tokens[1]
       next if Resource.exists?(download_uri: uri)
-      code = File.basename(tokens[0], '.*').upcase
-      if code =~ /\d*([[:alnum:]]+?)0*(\d+)/
-        code = "#{$1}-#{$2}"
-      end
+      code = File.basename(tokens[0], '.*').upcase.gsub(/^\d*/, '')
       begin
         Movie.search!(code).resources.create!(download_uri: uri, note: args[:note])
       rescue ActiveRecord::RecordNotFound, ActiveRecord::RecordInvalid
