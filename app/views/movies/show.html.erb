@@ -8,8 +8,7 @@
     <%= render partial: '/movies/carousel', object: [@movie.cover_image] + (@movie.sample_images || []) %>
     <% if signed_in? %>
       <div class="text-center mt-3">
-        <%= upvote_link(@movie) %>
-        <%= downvote_link(@movie) %>
+        <%= render partial: '/movies/voter', locals: { movie: @movie, height: 32 } %>
       </div>
     <% end %>
   </div>

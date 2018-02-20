@@ -6,7 +6,7 @@
           Votes:
         </a>
       </li>
-      <% ["all", "up", "down", "none"].each do |vote| %>
+      <% ["all", "up", "down", "bookmark", "none"].each do |vote| %>
         <li class="nav-item">
           <%= link_to(
             vote.titleize,
@@ -55,8 +55,7 @@
             <% end %>
           </div>
           <div class="card-footer text-right">
-            <%= upvote_link(movie, height: nil) %>
-            <%= downvote_link(movie, height: nil) %>
+            <%= render partial: '/movies/voter', locals: { movie: movie, height: nil } %>
           </div>
         <% end %>
       </div>

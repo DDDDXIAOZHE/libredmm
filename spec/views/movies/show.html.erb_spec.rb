@@ -35,17 +35,17 @@ RSpec.describe 'movies/show' do
         create :vote, movie: @movie, user: @user
       end
 
-      it 'renders one vote link and one unvote link' do
+      it 'renders two vote link and one unvote link' do
         render
-        expect(rendered).to have_selector("a[href*='#{@movie.code}/vote'][data-method='put']", count: 1)
+        expect(rendered).to have_selector("a[href*='#{@movie.code}/vote'][data-method='put']", count: 2)
         expect(rendered).to have_selector("a[href*='#{@movie.code}/vote'][data-method='delete']", count: 1)
       end
     end
 
     context 'when not voted' do
-      it 'renders two vote links' do
+      it 'renders three vote links' do
         render
-        expect(rendered).to have_selector("a[href*='#{@movie.code}/vote'][data-method='put']", count: 2)
+        expect(rendered).to have_selector("a[href*='#{@movie.code}/vote'][data-method='put']", count: 3)
         expect(rendered).not_to have_selector("a[href*='#{@movie.code}/vote'][data-method='delete']")
       end
     end

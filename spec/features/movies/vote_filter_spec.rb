@@ -12,6 +12,9 @@ RSpec.feature 'List movies with vote filter', type: :feature do
     4.times do
       create :vote, user: @user, status: :down
     end
+    5.times do
+      create :vote, user: @user, status: :bookmark
+    end
   end
 
   context 'empty' do
@@ -55,6 +58,18 @@ RSpec.feature 'List movies with vote filter', type: :feature do
 
     scenario 'when signed out' do
       visit movies_url(vote: 'down')
+      expect(page).not_to have_selector('.card-body')
+    end
+  end
+
+  context 'bookmark' do
+    scenario 'when signed in' do
+      visit movies_url(vote: 'bookmark', as: @user)
+      expect(page).to have_selector('.card-body', count: @user.bookmarked_movies.count)
+    end
+
+    scenario 'when signed out' do
+      visit movies_url(vote: 'bookmark')
       expect(page).not_to have_selector('.card-body')
     end
   end

@@ -19,10 +19,12 @@ class MoviesController < ApplicationController
   def filter_by_vote
     @vote = params[:vote]
     case @vote
-    when 'down'
-      @movies = signed_in? ? current_user.downvoted_movies : Movie.none
     when 'up'
       @movies = signed_in? ? current_user.upvoted_movies : Movie.none
+    when 'down'
+      @movies = signed_in? ? current_user.downvoted_movies : Movie.none
+    when 'bookmark'
+      @movies = signed_in? ? current_user.bookmarked_movies : Movie.none
     when 'none'
       @movies = signed_in? ? current_user.unvoted_movies : Movie.all
     else
