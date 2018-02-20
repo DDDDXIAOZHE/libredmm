@@ -47,7 +47,7 @@
     <% group.each do |movie| %>
       <div class="card">
         <% if movie %>
-          <%= image_tag movie.cover_image, class: "card-image-top img-fluid"%>
+          <%= link_to image_tag(movie.cover_image, class: "card-image-top img-fluid"), movie%>
           <div class="card-body">
             <%= link_to movie, class: 'card-title' do %>
               <span><%= movie.code %></span>
