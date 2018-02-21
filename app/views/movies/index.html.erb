@@ -53,6 +53,13 @@
               <span><%= movie.code %></span>
               <span><%= movie.title %></span>
             <% end %>
+            <% if movie.actresses %>
+              <p class="mb-0">
+                <% movie.actresses.each do |actress| %>
+                  <span class="badge"><%= actress %></span>
+                <% end %>
+              </p>
+            <% end %>
           </div>
           <div class="card-footer text-right">
             <%= render partial: '/movies/voter', locals: { movie: movie, height: nil } %>
