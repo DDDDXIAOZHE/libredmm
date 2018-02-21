@@ -4,13 +4,16 @@ RSpec.describe User, type: :model do
   it 'has votes' do
     user = create :user
     2.times do
-      create :vote, user: user
+      create :vote, user: user, status: :up
+    end
+    3.times do
+      create :vote, user: user, status: :bookmark
     end
     expect(user.votes.size).to eq(2)
   end
 
   it 'has voted movies' do
-    vote = create :vote
+    vote = create :vote, status: :up
     expect(vote.user.voted_movies).to eq([vote.movie])
   end
 
@@ -33,6 +36,22 @@ RSpec.describe User, type: :model do
     downvote = create :vote, user: user, status: :down
     expect(user.upvoted_movies).to eq([upvote.movie])
     expect(user.downvoted_movies).to eq([downvote.movie])
+  end
+
+  it 'has bookmarks' do
+    user = create :user
+    2.times do
+      create :vote, user: user, status: :up
+    end
+    3.times do
+      create :vote, user: user, status: :bookmark
+    end
+    expect(user.bookmarks.size).to eq(3)
+  end
+
+  it 'has bookmarked movies' do
+    vote = create :vote, status: :bookmark
+    expect(vote.user.bookmarked_movies).to eq([vote.movie])
   end
 
   it 'has unvoted movies' do

@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   include Clearance::User
 
-  has_many :votes
+  has_many :votes, -> { where.not(status: :bookmark) }
   has_many :voted_movies, through: :votes, source: :movie
 
   has_many :upvotes, -> { where(status: :up) }, class_name: 'Vote'
