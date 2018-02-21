@@ -7,7 +7,7 @@ RSpec.describe 'Votes', type: :request do
   end
 
   context 'when vote does not exist' do
-    describe 'PUT /movies/:movie_id/vote' do
+    describe 'PUT /movies/:movie_code/vote' do
       it 'creates vote' do
         expect {
           put movie_vote_url(@movie, as: @user), params: { vote: { status: :up } }
@@ -39,7 +39,7 @@ RSpec.describe 'Votes', type: :request do
       end
     end
 
-    describe 'DELETE /movies/:movie_id/vote' do
+    describe 'DELETE /movies/:movie_code/vote' do
       it 'does nothing' do
         expect {
           delete movie_vote_url(@movie, as: @user)
@@ -67,7 +67,7 @@ RSpec.describe 'Votes', type: :request do
       create :vote, movie: @movie, user: @user, status: :up
     end
 
-    describe 'PUT /movies/:movie_id/vote' do
+    describe 'PUT /movies/:movie_code/vote' do
       it 'update vote' do
         expect {
           put movie_vote_url(@movie, as: @user), params: { vote: { status: :down } }
@@ -99,7 +99,7 @@ RSpec.describe 'Votes', type: :request do
       end
     end
 
-    describe 'DELETE /movies/:movie_id/vote' do
+    describe 'DELETE /movies/:movie_code/vote' do
       it 'deletes vote' do
         expect {
           delete movie_vote_url(@movie, as: @user)

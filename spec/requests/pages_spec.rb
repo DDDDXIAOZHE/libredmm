@@ -5,7 +5,7 @@ RSpec.describe 'Pages', type: :request do
     it 'redirects to movie#show' do
       code = generate :code
       get(search_url(q: code))
-      expect(response).to redirect_to(movie_url(id: code))
+      expect(response).to redirect_to(movie_url(code: code))
     end
   end
 

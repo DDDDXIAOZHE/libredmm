@@ -8,7 +8,7 @@ RSpec.describe 'Movies', type: :request do
     end
   end
 
-  describe 'GET /movies/:id' do
+  describe 'GET /movies/:code' do
     context 'when movie exists' do
       it 'renders movie' do
         @movie = create(:movie)
@@ -29,8 +29,8 @@ RSpec.describe 'Movies', type: :request do
       it 'redirects if new code is returned' do
         movie = create :movie
         allow(Movie).to receive(:search!) { movie }
-        get(movie_url(id: generate(:code)))
-        expect(response).to redirect_to(id: movie.code)
+        get(movie_url(code: generate(:code)))
+        expect(response).to redirect_to(code: movie.code)
       end
     end
   end

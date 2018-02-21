@@ -10,8 +10,8 @@ class MoviesController < ApplicationController
   # GET /movies/1
   # GET /movies/1.json
   def show
-    @movie = Movie.search!(params[:id])
-    redirect_to id: @movie.code if @movie.code != params[:id]
+    @movie = Movie.search!(params[:code])
+    redirect_to code: @movie.code if @movie.code != params[:code]
   end
 
   private

@@ -2,8 +2,8 @@ class VotesController < ApplicationController
   before_action :require_login
   before_action :set_movie_and_vote
 
-  # PUT /movies/1/vote
-  # PUT /movies/1/vote.json
+  # PUT /movies/CODE-001/vote
+  # PUT /movies/CODE-001/vote.json
   def update
     respond_to do |format|
       begin
@@ -17,8 +17,8 @@ class VotesController < ApplicationController
     end
   end
 
-  # DELETE /movies/1/vote
-  # DELETE /movies/1/vote.json
+  # DELETE /movies/CODE-001/vote
+  # DELETE /movies/CODE-001/vote.json
   def destroy
     @vote.destroy
     respond_to do |format|
@@ -31,7 +31,7 @@ class VotesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_movie_and_vote
-    @movie = Movie.search!(params[:movie_id])
+    @movie = Movie.search!(params[:movie_code])
     @vote = @movie.votes.find_or_initialize_by(user: current_user)
   end
 

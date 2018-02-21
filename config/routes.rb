@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     "/movies/#{req.GET['q']}"
   }
 
-  resources :movies, only: %i[index show] do
+  resources :movies, param: :code, only: %i[index show] do
     put 'vote', to: 'votes#update'
     delete 'vote', to: 'votes#destroy'
   end
