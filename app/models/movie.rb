@@ -8,7 +8,7 @@ class Movie < ApplicationRecord
   scope :without_resources, -> { includes(:resources).where(resources: { id: nil }) }
 
   validates :code, :cover_image, :page, :title, presence: true
-  validates :code, uniqueness: true
+  validates :code, uniqueness: { case_sensitive: false }
 
   before_validation on: :create do
     begin
@@ -25,7 +25,9 @@ class Movie < ApplicationRecord
   paginates_per 20
 
   def self.search!(code)
-    movie = find_or_create_by(code: code)
+    movie = where('code ILIKE ?', "%#{code}%").first
+    return movie if movie
+    movie = create(code: code)
     movie.changed? ? Movie.find_by!(code: movie.code) : movie
   end
 

@@ -6,6 +6,11 @@ RSpec.describe Movie, type: :model do
       movie = create(:movie)
       expect(Movie.search!(movie.code)).to eq(movie)
     end
+
+    it 'ignore cases' do
+      movie = create(:movie)
+      expect(Movie.search!(movie.code.downcase)).to eq(movie)
+    end
   end
 
   context 'searching code not in db' do
@@ -61,6 +66,13 @@ RSpec.describe Movie, type: :model do
       movie = create(:movie)
       expect {
         create(:movie, code: movie.code)
+      }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+
+    it 'rejects duplicate code case insensitively' do
+      movie = create(:movie)
+      expect {
+        create(:movie, code: movie.code.downcase)
       }.to raise_error(ActiveRecord::RecordInvalid)
     end
 
