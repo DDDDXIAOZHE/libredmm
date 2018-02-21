@@ -48,7 +48,7 @@
     <tbody>
       <% @movie.resources.each do |resource| %>
         <tr>
-          <td><%= link_to resource.download_uri, resource.download_uri %></td>
+          <td><%= link_to resource.download_uri, resource %></td>
           <td><%= resource.source_uri %></td>
           <td><%= resource.note %></td>
         </tr>

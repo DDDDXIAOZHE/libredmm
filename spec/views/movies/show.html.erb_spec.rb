@@ -66,9 +66,9 @@ RSpec.describe 'movies/show' do
       expect(rendered).to have_selector('#resources tbody tr', count: @movie.resources.count)
     end
 
-    it 'renders download uri as link' do
+    it 'renders download links' do
       render
-      expect(rendered).to have_selector("#resources a[href*='#{@movie.resources.first.download_uri}']")
+      expect(rendered).to have_selector("#resources a[href*='#{resource_path(@movie.resources.first)}']")
     end
   end
 

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'resources/show'
+
   root 'pages#index'
   get 'search', as: :search, to: redirect { |_, req|
     "/movies/#{req.GET['q']}"
@@ -9,5 +11,5 @@ Rails.application.routes.draw do
     delete 'vote', to: 'votes#destroy'
   end
 
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  resources :resources, only: :show
 end
