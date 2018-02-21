@@ -11,7 +11,8 @@ RSpec.describe VotesController, type: :routing do
     end
 
     it 'routes to #index' do
-      expect(get: '/users/foo@bar.com/votes.codes').to route_to('votes#index', user_email: 'foo@bar.com', format: 'codes')
+      expect(get: '/users/foo@bar.com/votes.codes').to route_to('votes#index', user_email: 'foo@bar.com')
+      expect(get: '/users/foo@bar.com/votes.user.js').to route_to('votes#index', user_email: 'foo@bar.com')
     end
   end
 end

@@ -1,0 +1,31 @@
+// ==UserScript==
+// @name         Highlight Fanhao
+// @namespace    http://www.libredmm.com
+// @version      <%= Time.now.strftime('%y%m%d.%H%M%S') %>
+// @description  Highlight matched AV codes (aka Fanhao)
+// @author       LibreDMM
+// @match        http*://tp.m-team.cc/adult.php*
+// @match        http*://www.hd1080.org/forum.php*
+// @match        http*://www.lsj1080.tv/forum.php*
+// @match        http*://localhost*
+// ==/UserScript==
+
+(function() {
+    'use strict';
+    document.querySelectorAll('a').forEach(function(a){
+        var mv = a.text.match(/<%= oneregex(@user.voted_movies.map(&:code) + @user.bookmarked_movies.map(&:code)) %>/i);
+        if (mv) {
+            console.log(mv);
+            var mark = '<mark>' + mv[0] + '</mark>';
+            a.innerHTML = a.innerHTML.replace(mv[0], mark);
+        }
+    });
+    document.querySelectorAll('a').forEach(function(a){
+        var mwr = a.text.match(/<%= oneregex(Movie.with_resources.map(&:code)) %>/i);
+        if (mwr) {
+            console.log(mwr);
+            var del = '<del>' + mwr[0] + '</del>';
+            a.innerHTML = a.innerHTML.replace(mwr[0], del);
+        }
+    });
+})();

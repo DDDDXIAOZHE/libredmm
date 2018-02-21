@@ -1,12 +1,14 @@
 class VotesController < ApplicationController
   before_action :require_login, only: [:update, :destroy]
   before_action :set_movie_and_vote, only: [:update, :destroy]
+  protect_from_forgery except: :index
 
   # GET /users/foo@bar.com/vote.codes
   def index
     @user = User.find_by_email!(params[:user_email])
     respond_to do |format|
       format.codes { render plain: @user.voted_movies.map(&:code).sort.join("\n") }
+      format.js { render :index }
     end
   end
 

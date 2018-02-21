@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   resources :resources, only: :show
 
   resources :users, param: :email, constraints: { user_email: /.+/ }, only: [] do
-    resources :votes, only: :index
+    get 'votes.codes', to: 'votes#index', format: false
+    get 'votes.user.js', to: 'votes#index', format: false
   end
 end

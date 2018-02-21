@@ -8,7 +8,7 @@ RSpec.describe 'Votes', type: :request do
 
   describe 'GET /users/:user_email/votes.codes' do
     it 'works' do
-      get user_votes_url(user_email: @user.email, format: 'codes')
+      get "/users/#{@user.email}/votes.codes"
       expect(response).to have_http_status(200)
     end
   end
