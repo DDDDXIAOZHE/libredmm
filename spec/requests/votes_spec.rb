@@ -6,6 +6,13 @@ RSpec.describe 'Votes', type: :request do
     @user = create :user
   end
 
+  describe 'GET /users/:user_email/votes.codes' do
+    it 'works' do
+      get user_votes_url(user_email: @user.email, format: 'codes')
+      expect(response).to have_http_status(200)
+    end
+  end
+
   context 'when vote does not exist' do
     describe 'PUT /movies/:movie_code/vote' do
       it 'creates vote' do

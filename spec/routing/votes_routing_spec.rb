@@ -9,5 +9,9 @@ RSpec.describe VotesController, type: :routing do
     it 'routes to #destroy' do
       expect(delete: '/movies/CODE-001/vote').to route_to('votes#destroy', movie_code: 'CODE-001')
     end
+
+    it 'routes to #index' do
+      expect(get: '/users/foo@bar.com/votes.codes').to route_to('votes#index', user_email: 'foo@bar.com', format: 'codes')
+    end
   end
 end

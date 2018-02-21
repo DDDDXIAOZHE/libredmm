@@ -1,6 +1,15 @@
 class VotesController < ApplicationController
-  before_action :require_login
-  before_action :set_movie_and_vote
+  before_action :require_login, only: [:update, :destroy]
+  before_action :set_movie_and_vote, only: [:update, :destroy]
+
+  # GET /users/foo@bar.com/vote.codes
+  def index
+    @user = User.find_by_email!(params[:user_email])
+    @movies = @user.voted_movies
+    respond_to do |format|
+      format.codes { render plain: @user.voted_movies.map(&:code).sort.join("\n") }
+    end
+  end
 
   # PUT /movies/CODE-001/vote
   # PUT /movies/CODE-001/vote.json
