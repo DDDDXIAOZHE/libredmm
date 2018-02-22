@@ -6,8 +6,8 @@ namespace :load do
     unrecognized = []
     open(args[:uri]).each do |line|
       next unless line.strip =~ /(.+)\s+(http.+)/
-      path = $1
-      uri = $2
+      path = Regexp.last_match(1)
+      uri = Regexp.last_match(2)
       next if Resource.exists?(download_uri: uri)
       code = File.basename(path, '.*').upcase.gsub(/^\d*/, '')
       begin

@@ -1,6 +1,6 @@
 class VotesController < ApplicationController
-  before_action :require_login, only: [:update, :destroy]
-  before_action :set_movie_and_vote, only: [:update, :destroy]
+  before_action :require_login, only: %i[update destroy]
+  before_action :set_movie_and_vote, only: %i[update destroy]
   protect_from_forgery except: :index
 
   # GET /users/foo@bar.com/vote.codes

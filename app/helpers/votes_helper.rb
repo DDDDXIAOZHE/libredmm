@@ -2,15 +2,15 @@ module VotesHelper
   def oneregex(codes)
     groups = {}
     codes.each do |code|
-      if code.include? ' '
-        parts = code.split(' ', 2)
-      else
-        parts = code.split('-', 2)
-      end
+      parts = if code.include? ' '
+                code.split(' ', 2)
+              else
+                code.split('-', 2)
+              end
       series = parts.first.upcase
       series = 'FC2[-_ ]*(PPV)?' if series == 'FC2-PPV'
       num = parts.second.gsub(/^0+(\d{2,})/) { |_|
-        $1
+        Regexp.last_match(1)
       }.gsub('-', '\-').downcase
       groups[series] ||= []
       groups[series] << num
@@ -21,7 +21,7 @@ module VotesHelper
         nums += nums.map { |num|
           num.split('_').map { |token|
             token.gsub(/^0*(\d+)/) {
-              "#?#{$1}"
+              "#?#{Regexp.last_match(1)}"
             }
           }.join(' ')
         }

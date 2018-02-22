@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe "Rss", type: :request do
+RSpec.describe 'Rss', type: :request do
   before(:each) do
     @user = create :user
     @movie = create :movie
-    @feed = %Q{
+    @feed = %(
       <rss>
         <channel>
           <title>Foobar</title>
@@ -16,20 +16,20 @@ RSpec.describe "Rss", type: :request do
           </item>
         </channel>
       </rss>
-    }
+    )
     @feed_uri = 'http://foo.com/bar.rss'
     @feed_stub = stub_request(:any, /foo\.com\/bar\.rss/).to_return(body: @feed)
   end
 
-  describe "GET /users/:user_email/pipe.rss" do
-    it "works" do
-      get "/users/#{@user.email}/pipe.rss?src=#{CGI::escape(@feed_uri)}"
+  describe 'GET /users/:user_email/pipe.rss' do
+    it 'works' do
+      get "/users/#{@user.email}/pipe.rss?src=#{CGI.escape(@feed_uri)}"
       expect(response).to have_http_status(200)
     end
 
-    it "searches for movies" do
+    it 'searches for movies' do
       expect {
-        get "/users/#{@user.email}/pipe.rss?src=#{CGI::escape(@feed_uri)}"
+        get "/users/#{@user.email}/pipe.rss?src=#{CGI.escape(@feed_uri)}"
       }.to change {
         Movie.count
       }
