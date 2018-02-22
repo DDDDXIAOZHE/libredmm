@@ -4,6 +4,7 @@ class MoviesController < ApplicationController
   def index
     filter_by_vote
     filter_by_resource
+    @movies = @movies.includes(:votes) if signed_in?
     @movies = @movies.order(code: :asc).page(params[:page])
   end
 
