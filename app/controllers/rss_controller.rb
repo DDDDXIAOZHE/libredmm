@@ -6,8 +6,12 @@ class RssController < ApplicationController
     xml = Nokogiri::XML(open(params[:src]))
     xml.xpath('//channel/item').each do |item|
       title = item.xpath('./title').text
-      movie = Movie.search!(title)
-      item.remove if Vote.where(user: @user, movie: movie).exists?
+      begin
+        movie = Movie.search!(title)
+        item.remove if Vote.where(user: @user, movie: movie).exists?
+      rescue ActiveRecord::RecordNotFound, ActiveRecord::RecordInvalid => e
+        logger.error e.message
+      end
     end
     render xml: xml
   end

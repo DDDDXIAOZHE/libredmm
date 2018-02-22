@@ -34,5 +34,11 @@ RSpec.describe 'Rss', type: :request do
         Movie.count
       }
     end
+
+    it 'works when movie not found' do
+      stub_request(:any, /api\.libredmm\.com\/search\?q=/).to_return(status: 404)
+      get "/users/#{@user.email}/pipe.rss?src=#{CGI.escape(@feed_uri)}"
+      expect(response).to have_http_status(200)
+    end
   end
 end
