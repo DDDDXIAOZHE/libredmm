@@ -18,13 +18,13 @@ RSpec.describe 'movies/index' do
 
     it 'renders vote filters' do
       render
-      expect(rendered).to have_selector('nav#voteNav')
+      expect(rendered).to have_selector('#voteNav')
     end
 
     it 'renders current vote filter as active' do
       render
-      expect(rendered).to have_selector("nav#voteNav a[class*='active']", count: 1)
-      expect(rendered).to have_selector("nav#voteNav a[href*='vote=up'][class*='active']")
+      expect(rendered).to have_selector("#voteNav a[class*='active']", count: 1)
+      expect(rendered).to have_selector("#voteNav a[href*='vote=up'][class*='active']")
     end
 
     context 'as admin' do
@@ -36,28 +36,28 @@ RSpec.describe 'movies/index' do
 
       it 'renders resource filters' do
         render
-        expect(rendered).to have_selector('nav#resourceNav')
+        expect(rendered).to have_selector('#resourceNav')
       end
 
       it 'renders current filters as active' do
         render
-        expect(rendered).to have_selector("nav#voteNav a[class*='active']", count: 1)
-        expect(rendered).to have_selector("nav#voteNav a[href*='vote=up'][class*='active']")
-        expect(rendered).to have_selector("nav#resourceNav a[class*='active']", count: 1)
-        expect(rendered).to have_selector("nav#resourceNav a[href*='resource=any'][class*='active']")
+        expect(rendered).to have_selector("#voteNav a[class*='active']", count: 1)
+        expect(rendered).to have_selector("#voteNav a[href*='vote=up'][class*='active']")
+        expect(rendered).to have_selector("#resourceNav a[class*='active']", count: 1)
+        expect(rendered).to have_selector("#resourceNav a[href*='resource=any'][class*='active']")
       end
 
       it 'renders links with combined filters' do
         render
-        expect(rendered).to have_selector("nav#voteNav a[href*='resource=any']")
-        expect(rendered).to have_selector("nav#resourceNav a[href*='vote=up']")
+        expect(rendered).to have_selector("#voteNav a[href*='resource=any']")
+        expect(rendered).to have_selector("#resourceNav a[href*='vote=up']")
       end
     end
 
     context 'as non-admin' do
       it 'hides resource filters' do
         render
-        expect(rendered).not_to have_selector('nav#resourceNav')
+        expect(rendered).not_to have_selector('#resourceNav')
       end
     end
   end
@@ -65,12 +65,12 @@ RSpec.describe 'movies/index' do
   context 'when signed out' do
     it 'hides vote filters' do
       render
-      expect(rendered).not_to have_selector('nav#voteNav')
+      expect(rendered).not_to have_selector('#voteNav')
     end
 
     it 'hides resource filters' do
       render
-      expect(rendered).not_to have_selector('nav#resourceNav')
+      expect(rendered).not_to have_selector('#resourceNav')
     end
   end
 end
