@@ -5,7 +5,6 @@ class MoviesController < ApplicationController
     @movies = Movie.all
     filter_by_vote
     filter_by_resource
-    @movies = @movies.includes(:votes) if signed_in?
     @movies = @movies.order(code: :asc).page(params[:page])
   end
 
@@ -30,6 +29,7 @@ class MoviesController < ApplicationController
     when 'none'
       @movies = @movies.not_voted_by(current_user)
     else
+      @movies = @movies.includes(:votes) if signed_in?
       @vote = 'all'
     end
   end
