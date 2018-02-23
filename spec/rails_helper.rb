@@ -66,11 +66,11 @@ RSpec.configure do |config|
   config.before(:each) do
     @api_stub = stub_request(:any, /api\.libredmm\.com\/search\?q=/).to_return(
       body: lambda { |request|
-        a = attributes_for(:movie).map { |k,v|
+        a = attributes_for(:movie).map { |k, v|
           [k.to_s.camelize.to_sym, v]
-        }.to_h.merge({
+        }.to_h.merge(
           Code: request.uri.query_values['q'],
-        }).to_json
+        ).to_json
       },
     )
   end
