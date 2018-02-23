@@ -2,6 +2,7 @@ class MoviesController < ApplicationController
   # GET /movies
   # GET /movies.json
   def index
+    @movies = Movie.all
     filter_by_vote
     filter_by_resource
     @movies = @movies.includes(:votes) if signed_in?
@@ -21,15 +22,14 @@ class MoviesController < ApplicationController
     @vote = params[:vote]
     case @vote
     when 'up'
-      @movies = signed_in? ? current_user.upvoted_movies : Movie.none
+      @movies = @movies.upvoted_by(current_user)
     when 'down'
-      @movies = signed_in? ? current_user.downvoted_movies : Movie.none
+      @movies = @movies.downvoted_by(current_user)
     when 'bookmark'
-      @movies = signed_in? ? current_user.bookmarked_movies : Movie.none
+      @movies = @movies.bookmarked_by(current_user)
     when 'none'
-      @movies = signed_in? ? current_user.unvoted_movies : Movie.all
+      @movies = @movies.not_voted_by(current_user)
     else
-      @movies = Movie.all
       @vote = 'all'
     end
   end

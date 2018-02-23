@@ -41,7 +41,7 @@ RSpec.feature 'List movies with vote filter', type: :feature do
   context 'up' do
     scenario 'when signed in' do
       visit movies_url(vote: 'up', as: @user)
-      expect(page).to have_selector('.card-body', count: @user.upvoted_movies.count)
+      expect(page).to have_selector('.card-body', count: Movie.upvoted_by(@user).count)
     end
 
     scenario 'when signed out' do
@@ -53,7 +53,7 @@ RSpec.feature 'List movies with vote filter', type: :feature do
   context 'down' do
     scenario 'when signed in' do
       visit movies_url(vote: 'down', as: @user)
-      expect(page).to have_selector('.card-body', count: @user.downvoted_movies.count)
+      expect(page).to have_selector('.card-body', count: Movie.downvoted_by(@user).count)
     end
 
     scenario 'when signed out' do
@@ -65,7 +65,7 @@ RSpec.feature 'List movies with vote filter', type: :feature do
   context 'bookmark' do
     scenario 'when signed in' do
       visit movies_url(vote: 'bookmark', as: @user)
-      expect(page).to have_selector('.card-body', count: @user.bookmarked_movies.count)
+      expect(page).to have_selector('.card-body', count: Movie.bookmarked_by(@user).count)
     end
 
     scenario 'when signed out' do
@@ -77,7 +77,7 @@ RSpec.feature 'List movies with vote filter', type: :feature do
   context 'none' do
     scenario 'when signed in' do
       visit movies_url(vote: 'none', as: @user)
-      expect(page).to have_selector('.card-body', count: @user.unvoted_movies.count)
+      expect(page).to have_selector('.card-body', count: Movie.not_voted_by(@user).count)
     end
 
     scenario 'when signed out' do

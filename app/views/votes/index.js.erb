@@ -13,7 +13,7 @@
 (function() {
     'use strict';
     document.querySelectorAll('a').forEach(function(a){
-        var mv = a.text.match(/<%= oneregex(@user.voted_movies.map(&:code) + @user.bookmarked_movies.map(&:code)) %>/i);
+        var mv = a.text.match(/<%= oneregex(Movie.voted_by(@user).map(&:code) + Movie.bookmarked_by(@user).map(&:code)) %>/i);
         if (mv) {
             console.log(mv);
             var mark = '<mark>' + mv[0] + '</mark>';

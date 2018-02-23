@@ -7,6 +7,12 @@ class Movie < ApplicationRecord
   scope :with_resources, -> { joins(:resources) }
   scope :without_resources, -> { includes(:resources).where(resources: { id: nil }) }
 
+  scope :bookmarked_by, ->(user) { includes(:votes).where(votes: { user: user, status: :bookmark })}
+  scope :upvoted_by, ->(user) { includes(:votes).where(votes: { user: user, status: :up })}
+  scope :downvoted_by, ->(user) { includes(:votes).where(votes: { user: user, status: :down })}
+  scope :voted_by, ->(user) { includes(:votes).where(votes: { user: user }).where.not(votes: { status: :bookmark })}
+  scope :not_voted_by, ->(user) { includes(:votes).where.not(votes: { user: user }).or(includes(:votes).where(votes: { user: nil })) }
+
   validates :code, :cover_image, :page, :title, presence: true
   validates :code, uniqueness: { case_sensitive: false }
 

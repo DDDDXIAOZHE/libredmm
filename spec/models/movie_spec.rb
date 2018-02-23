@@ -111,17 +111,59 @@ RSpec.describe Movie, type: :model do
     end
   end
 
-  context 'has scope' do
-    it 'with_resources' do
-      create :movie
-      resource = create :resource
-      expect(Movie.with_resources.all).to eq([resource.movie])
+  context 'scope' do
+    before(:each) do
+      @movie = create :movie
     end
 
-    it 'without_resources' do
-      create :resource
-      movie = create :movie
-      expect(Movie.without_resources.all).to eq([movie])
+    it 'with_resources and without_resources work' do
+      resource = create :resource
+      expect(Movie.with_resources.all).to eq([resource.movie])
+      expect(Movie.without_resources.all).to eq([@movie])
+    end
+
+    it 'bookmarked_by, upvoted_by and downvoted_by work' do
+      user = create :user
+      bookmark = create :vote, user: user, status: :bookmark
+      upvote = create :vote, user: user, status: :up
+      downvote = create :vote, user: user, status: :down
+      expect(Movie.bookmarked_by(user).all).to eq([bookmark.movie])
+      expect(Movie.upvoted_by(user).all).to eq([upvote.movie])
+      expect(Movie.downvoted_by(user).all).to eq([downvote.movie])
+    end
+
+    it 'voted_by excludes bookmarks' do
+      user = create :user
+      bookmark = create :vote, user: user, status: :bookmark
+      upvote = create :vote, user: user, status: :up
+      downvote = create :vote, user: user, status: :down
+      expect(Movie.voted_by(user).all).to eq([upvote.movie, downvote.movie])
+    end
+
+    it 'bookmarked_by, upvoted_by, downvoted_by and voted_by nil does not exist' do
+      user = create :user
+      bookmark = create :vote, user: user, status: :bookmark
+      upvote = create :vote, user: user, status: :up
+      downvote = create :vote, user: user, status: :down
+      expect(Movie.bookmarked_by(nil)).not_to exist
+      expect(Movie.upvoted_by(nil)).not_to exist
+      expect(Movie.downvoted_by(nil)).not_to exist
+      expect(Movie.voted_by(nil)).not_to exist
+    end
+
+    it 'not_voted_by includes movies without vote' do
+      user = create :user
+      expect(Movie.not_voted_by(user).all).to eq([@movie])
+    end
+
+    it 'not_voted_by includes movies only voted by other' do
+      user = create :user
+      create :vote, movie: @movie
+      expect(Movie.not_voted_by(user).all).to eq([@movie])
+    end
+
+    it 'not_voted_by nil means all movies' do
+      expect(Movie.not_voted_by(nil).count).to eq(Movie.count)
     end
   end
 end
