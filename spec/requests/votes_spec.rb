@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Votes', type: :request do
-  before(:each) do
+  before :each do
     @movie = create :movie
     @user = create :user
   end
@@ -68,7 +68,7 @@ RSpec.describe 'Votes', type: :request do
   end
 
   context 'when vote exists' do
-    before(:each) do
+    before :each do
       @movie = create :movie
       @user = create :user
       create :vote, movie: @movie, user: @user, status: :up

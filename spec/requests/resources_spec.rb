@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Resources', type: :request do
-  before(:each) do
+  before :each do
     @resource = create :resource
     @user = create :user
   end
@@ -35,7 +35,7 @@ RSpec.describe 'Resources', type: :request do
     end
 
     context 'and already voted' do
-      before(:each) do
+      before :each do
         create :vote, user: @user, movie: @resource.movie, status: :up
       end
 

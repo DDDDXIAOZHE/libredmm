@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'movies/show' do
-  before(:each) do
+  before :each do
     @movie = create(:movie)
     2.times do
       create(:resource, movie: @movie)
@@ -19,7 +19,7 @@ RSpec.describe 'movies/show' do
   end
 
   context 'when signed in' do
-    before(:each) do
+    before :each do
       @user = create :user, is_admin: false
       allow(view).to receive(:signed_in?).and_return(true)
       allow(view).to receive(:current_user).and_return(@user)
@@ -31,7 +31,7 @@ RSpec.describe 'movies/show' do
     end
 
     context 'when voted' do
-      before(:each) do
+      before :each do
         create :vote, movie: @movie, user: @user
       end
 
@@ -52,7 +52,7 @@ RSpec.describe 'movies/show' do
   end
 
   context 'when signed in as admin' do
-    before(:each) do
+    before :each do
       @admin = create :user, is_admin: true
       allow(view).to receive(:signed_in?).and_return(true)
       without_partial_double_verification do

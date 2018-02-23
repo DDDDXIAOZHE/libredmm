@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Rss', type: :request do
-  before(:each) do
+  before :each do
     @user = create :user
     @movie = create :movie
     @feed = %(

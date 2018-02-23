@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.feature 'List movies with vote filter', type: :feature do
-  before(:each) do
+  before :each do
     @user = create :user
     2.times do
       create :movie

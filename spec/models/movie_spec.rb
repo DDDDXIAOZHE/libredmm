@@ -129,7 +129,7 @@ RSpec.describe Movie, type: :model do
     end
 
     describe 'bookmarked_by, upvoted_by and downvoted_by' do
-      before(:each) do
+      before :each do
         @user = create :user
         @bookmark = create :vote, user: @user, status: :bookmark
         @upvote = create :vote, user: @user, status: :up
@@ -151,7 +151,7 @@ RSpec.describe Movie, type: :model do
     end
 
     describe 'voted_by' do
-      before(:each) do
+      before :each do
         @user = create :user
         @bookmark = create :vote, user: @user, status: :bookmark
         @upvote = create :vote, user: @user, status: :up

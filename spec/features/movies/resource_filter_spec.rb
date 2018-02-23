@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.feature 'List movies with resource filter', type: :feature do
-  before(:each) do
+  before :each do
     @user = create :user
     @admin = create :user, is_admin: true
     2.times do

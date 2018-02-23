@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'movies/index' do
-  before(:each) do
+  before :each do
     5.times do
       create :movie
     end
@@ -9,7 +9,7 @@ RSpec.describe 'movies/index' do
   end
 
   context 'when signed in' do
-    before(:each) do
+    before :each do
       allow(view).to receive(:signed_in?).and_return(true)
       allow(view).to receive(:current_user).and_return(create(:user))
       @vote = 'up'
@@ -28,7 +28,7 @@ RSpec.describe 'movies/index' do
     end
 
     context 'as admin' do
-      before(:each) do
+      before :each do
         allow(view).to receive(:current_user).and_return(create(:user, is_admin: true))
         @resource = 'any'
         controller.request.path_parameters['resource'] = 'any'
