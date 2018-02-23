@@ -5,6 +5,7 @@ RSpec.describe Movie, type: :model do
     before :each do
       @movie = create :movie
     end
+
     it 'returns existing movie' do
       expect(Movie.search!(@movie.code)).to eq(@movie)
     end
@@ -12,6 +13,12 @@ RSpec.describe Movie, type: :model do
     it 'ignore cases' do
       expect(Movie.search!(@movie.code.downcase)).to eq(@movie)
       expect(Movie.search!(@movie.code.upcase)).to eq(@movie)
+    end
+
+    it 'requires exact match' do
+      create :movie, code: 'LIBRE-1000'
+      create :movie, code: 'LIBRE-100'
+      expect(Movie.search!('LIBRE-100').code).to eq('LIBRE-100')
     end
   end
 

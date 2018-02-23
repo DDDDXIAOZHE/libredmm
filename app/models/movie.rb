@@ -20,14 +20,14 @@ class Movie < ApplicationRecord
 
   def self.search!(code)
     code = code.gsub(/[^[:ascii:]]/, '')
-    movie = where('code ILIKE ?', "%#{code}%").first
+    movie = where('code ILIKE ?', "#{code}").first
     return movie if movie
     begin
       open "http://api.libredmm.com/search?q=#{code}" do |f|
         attrs = JSON.parse(f.read).map { |k, v|
           [k.underscore.to_sym, v]
         }.to_h
-        movie = where('code ILIKE ?', "%#{attrs[:code]}%").first
+        movie = where('code ILIKE ?', "#{attrs[:code]}").first
         return movie ? movie : Movie.create!(attrs)
       end
     rescue StandardError
