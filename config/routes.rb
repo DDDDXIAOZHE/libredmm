@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   root 'pages#index'
   get 'search', as: :search, to: redirect { |_, req|
-    "/movies/#{req.GET['q']}"
+    "/movies/#{CGI::escape(req.GET['q'])}"
   }
 
   resources :movies, param: :code, only: %i[index show] do

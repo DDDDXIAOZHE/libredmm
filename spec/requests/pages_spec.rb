@@ -7,6 +7,12 @@ RSpec.describe 'Pages', type: :request do
       get(search_url(q: code))
       expect(response).to redirect_to(movie_url(code: code))
     end
+
+    it 'escapes param' do
+      q = 'foo bar'
+      get(search_url(q: q))
+      expect(response).to redirect_to(movie_url(code: CGI::escape(q)))
+    end
   end
 
   describe 'GET /' do
