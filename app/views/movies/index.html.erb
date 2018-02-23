@@ -1,32 +1,45 @@
-<% if signed_in? %>
-  <nav class="card mb-3">
-    <div class="card-body">
-      <div id="voteNav" class="btn-group" role="group">
-        <% { all: 'All', up: 'Upvoted', down: 'Downvoted', bookmark: 'Bookmarked', none: 'Not Voted' }.each do |vote, text| %>
-          <%= link_to(
-            text,
-            request.params.merge(vote: vote),
-            class: (@vote == vote.to_s ? 'btn btn-primary active' : 'btn btn-secondary'),
-            role: 'button',
-          ) %>
-        <% end %>
-      </div>
-
-      <% if current_user.is_admin? %>
-        <div id="resourceNav" class="btn-group" role="group">
-          <% { all: 'All', any: 'With Resource', none: 'Without Resource' }.each do |resource, text| %>
+<nav class="card mb-3">
+  <div class="card-body">
+    <% if signed_in? %>
+      <section class="mb-3">
+        <div id="voteNav" class="btn-group" role="group">
+          <% { all: 'All', up: 'Upvoted', down: 'Downvoted', bookmark: 'Bookmarked', none: 'Not Voted' }.each do |vote, text| %>
             <%= link_to(
               text,
-              request.params.merge(resource: resource),
-              class: (@resource == resource.to_s ? 'btn btn-primary active' : 'btn btn-secondary'),
+              request.params.merge(vote: vote),
+              class: (@vote == vote.to_s ? 'btn btn-primary active' : 'btn btn-secondary'),
               role: 'button',
             ) %>
           <% end %>
         </div>
-      <% end %>
-    </div>
-  </nav>
-<% end %>
+
+        <% if current_user.is_admin? %>
+          <div id="resourceNav" class="btn-group" role="group">
+            <% { all: 'All', any: 'With Resource', none: 'Without Resource' }.each do |resource, text| %>
+              <%= link_to(
+                text,
+                request.params.merge(resource: resource),
+                class: (@resource == resource.to_s ? 'btn btn-primary active' : 'btn btn-secondary'),
+                role: 'button',
+              ) %>
+            <% end %>
+          </div>
+        <% end %>
+      </section>
+    <% end %>
+
+    <%= form_tag movies_url, method: :get, class: 'form-inline' do %>
+      <input name="vote" type="hidden" value="<%= @vote %>" />
+      <input name="resource" type="hidden" value="<%= @resource %>" />
+      <div class="input-group">
+        <%= text_field_tag('fuzzy', params[:fuzzy], class: 'form-control') %>
+        <div class="input-group-append">
+          <%= submit_tag 'Search', class: 'btn btn-success' %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</nav>
 
 <%= render partial: '/movies/pager', object: @movies %>
 

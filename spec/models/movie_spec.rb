@@ -119,58 +119,127 @@ RSpec.describe Movie, type: :model do
   end
 
   context 'scope' do
-    before(:each) do
-      @movie = create :movie
+    describe 'with_resources and without_resources' do
+      it 'works' do
+        resource = create :resource
+        movie = create :movie
+        expect(Movie.with_resources.all).to eq([resource.movie])
+        expect(Movie.without_resources.all).to eq([movie])
+      end
     end
 
-    it 'with_resources and without_resources work' do
-      resource = create :resource
-      expect(Movie.with_resources.all).to eq([resource.movie])
-      expect(Movie.without_resources.all).to eq([@movie])
+    describe 'bookmarked_by, upvoted_by and downvoted_by' do
+      before(:each) do
+        @user = create :user
+        @bookmark = create :vote, user: @user, status: :bookmark
+        @upvote = create :vote, user: @user, status: :up
+        @downvote = create :vote, user: @user, status: :down
+      end
+
+      it 'works' do
+        expect(Movie.bookmarked_by(@user).all).to eq([@bookmark.movie])
+        expect(Movie.upvoted_by(@user).all).to eq([@upvote.movie])
+        expect(Movie.downvoted_by(@user).all).to eq([@downvote.movie])
+      end
+
+      it 'nil does not exist' do
+        expect(Movie.bookmarked_by(nil)).not_to exist
+        expect(Movie.upvoted_by(nil)).not_to exist
+        expect(Movie.downvoted_by(nil)).not_to exist
+        expect(Movie.voted_by(nil)).not_to exist
+      end
     end
 
-    it 'bookmarked_by, upvoted_by and downvoted_by work' do
-      user = create :user
-      bookmark = create :vote, user: user, status: :bookmark
-      upvote = create :vote, user: user, status: :up
-      downvote = create :vote, user: user, status: :down
-      expect(Movie.bookmarked_by(user).all).to eq([bookmark.movie])
-      expect(Movie.upvoted_by(user).all).to eq([upvote.movie])
-      expect(Movie.downvoted_by(user).all).to eq([downvote.movie])
+    describe 'voted_by' do
+      before(:each) do
+        @user = create :user
+        @bookmark = create :vote, user: @user, status: :bookmark
+        @upvote = create :vote, user: @user, status: :up
+        @downvote = create :vote, user: @user, status: :down
+      end
+
+      it 'voted_by excludes bookmarks' do
+        expect(Movie.voted_by(@user).all).to eq([@upvote.movie, @downvote.movie])
+      end
+
+      it 'nil does not exist' do
+        expect(Movie.voted_by(nil)).not_to exist
+      end
     end
 
-    it 'voted_by excludes bookmarks' do
-      user = create :user
-      bookmark = create :vote, user: user, status: :bookmark
-      upvote = create :vote, user: user, status: :up
-      downvote = create :vote, user: user, status: :down
-      expect(Movie.voted_by(user).all).to eq([upvote.movie, downvote.movie])
+    describe 'not_voted_by' do
+      it 'includes movies without vote' do
+        user = create :user
+        movie = create :movie
+        expect(Movie.not_voted_by(user).all).to eq([movie])
+      end
+
+      it 'includes movies only voted by other' do
+        user = create :user
+        vote = create :vote
+        expect(Movie.not_voted_by(user).all).to eq([vote.movie])
+      end
+
+      it 'nil returns all movies' do
+        expect(Movie.not_voted_by(nil).count).to eq(Movie.count)
+      end
     end
 
-    it 'bookmarked_by, upvoted_by, downvoted_by and voted_by nil does not exist' do
-      user = create :user
-      bookmark = create :vote, user: user, status: :bookmark
-      upvote = create :vote, user: user, status: :up
-      downvote = create :vote, user: user, status: :down
-      expect(Movie.bookmarked_by(nil)).not_to exist
-      expect(Movie.upvoted_by(nil)).not_to exist
-      expect(Movie.downvoted_by(nil)).not_to exist
-      expect(Movie.voted_by(nil)).not_to exist
-    end
+    describe 'fuzzy_match' do
+      it 'matches actress' do
+        movie = create :movie, actresses: ['ACTRESS STUB']
+        expect(Movie.fuzzy_match('actress').all).to eq([movie])
+      end
 
-    it 'not_voted_by includes movies without vote' do
-      user = create :user
-      expect(Movie.not_voted_by(user).all).to eq([@movie])
-    end
+      it 'matches actress type' do
+        movie = create :movie, actress_types: ['ACTRESS TYPE STUB']
+        expect(Movie.fuzzy_match('actress type').all).to eq([movie])
+      end
 
-    it 'not_voted_by includes movies only voted by other' do
-      user = create :user
-      create :vote, movie: @movie
-      expect(Movie.not_voted_by(user).all).to eq([@movie])
-    end
+      it 'matches category' do
+        movie = create :movie, categories: ['CATEGORY STUB']
+        expect(Movie.fuzzy_match('category').all).to eq([movie])
+      end
 
-    it 'not_voted_by nil means all movies' do
-      expect(Movie.not_voted_by(nil).count).to eq(Movie.count)
+      it 'matches code' do
+        movie = create :movie, code: 'CODE-001'
+        expect(Movie.fuzzy_match('code').all).to eq([movie])
+      end
+
+      it 'matches director' do
+        movie = create :movie, directors: ['DIRECTOR STUB']
+        expect(Movie.fuzzy_match('director').all).to eq([movie])
+      end
+
+      it 'matches genre' do
+        movie = create :movie, genres: ['GENRE STUB']
+        expect(Movie.fuzzy_match('genre').all).to eq([movie])
+      end
+
+      it 'matches label' do
+        movie = create :movie, genres: ['LABEL STUB']
+        expect(Movie.fuzzy_match('label').all).to eq([movie])
+      end
+
+      it 'matches maker' do
+        movie = create :movie, maker: 'MAKER STUB'
+        expect(Movie.fuzzy_match('maker').all).to eq([movie])
+      end
+
+      it 'matches series' do
+        movie = create :movie, series: 'SERIES STUB'
+        expect(Movie.fuzzy_match('series').all).to eq([movie])
+      end
+
+      it 'matches tags' do
+        movie = create :movie, tags: ['TAG STUB']
+        expect(Movie.fuzzy_match('tag').all).to eq([movie])
+      end
+
+      it 'matches title' do
+        movie = create :movie, title: 'TITLE STUB'
+        expect(Movie.fuzzy_match('title').all).to eq([movie])
+      end
     end
   end
 end

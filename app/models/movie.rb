@@ -11,7 +11,35 @@ class Movie < ApplicationRecord
   scope :upvoted_by, ->(user) { includes(:votes).where(votes: { user: user, status: :up })}
   scope :downvoted_by, ->(user) { includes(:votes).where(votes: { user: user, status: :down })}
   scope :voted_by, ->(user) { includes(:votes).where(votes: { user: user }).where.not(votes: { status: :bookmark })}
-  scope :not_voted_by, ->(user) { includes(:votes).where.not(votes: { user: user }).or(includes(:votes).where(votes: { user: nil })) }
+  scope :not_voted_by, ->(user) {
+    includes(:votes).where.not(votes: { user: user }).or(
+      includes(:votes).where(votes: { user: nil })
+    )
+  }
+
+  scope :fuzzy_match, ->(keyword) {
+    where('code ILIKE ?', "%#{keyword}%").or(
+      where('label ILIKE ?', "%#{keyword}%")
+    ).or(
+      where('maker ILIKE ?', "%#{keyword}%")
+    ).or(
+      where('series ILIKE ?', "%#{keyword}%")
+    ).or(
+      where('title ILIKE ?', "%#{keyword}%")
+    ).or(
+      where("ARRAY_TO_STRING(actresses, ' ') ILIKE ?", "%#{keyword}%")
+    ).or(
+      where("ARRAY_TO_STRING(actress_types, ' ') ILIKE ?", "%#{keyword}%")
+    ).or(
+      where("ARRAY_TO_STRING(categories, ' ') ILIKE ?", "%#{keyword}%")
+    ).or(
+      where("ARRAY_TO_STRING(directors, ' ') ILIKE ?", "%#{keyword}%")
+    ).or(
+      where("ARRAY_TO_STRING(genres, ' ') ILIKE ?", "%#{keyword}%")
+    ).or(
+      where("ARRAY_TO_STRING(tags, ' ') ILIKE ?", "%#{keyword}%")
+    )
+  }
 
   validates :code, :cover_image, :page, :title, presence: true
   validates :code, uniqueness: { case_sensitive: false }

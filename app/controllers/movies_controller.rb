@@ -5,6 +5,7 @@ class MoviesController < ApplicationController
     @movies = Movie.all
     filter_by_vote
     filter_by_resource
+    @movies = @movies.fuzzy_match(params[:fuzzy]) if params[:fuzzy]
     @movies = @movies.order(code: :asc).page(params[:page])
   end
 
