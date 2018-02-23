@@ -10,26 +10,23 @@ class Movie < ApplicationRecord
   validates :code, :cover_image, :page, :title, presence: true
   validates :code, uniqueness: { case_sensitive: false }
 
-  before_validation on: :create do
-    begin
-      open "http://api.libredmm.com/search?q=#{code}" do |f|
-        JSON.parse(f.read).each do |k, v|
-          write_attribute(k.underscore, v)
-        end
-      end
-    rescue StandardError
-      raise ActiveRecord::RecordNotFound
-    end
-  end
-
   paginates_per 20
 
   def self.search!(code)
     code = code.gsub(/[^[:ascii:]]/, '')
     movie = where('code ILIKE ?', "%#{code}%").first
     return movie if movie
-    movie = create(code: code)
-    movie.changed? ? Movie.find_by!(code: movie.code) : movie
+    begin
+      open "http://api.libredmm.com/search?q=#{code}" do |f|
+        attrs = JSON.parse(f.read).map { |k, v|
+          [k.underscore.to_sym, v]
+        }.to_h
+        movie = where('code ILIKE ?', "%#{attrs[:code]}%").first
+        return movie ? movie : Movie.create!(attrs)
+      end
+    rescue StandardError
+      raise ActiveRecord::RecordNotFound
+    end
   end
 
   def to_param
