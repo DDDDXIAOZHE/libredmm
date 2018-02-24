@@ -1,10 +1,6 @@
 Rails.application.routes.draw do
-  get 'resources/show'
-
   root 'pages#index'
-  get 'search', as: :search, to: redirect { |_, req|
-    "/movies/#{CGI.escape(req.GET['q'])}"
-  }
+  get '/search', to: 'pages#search'
 
   resources :movies, param: :code, only: %i[index show] do
     put 'vote', to: 'votes#update'
