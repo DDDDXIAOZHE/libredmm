@@ -41,36 +41,42 @@
   </div>
 </nav>
 
-<%= render partial: '/movies/pager', object: @movies %>
+<% if @movies.exists? %>
+  <%= render partial: '/movies/pager', object: @movies %>
 
-<% @movies.in_groups_of(4).each do |group| %>
-  <div class="movies card-deck mb-3">
-    <% group.each do |movie| %>
-      <% if movie %>
-        <div class="movie card">
-          <%= link_to image_tag(movie.cover_image, class: "card-image-top img-fluid"), movie%>
-          <div class="card-body">
-            <%= link_to movie, class: 'card-title' do %>
-              <span><%= movie.code %></span>
-              <span><%= movie.title %></span>
-            <% end %>
-            <% if movie.actresses %>
-              <p class="mb-0">
-                <% movie.actresses.each do |actress| %>
-                  <span class="badge"><%= actress %></span>
-                <% end %>
-              </p>
-            <% end %>
+  <% @movies.in_groups_of(4).each do |group| %>
+    <div class="movies card-deck mb-3">
+      <% group.each do |movie| %>
+        <% if movie %>
+          <div class="movie card">
+            <%= link_to image_tag(movie.cover_image, class: "card-image-top img-fluid"), movie%>
+            <div class="card-body">
+              <%= link_to movie, class: 'card-title' do %>
+                <span><%= movie.code %></span>
+                <span><%= movie.title %></span>
+              <% end %>
+              <% if movie.actresses %>
+                <p class="mb-0">
+                  <% movie.actresses.each do |actress| %>
+                    <span class="badge"><%= actress %></span>
+                  <% end %>
+                </p>
+              <% end %>
+            </div>
+            <div class="card-footer text-right">
+              <%= render partial: '/movies/voter', locals: { movie: movie, height: nil } %>
+            </div>
           </div>
-          <div class="card-footer text-right">
-            <%= render partial: '/movies/voter', locals: { movie: movie, height: nil } %>
-          </div>
-        </div>
-      <% else %>
-        <div class="card"></div>
+        <% else %>
+          <div class="card"></div>
+        <% end %>
       <% end %>
-    <% end %>
+    </div>
+  <% end %>
+
+  <%= render partial: '/movies/pager', object: @movies %>
+<% else %>
+  <div class="jumbotron">
+    <p>No movie matching given criterias</p>
   </div>
 <% end %>
-
-<%= render partial: '/movies/pager', object: @movies %>
