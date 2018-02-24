@@ -14,22 +14,30 @@
   </div>
   <div class="col-4">
     <dl>
-      <%- @movie.attributes.except("id", "code", "cover_image", "page", "sample_images", "title", "created_at", "updated_at").each do |k, v| -%>
-        <%- unless v.blank? -%>
-          <dt><%= k.titleize %></dt>
+      <% %w[actresses actress_types categories directors genres label maker series tags].each do |key| %>
+        <% unless (value = @movie.read_attribute(key)).blank? %>
+          <dt><%= key.titleize %></dt>
           <dd>
-            <%- if v.is_a? Array -%>
+            <% if value.is_a? Array %>
               <ul class="list-inline">
-                <%- v.each do |i| -%>
-                  <li class="list-inline-item"><%= i %></li>
-                <%- end -%>
+                <% value.each do |item| %>
+                  <li class="list-inline-item">
+                    <%= link_to item, movies_url(fuzzy: item) %>
+                  </li>
+                <% end %>
               </ul>
-            <%- else -%>
-              <%= v %>
-            <%- end -%>
+            <% else %>
+              <%= link_to value, movies_url(fuzzy: value) %>
+            <% end %>
           </dd>
-        <%- end -%>
-      <%- end -%>
+        <% end %>
+      <% end %>
+      <% %w[movie_length release_date].each do |key| %>
+        <% unless (value = @movie.read_attribute(key)).blank? %>
+          <dt><%= key.titleize %></dt>
+          <dd><%= value %></dd>
+        <% end %>
+      <% end %>
       <dt>Data Source</dt>
       <dd><%= link_to @movie.page, @movie.page %></dd>
     </dl>
