@@ -70,6 +70,13 @@ RSpec.describe 'movies/show' do
       render
       expect(rendered).to have_selector("#resources a[href*='#{resource_path(@movie.resources.first)}']")
     end
+
+    context 'when movie has no resource' do
+      it 'hides resources' do
+        @movie = create(:movie)
+        expect(rendered).not_to have_selector('#resources')
+      end
+    end
   end
 
   context 'when not signed in' do

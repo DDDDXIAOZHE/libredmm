@@ -44,7 +44,7 @@
   </div>
 </div>
 
-<% if signed_in_as_admin? && @movie.resources %>
+<% if signed_in_as_admin? && @movie.resources.exists? %>
   <table class="table table-striped mt-3" id="resources">
     <thead class="thead-dark">
       <tr>
