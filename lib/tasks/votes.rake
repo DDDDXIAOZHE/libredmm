@@ -1,7 +1,7 @@
 require 'open-uri'
 
 namespace :load do
-  desc 'load vote'
+  desc 'load votes'
   task :votes, %i[email vote uri] => :environment do |_, args|
     user = User.find_by_email!(args[:email])
     unrecognized = []
