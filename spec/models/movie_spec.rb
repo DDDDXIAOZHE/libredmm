@@ -128,6 +128,30 @@ RSpec.describe Movie, type: :model do
       end
     end
 
+    describe 'with_baidu_pan_resources' do
+      it 'matches pan.baidu.com' do
+        baidu_pan_resource = create :resource, download_uri: 'http://pan.baidu.com/s/xxx'
+        create :movie
+        create :resource
+        expect(Movie.with_baidu_pan_resources.all).to eq([baidu_pan_resource.movie])
+      end
+    end
+
+    describe 'with_bt_resources' do
+      it 'matches .torrent' do
+        bt_resource = create :resource, download_uri: 'http://www.libredmm.com/xxx.torrent'
+        create :movie
+        create :resource
+        expect(Movie.with_bt_resources.all).to eq([bt_resource.movie])
+      end
+
+      it 'only matches .torrent at the end of uri' do
+        bt_resource = create :resource, download_uri: 'http://www.libredmm.com/xxx.torrent'
+        create :resource, download_uri: 'http://www.libredmm.com/xxx.torrent/suffix'
+        expect(Movie.with_bt_resources.all).to eq([bt_resource.movie])
+      end
+    end
+
     describe 'bookmarked_by, upvoted_by and downvoted_by' do
       before :each do
         @user = create :user

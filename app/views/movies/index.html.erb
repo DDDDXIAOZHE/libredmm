@@ -15,7 +15,7 @@
 
         <% if current_user.is_admin? %>
           <div id="resourceNav" class="btn-group" role="group">
-            <% { all: 'All', any: 'With Resource', none: 'Without Resource' }.each do |resource, text| %>
+            <% { all: 'All', any: 'Any Resource', baidu: 'Baidu Pan', bt: 'BT', none: 'No Resource' }.each do |resource, text| %>
               <%= link_to(
                 text,
                 request.params.merge(resource: resource),

@@ -40,6 +40,10 @@ class MoviesController < ApplicationController
     case @resource
     when 'any'
       @movies = signed_in_as_admin? ? @movies.with_resources : Movie.none
+    when 'baidu'
+      @movies = signed_in_as_admin? ? @movies.with_baidu_pan_resources : Movie.none
+    when 'bt'
+      @movies = signed_in_as_admin? ? @movies.with_bt_resources : Movie.none
     when 'none'
       @movies = signed_in_as_admin? ? @movies.without_resources : @movies
     else

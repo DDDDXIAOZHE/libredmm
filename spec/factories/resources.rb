@@ -1,6 +1,14 @@
 FactoryBot.define do
   sequence :uri do |n|
-    "https://dummyimage.com/#{n}"
+    "https://foobar.com/#{n}"
+  end
+
+  sequence :baidu_pan_uri do |n|
+    "http://pan.baidu.com/s/#{n}"
+  end
+
+  sequence :torrent_uri do |n|
+    "http://foobar.com/#{n}.torrent"
   end
 
   factory :resource do

@@ -8,7 +8,10 @@ RSpec.feature 'List movies with resource filter', type: :feature do
       create :movie
     end
     3.times do
-      create :resource
+      create :resource, download_uri: generate(:baidu_pan_uri)
+    end
+    4.times do
+      create :resource, download_uri: generate(:torrent_uri)
     end
   end
 
@@ -54,6 +57,20 @@ RSpec.feature 'List movies with resource filter', type: :feature do
       create(:vote, user: @admin, movie: Movie.without_resources.first, status: :up)
       visit movies_url(resource: 'any', vote: 'up', as: @admin)
       expect(page).to have_selector('.movie', count: 1)
+    end
+  end
+
+  context 'baidu' do
+    scenario 'when signed in as admin' do
+      visit movies_url(resource: 'baidu', as: @admin)
+      expect(page).to have_selector('.movie', count: Movie.with_baidu_pan_resources.count)
+    end
+  end
+
+  context 'bt' do
+    scenario 'when signed in as admin' do
+      visit movies_url(resource: 'bt', as: @admin)
+      expect(page).to have_selector('.movie', count: Movie.with_bt_resources.count)
     end
   end
 

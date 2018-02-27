@@ -5,6 +5,12 @@ class Movie < ApplicationRecord
   has_many :resources
 
   scope :with_resources, -> { joins(:resources) }
+  scope :with_baidu_pan_resources, -> {
+    joins(:resources).where('resources.download_uri ILIKE ?', '%pan.baidu.com%')
+  }
+  scope :with_bt_resources, -> {
+    joins(:resources).where('resources.download_uri ILIKE ?', '%.torrent')
+  }
   scope :without_resources, -> { includes(:resources).where(resources: { id: nil }) }
 
   scope :bookmarked_by, ->(user) { includes(:votes).where(votes: { user: user, status: :bookmark }) }
