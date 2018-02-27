@@ -19,8 +19,8 @@ class ThzCrawler
     crawl_forum @agent.get('http://thzvvv.com/forum-220-1.html'), backfill: false
   end
 
-  def backfill
-    crawl_forum @agent.get('http://thzvvv.com/forum-220-1.html'), backfill: true
+  def backfill(start_index)
+    crawl_forum @agent.get("http://thzvvv.com/forum-220-#{start_index}.html"), backfill: true
   end
 
   def crawl_forum(page, backfill:)

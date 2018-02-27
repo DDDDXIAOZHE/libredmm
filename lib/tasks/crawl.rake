@@ -9,8 +9,8 @@ namespace :crawl do
 
   namespace :thz do
     desc 'backfill thzvvv.com'
-    task :backfill => :environment do
-      ThzCrawler.new.backfill
+    task :backfill, %i[start_index] => :environment do |_, args|
+      ThzCrawler.new.backfill args.fetch(:start_index, 1)
     end
   end
 end
