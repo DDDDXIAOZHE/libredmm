@@ -1,5 +1,3 @@
-#! /usr/bin/env ruby
-
 require 'mechanize'
 require 'aws-sdk-s3'
 
@@ -7,24 +5,24 @@ class ThzCrawler
   def initialize
     @agent = Mechanize.new
 
-    Aws.config.update({
+    Aws.config.update(
       credentials: Aws::Credentials.new(
         ENV['AWS_ACCESS_KEY_ID'],
         ENV['AWS_SECRET_ACCESS_KEY'],
       ),
-    })
+    )
     s3 = Aws::S3::Resource.new(region: 'us-west-1')
     @s3_bucket = s3.bucket ENV['AWS_S3_BUCKET']
   end
 
   def crawl
-    crawl_forum @agent.get("http://thzvvv.com/forum-220-1.html"), backfill: false
+    crawl_forum @agent.get('http://thzvvv.com/forum-220-1.html'), backfill: false
   end
 
   def backfill
-    crawl_forum @agent.get("http://thzvvv.com/forum-220-1.html"), backfill: true
+    crawl_forum @agent.get('http://thzvvv.com/forum-220-1.html'), backfill: true
   end
-  
+
   def crawl_forum(page, backfill:)
     puts "=== #{page.uri} ==="
     found_new_resource = false
@@ -40,7 +38,7 @@ class ThzCrawler
         resource = movie.resources.create!(download_uri: s3_url, source_uri: thread_page.uri.to_s)
         found_new_resource = true
         puts " ✓ #{movie.code} #{movie.title} <- #{resource.download_uri}"
-      rescue => e
+      rescue StandardError => e
         warn " x #{e}"
       end
     end
