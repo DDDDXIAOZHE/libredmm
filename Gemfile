@@ -7,12 +7,15 @@ end
 
 gem 'rails'
 
+gem 'aws-sdk'
+gem 'aws-sdk-rails'
 gem 'bootstrap'
 gem 'clearance'
 gem 'coffee-rails'
 gem 'jbuilder'
 gem 'jquery-rails'
 gem 'kaminari'
+gem 'mechanize'
 gem 'octicons_helper'
 gem 'pg'
 gem 'puma'
