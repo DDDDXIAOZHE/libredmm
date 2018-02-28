@@ -39,7 +39,7 @@ class ThzCrawler
         found_new_resource = true
         puts " ✓ #{movie.code} #{movie.title} <- #{resource.download_uri}"
       rescue StandardError => e
-        warn " x #{e}"
+        warn " x #{e}: #{thread_link}"
       end
     end
     if found_new_resource || backfill
