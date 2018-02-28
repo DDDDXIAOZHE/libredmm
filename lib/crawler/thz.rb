@@ -28,9 +28,9 @@ class ThzCrawler
     found_new_resource = false
     page.links_with(text: /\S+/, href: /thread-\d+-1-\d+\.html/, css: 'th a').each do |thread_link|
       begin
+        next if Resource.where('source_uri LIKE ?', "%#{thread_link.href}").exists?
         thread_page = thread_link.click
         puts "# #{thread_page.uri}"
-        next if Resource.exists?(source_uri: thread_page.uri.to_s)
         torrent_link = thread_page.link_with!(text: /.+\.torrent/)
         movie = Movie.search! torrent_link.to_s
         download_link = torrent_link.click.link_with!(href: /forum.php\?mod=attachment&aid=.+/)
