@@ -4,7 +4,7 @@
 </h1>
 
 <div class="row mt-3">
-  <div class="col-8">
+  <div class="col-md-8">
     <%= render partial: '/movies/carousel', object: [@movie.cover_image] + (@movie.sample_images || []) %>
     <% if signed_in? %>
       <div class="text-center mt-3">
@@ -12,7 +12,7 @@
       </div>
     <% end %>
   </div>
-  <div class="col-4">
+  <div class="col-md-4">
     <dl>
       <% %w[actresses actress_types categories directors genres label maker series tags].each do |key| %>
         <% unless (value = @movie.read_attribute(key)).blank? %>
@@ -45,22 +45,24 @@
 </div>
 
 <% if signed_in_as_admin? && @movie.resources.exists? %>
-  <table class="table table-striped mt-3" id="resources">
-    <thead class="thead-dark">
-      <tr>
-        <th scope="col">Download URI</th>
-        <th scope="col">Source URI</th>
-        <th scope="col">Note</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @movie.resources.each do |resource| %>
+  <div class="table-responsive">
+    <table class="table table-striped mt-3" id="resources">
+      <thead class="thead-dark">
         <tr>
-          <td><%= link_to resource.download_uri, resource %></td>
-          <td><%= resource.source_uri %></td>
-          <td><%= resource.note %></td>
+          <th scope="col">Download URI</th>
+          <th scope="col">Source URI</th>
+          <th scope="col">Note</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% @movie.resources.each do |resource| %>
+          <tr>
+            <td><%= link_to resource.download_uri, resource %></td>
+            <td><%= link_to(resource.source_uri, resource.source_uri) if resource.source_uri %></td>
+            <td><%= resource.note %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 <% end %>
