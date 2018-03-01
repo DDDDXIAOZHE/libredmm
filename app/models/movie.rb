@@ -53,7 +53,7 @@ class Movie < ApplicationRecord
   paginates_per 20
 
   def self.search!(code)
-    code = code.gsub(/[^[:ascii:]]/, '')
+    code = code.gsub(/[^[:ascii:]]+/, ' ').strip
     movie = where('code ILIKE ?', code).first
     return movie if movie
     begin

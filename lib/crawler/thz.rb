@@ -32,7 +32,7 @@ class ThzCrawler
         thread_page = thread_link.click
         puts "# #{thread_page.uri}"
         torrent_link = thread_page.link_with!(text: /.+\.torrent/)
-        movie = Movie.search! torrent_link.to_s.gsub(/(\w+\.(com|la|tw))/, '')
+        movie = Movie.search! torrent_link.to_s
         download_link = torrent_link.click.link_with!(href: /forum.php\?mod=attachment&aid=.+/)
         s3_url = upload_to_s3(torrent_link.to_s, download_link)
         resource = movie.resources.create!(download_uri: s3_url, source_uri: thread_page.uri.to_s)
