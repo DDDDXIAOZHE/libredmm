@@ -1,6 +1,7 @@
 require 'simplecov'
 SimpleCov.start 'rails' do
   add_filter %r{^/app/channels/}
+  add_filter %r{^/lib/crawler/}
 end
 
 if ENV['CI'] == 'true'

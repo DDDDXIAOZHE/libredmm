@@ -36,6 +36,11 @@ RSpec.describe Movie, type: :model do
       expect(@api_stub).to have_been_requested
     end
 
+    it 'removes non-ascii characters when searching' do
+      Movie.search!('敏abc感123词')
+      expect(a_request(:get, "api.libredmm.com/search?q=abc%20123")).to have_been_made
+    end
+
     context 'when api returns movie already in db' do
       it 'returns existing movie' do
         movie = create(:movie)
