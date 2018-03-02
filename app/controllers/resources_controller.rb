@@ -6,4 +6,11 @@ class ResourcesController < ApplicationController
     @resource.movie.votes.create(user: current_user, status: :bookmark)
     redirect_to @resource.download_uri
   end
+
+  def destroy
+    @resource = Resource.find(params[:id])
+    @resource.update(is_obsolete: true)
+    @resource.movie.votes.where(user: current_user, status: :bookmark).destroy_all
+    redirect_to @resource.movie
+  end
 end

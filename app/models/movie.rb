@@ -2,21 +2,37 @@ require 'open-uri'
 
 class Movie < ApplicationRecord
   has_many :votes
-  has_many :resources
+  has_many :resources, -> { where(is_obsolete: false) }
 
-  scope :with_resources, -> { joins(:resources) }
+  scope :with_resources, -> {
+    joins(:resources).where(resources: { is_obsolete: false })
+  }
   scope :with_baidu_pan_resources, -> {
-    joins(:resources).where('resources.download_uri ILIKE ?', '%pan.baidu.com%')
+    with_resources.where('resources.download_uri ILIKE ?', '%pan.baidu.com%')
   }
   scope :with_bt_resources, -> {
-    joins(:resources).where('resources.download_uri ILIKE ?', '%.torrent')
+    with_resources.where('resources.download_uri ILIKE ?', '%.torrent')
   }
-  scope :without_resources, -> { includes(:resources).where(resources: { id: nil }) }
+  scope :without_resources, -> {
+    includes(:resources).where(resources: { id: nil }).or(
+      includes(:resources).where(resources: { is_obsolete: true })
+    )
+  }
 
-  scope :bookmarked_by, ->(user) { includes(:votes).where(votes: { user: user, status: :bookmark }) }
-  scope :upvoted_by, ->(user) { includes(:votes).where(votes: { user: user, status: :up }) }
-  scope :downvoted_by, ->(user) { includes(:votes).where(votes: { user: user, status: :down }) }
-  scope :voted_by, ->(user) { includes(:votes).where(votes: { user: user }).where.not(votes: { status: :bookmark }) }
+  scope :bookmarked_by, ->(user) { 
+    includes(:votes).where(votes: { user: user, status: :bookmark })
+  }
+  scope :upvoted_by, ->(user) { 
+    includes(:votes).where(votes: { user: user, status: :up })
+  }
+  scope :downvoted_by, ->(user) { 
+    includes(:votes).where(votes: { user: user, status: :down })
+  }
+  scope :voted_by, ->(user) { 
+    includes(:votes).where(votes: { user: user }).where.not(
+      votes: { status: :bookmark }
+    )
+  }
   scope :not_voted_by, ->(user) {
     includes(:votes).where.not(votes: { user: user }).or(
       includes(:votes).where(votes: { user: nil })

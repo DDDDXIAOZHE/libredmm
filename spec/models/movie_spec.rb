@@ -1,6 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Movie, type: :model do
+  it 'has only non-obsolete resources' do
+    movie = create :movie
+    resource = create :resource, movie: movie
+    create :resource, movie: movie, is_obsolete: true
+    expect(movie.resources.all).to eq([resource])
+  end
+
   context 'searching code in db' do
     before :each do
       @movie = create :movie
@@ -124,36 +131,93 @@ RSpec.describe Movie, type: :model do
   end
 
   context 'scope' do
-    describe 'with_resources and without_resources' do
-      it 'works' do
+    describe 'with_resources' do
+      it 'includes movies with only valid resources' do
         resource = create :resource
+        expect(Movie.with_resources).to include(resource.movie)
+      end
+
+      it 'includes movies with both valid and obsolete resources' do
         movie = create :movie
-        expect(Movie.with_resources.all).to eq([resource.movie])
-        expect(Movie.without_resources.all).to eq([movie])
+        create :resource, movie: movie
+        create :resource, movie: movie, is_obsolete: true
+        expect(Movie.with_resources).to include(movie)
+      end
+
+      it 'excludes movies with no resource' do
+        movie = create :movie
+        expect(Movie.with_resources).not_to include(movie)
+      end
+
+      it 'excludes movies with only obsolete resources' do
+        obsolete_resource = create :resource, is_obsolete: true
+        expect(Movie.with_resources).not_to include(obsolete_resource.movie)
+      end
+    end
+
+    describe 'without_resources' do
+      it 'includes movies with no resource' do
+        movie = create :movie
+        expect(Movie.without_resources).to include(movie)
+      end
+
+      it 'includes movies with only obsolete resources' do
+        obsolete_resource = create :resource, is_obsolete: true
+        expect(Movie.without_resources).to include(obsolete_resource.movie)
+      end
+
+      it 'excludes movies with only valid resources' do
+        resource = create :resource
+        expect(Movie.without_resources).not_to include(resource.movie)
+      end
+
+      it 'excludes movies with both valid and obsolete resources' do
+        movie = create :movie
+        create :resource, movie: movie
+        create :resource, movie: movie, is_obsolete: true
+        expect(Movie.without_resources).not_to include(movie)
       end
     end
 
     describe 'with_baidu_pan_resources' do
+      before :each do
+        @baidu_pan_uri = 'http://pan.baidu.com/s/xxx'
+      end
+
       it 'matches pan.baidu.com' do
-        baidu_pan_resource = create :resource, download_uri: 'http://pan.baidu.com/s/xxx'
+        baidu_pan_resource = create :resource, download_uri: @baidu_pan_uri
         create :movie
         create :resource
         expect(Movie.with_baidu_pan_resources.all).to eq([baidu_pan_resource.movie])
       end
+
+      it 'ignores obsolete resources' do
+        create :resource, download_uri: @baidu_pan_uri, is_obsolete: true
+        expect(Movie.with_baidu_pan_resources.all).not_to exist
+      end
     end
 
     describe 'with_bt_resources' do
+      before :each do
+        @torrent_uri = 'http://www.libredmm.com/xxx.torrent'
+      end
+
       it 'matches .torrent' do
-        bt_resource = create :resource, download_uri: 'http://www.libredmm.com/xxx.torrent'
+        bt_resource = create :resource, download_uri: @torrent_uri
         create :movie
         create :resource
         expect(Movie.with_bt_resources.all).to eq([bt_resource.movie])
       end
 
       it 'only matches .torrent at the end of uri' do
-        bt_resource = create :resource, download_uri: 'http://www.libredmm.com/xxx.torrent'
-        create :resource, download_uri: 'http://www.libredmm.com/xxx.torrent/suffix'
+        bt_resource = create :resource, download_uri: @torrent_uri
+        create :resource, download_uri: @torrent_uri + '/suffix'
         expect(Movie.with_bt_resources.all).to eq([bt_resource.movie])
+      end
+
+      it 'ignores obsolete resources' do
+        create :resource, download_uri: @torrent_uri, is_obsolete: true
+        expect(Movie.with_baidu_pan_resources.all).not_to exist
       end
     end
 

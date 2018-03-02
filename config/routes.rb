@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     delete 'vote', to: 'votes#destroy'
   end
 
-  resources :resources, only: :show
+  resources :resources, only: %i[show destroy]
 
   resources :users, param: :email, constraints: { user_email: /.+/ }, only: [] do
     get 'votes.codes', to: 'votes#index', format: false

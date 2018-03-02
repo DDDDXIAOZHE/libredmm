@@ -61,7 +61,7 @@ RSpec.describe 'movies/show' do
       allow(view).to receive(:current_user).and_return(@admin)
     end
 
-    it 'renders all resources' do
+    it 'renders resources' do
       render
       expect(rendered).to have_selector('#resources tbody tr', count: @movie.resources.count)
     end
@@ -69,6 +69,11 @@ RSpec.describe 'movies/show' do
     it 'renders download links' do
       render
       expect(rendered).to have_selector("#resources a[href*='#{resource_path(@movie.resources.first)}']")
+    end
+
+    it 'renders mark obsolete links' do
+      render
+      expect(rendered).to have_selector("#resources a[href*='#{resource_path(@movie.resources.first)}'][data-method='delete']")
     end
 
     context 'when movie has no resource' do

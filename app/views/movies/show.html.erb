@@ -52,6 +52,7 @@
           <th scope="col">Download URI</th>
           <th scope="col">Source URI</th>
           <th scope="col">Note</th>
+          <th scope="col">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -60,6 +61,10 @@
             <td><%= link_to resource.download_uri, resource %></td>
             <td><%= link_to(resource.source_uri, resource.source_uri) if resource.source_uri %></td>
             <td><%= resource.note %></td>
+            <td><%= link_to(
+              octicon(:trashcan), resource,
+              method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
+            ) %></td>
           </tr>
         <% end %>
       </tbody>

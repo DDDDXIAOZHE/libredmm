@@ -14,5 +14,6 @@ FactoryBot.define do
   factory :resource do
     movie
     download_uri { generate :uri }
+    is_obsolete false
   end
 end
