@@ -8,6 +8,35 @@ RSpec.describe Movie, type: :model do
     expect(movie.resources.all).to eq([resource])
   end
 
+  context 'on destroy' do
+    it 'destroys all votes' do
+      vote = create :vote
+      expect {
+        vote.movie.destroy 
+      }.to change{
+        Vote.count
+      }.by(-1)
+    end
+
+    it 'destroys valid resources' do
+      resource = create :resource
+      expect {
+        resource.movie.destroy 
+      }.to change{
+        Resource.count
+      }.by(-1)
+    end
+
+    it 'destroys obsolete resources as well' do
+      resource = create :resource, is_obsolete: true
+      expect {
+        resource.movie.destroy 
+      }.to change{
+        Resource.count
+      }.by(-1)
+    end
+  end
+
   context 'searching code in db' do
     before :each do
       @movie = create :movie

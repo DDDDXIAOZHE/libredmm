@@ -1,8 +1,9 @@
 require 'open-uri'
 
 class Movie < ApplicationRecord
-  has_many :votes
-  has_many :resources, -> { where(is_obsolete: false) }
+  has_many :votes, dependent: :destroy
+  has_many :resources, -> { where(is_obsolete: false) }, dependent: :destroy
+  has_many :obsolete_resources, -> { where(is_obsolete: true) }, dependent: :destroy, class_name: 'Resource'
 
   scope :with_resources, -> {
     joins(:resources).where(resources: { is_obsolete: false })

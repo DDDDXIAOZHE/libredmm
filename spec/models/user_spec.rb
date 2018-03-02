@@ -35,4 +35,18 @@ RSpec.describe User, type: :model do
     end
     expect(user.bookmarks.size).to eq(3)
   end
+
+  context 'on destroy' do
+    it 'destroys all votes' do
+      user = create :user
+      %i[up down bookmark].each do |status|
+        create :vote, user: user, status: status
+      end
+      expect {
+        user.destroy
+      }.to change {
+        Vote.count
+      }.by(-3)
+    end
+  end
 end
