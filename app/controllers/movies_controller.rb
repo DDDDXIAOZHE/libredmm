@@ -2,11 +2,10 @@ class MoviesController < ApplicationController
   # GET /movies
   # GET /movies.json
   def index
-    @movies = Movie.all
+    @movies = params[:fuzzy] ? Movie.fuzzy_match(params[:fuzzy]) : Movie.all
     filter_by_vote
     filter_by_resource
-    @movies = @movies.fuzzy_match(params[:fuzzy]) if params[:fuzzy]
-    @movies = @movies.order(code: :asc).page(params[:page])
+    order_and_paginate
   end
 
   # GET /movies/1
@@ -49,5 +48,17 @@ class MoviesController < ApplicationController
     else
       @resource = 'all'
     end
+  end
+
+  def order_and_paginate
+    @order = params[:order]
+    case @order
+    when 'latest'
+      @movies = @movies.order(created_at: :desc)
+    else
+      @movies = @movies.order(code: :asc)
+      @order = 'default'
+    end
+    @movies = @movies.page(params[:page])
   end
 end

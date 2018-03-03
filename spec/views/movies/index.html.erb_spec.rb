@@ -63,6 +63,11 @@ RSpec.describe 'movies/index' do
   end
 
   context 'when signed out' do
+    before :each do
+      @order = 'latest'
+      controller.request.path_parameters['order'] = 'latest'
+    end
+
     it 'hides vote filters' do
       render
       expect(rendered).not_to have_selector('#voteNav')
@@ -71,6 +76,17 @@ RSpec.describe 'movies/index' do
     it 'hides resource filters' do
       render
       expect(rendered).not_to have_selector('#resourceNav')
+    end
+
+    it 'renders order options' do
+      render
+      expect(rendered).to have_selector('#orderNav')
+    end
+
+    it 'renders current order option as active' do
+      render
+      expect(rendered).to have_selector("#orderNav a[class*='active']", count: 1)
+      expect(rendered).to have_selector("#orderNav a[href*='order=latest'][class*='active']")
     end
   end
 end
