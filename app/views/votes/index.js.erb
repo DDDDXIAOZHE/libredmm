@@ -13,13 +13,13 @@
 (function() {
     'use strict';
     document.querySelectorAll('a').forEach(function(a){
-        var mv = a.text.match(/<%= oneregex(Movie.voted_by(@user).map(&:code) + Movie.bookmarked_by(@user).map(&:code)) %>/i);
+        var mv = a.text.match(/<%= oneregex(Movie.voted_by(@user).pluck(:code) + Movie.bookmarked_by(@user).pluck(:code)) %>/i);
         if (mv) {
             console.log(mv);
             var mark = '<mark>' + mv[0] + '</mark>';
             a.innerHTML = a.innerHTML.replace(mv[0], mark);
         }
-        var mwr = a.text.match(/<%= oneregex(Movie.with_resources.map(&:code)) %>/i);
+        var mwr = a.text.match(/<%= oneregex(Movie.with_resources.pluck(:code)) %>/i);
         if (mwr) {
             console.log(mwr);
             var del = '<del>' + mwr[0] + '</del>';

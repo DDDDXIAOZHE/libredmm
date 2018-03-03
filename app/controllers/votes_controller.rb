@@ -7,7 +7,7 @@ class VotesController < ApplicationController
   def index
     @user = User.find_by_email!(params[:user_email])
     respond_to do |format|
-      format.codes { render plain: Movie.voted_by(@user).map(&:code).sort.join("\n") }
+      format.codes { render plain: Movie.voted_by(@user).pluck(:code).sort.join("\n") }
       format.js { render :index }
     end
   end
