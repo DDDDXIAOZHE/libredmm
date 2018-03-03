@@ -18,6 +18,11 @@ RSpec.describe 'movies/show' do
     expect(rendered).to have_selector('.carousel-item.active', count: 1)
   end
 
+  it 'includes movie info in title' do
+    render template: 'movies/show', layout: 'layouts/application'
+    expect(rendered).to have_title("#{@movie.code} #{@movie.title}")
+  end
+
   context 'when signed in' do
     before :each do
       @user = create :user, is_admin: false
