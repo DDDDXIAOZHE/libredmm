@@ -12,8 +12,8 @@ RSpec.describe Movie, type: :model do
     it 'destroys all votes' do
       vote = create :vote
       expect {
-        vote.movie.destroy 
-      }.to change{
+        vote.movie.destroy
+      }.to change {
         Vote.count
       }.by(-1)
     end
@@ -21,8 +21,8 @@ RSpec.describe Movie, type: :model do
     it 'destroys valid resources' do
       resource = create :resource
       expect {
-        resource.movie.destroy 
-      }.to change{
+        resource.movie.destroy
+      }.to change {
         Resource.count
       }.by(-1)
     end
@@ -30,8 +30,8 @@ RSpec.describe Movie, type: :model do
     it 'destroys obsolete resources as well' do
       resource = create :resource, is_obsolete: true
       expect {
-        resource.movie.destroy 
-      }.to change{
+        resource.movie.destroy
+      }.to change {
         Resource.count
       }.by(-1)
     end
@@ -74,7 +74,7 @@ RSpec.describe Movie, type: :model do
 
     it 'removes non-ascii characters when searching' do
       Movie.search!('敏abc感123词')
-      expect(a_request(:get, "api.libredmm.com/search?q=abc%20123")).to have_been_made
+      expect(a_request(:get, 'api.libredmm.com/search?q=abc%20123')).to have_been_made
     end
 
     context 'when api returns movie already in db' do

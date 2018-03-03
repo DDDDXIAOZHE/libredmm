@@ -20,16 +20,16 @@ class Movie < ApplicationRecord
     )
   }
 
-  scope :bookmarked_by, ->(user) { 
+  scope :bookmarked_by, ->(user) {
     includes(:votes).where(votes: { user: user, status: :bookmark })
   }
-  scope :upvoted_by, ->(user) { 
+  scope :upvoted_by, ->(user) {
     includes(:votes).where(votes: { user: user, status: :up })
   }
-  scope :downvoted_by, ->(user) { 
+  scope :downvoted_by, ->(user) {
     includes(:votes).where(votes: { user: user, status: :down })
   }
-  scope :voted_by, ->(user) { 
+  scope :voted_by, ->(user) {
     includes(:votes).where(votes: { user: user }).where.not(
       votes: { status: :bookmark }
     )

@@ -24,6 +24,12 @@ gem 'sendgrid-ruby'
 gem 'turbolinks'
 gem 'uglifier'
 
+gem 'rack-mini-profiler'
+
+gem 'flamegraph'
+gem 'memory_profiler'
+gem 'stackprof'
+
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 # Use Redis adapter to run Action Cable in production

@@ -1,7 +1,7 @@
 class ResourcesController < ApplicationController
   before_action do
     unless signed_in_as_admin?
-      deny_access(I18n.t("flashes.failure_when_not_signed_in"))
+      deny_access(I18n.t('flashes.failure_when_not_signed_in'))
     end
   end
 
