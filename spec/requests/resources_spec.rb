@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe 'Resources', type: :request do
   before :each do
     @resource = create :resource
-    @user = create :user
   end
 
   describe 'GET /resources/:resource_id' do
@@ -15,6 +14,21 @@ RSpec.describe 'Resources', type: :request do
     end
 
     context 'when signed in' do
+      before :each do
+        @user = create :user
+      end
+
+      it 'redirects to root' do
+        get resource_url(@resource, as: @user)
+        expect(response).to redirect_to(root_url)
+      end
+    end
+
+    context 'when signed in as admin' do
+      before :each do
+        @user = create :user, is_admin: true
+      end
+
       it 'redirects to download uri' do
         get resource_url(@resource, as: @user)
         expect(response).to redirect_to(@resource.download_uri)
@@ -64,6 +78,29 @@ RSpec.describe 'Resources', type: :request do
     end
 
     context 'when signed in' do
+      before :each do
+        @user = create :user
+      end
+
+      it 'redirects to root' do
+        delete resource_url(@resource, as: @user)
+        expect(response).to redirect_to(root_url)
+      end
+
+      it 'does not touch resource' do
+        expect {
+          delete resource_url(@resource, as: @user)
+        }.not_to change {
+          @resource.reload
+        }
+      end
+    end
+
+    context 'when signed in as admin' do
+      before :each do
+        @user = create :user, is_admin: true
+      end
+
       it 'redirects to movie page' do
         delete resource_url(@resource, as: @user)
         expect(response).to redirect_to(@resource.movie)

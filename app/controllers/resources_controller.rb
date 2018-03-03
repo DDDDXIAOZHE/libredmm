@@ -1,5 +1,9 @@
 class ResourcesController < ApplicationController
-  before_action :require_login
+  before_action do
+    unless signed_in_as_admin?
+      deny_access(I18n.t("flashes.failure_when_not_signed_in"))
+    end
+  end
 
   def show
     @resource = Resource.find(params[:id])
