@@ -12,8 +12,8 @@ RSpec.feature 'List movies with order option', type: :feature do
     expect(page).to have_selector('.movie', count: Movie.count)
   end
 
-  scenario 'latest' do
-    visit movies_url(order: 'latest')
+  scenario 'latest_resource' do
+    visit movies_url(order: 'latest_resource')
     expect(page).to have_selector('.movie', count: Movie.count)
   end
 end

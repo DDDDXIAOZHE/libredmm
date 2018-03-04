@@ -2,41 +2,45 @@
   <div class="card-body">
     <section>
       <% if signed_in? %>
-        <div id="voteNav" class="btn-group mb-3" role="group">
-          <% { all: 'All', up: 'Upvoted', down: 'Downvoted', bookmark: 'Bookmarked', none: 'Not Voted' }.each do |vote, text| %>
-            <%= link_to(
-              text,
-              request.params.merge(vote: vote),
-              class: (@vote == vote.to_s ? 'btn btn-primary active' : 'btn btn-secondary'),
-              role: 'button',
-            ) %>
-          <% end %>
-        </div>
-
-        <% if current_user.is_admin? %>
-          <div id="resourceNav" class="btn-group mb-3" role="group">
-            <% { all: 'All', any: 'Any Resource', baidu: 'Baidu Pan', bt: 'BT', none: 'No Resource' }.each do |resource, text| %>
+        <div class="btn-toolbar mb-3">
+          <div id="voteNav" class="btn-group" role="group">
+            <% { all: 'All', up: 'Upvoted', down: 'Downvoted', bookmark: 'Bookmarked', none: 'Not Voted' }.each do |vote, text| %>
               <%= link_to(
                 text,
-                request.params.merge(resource: resource),
-                class: (@resource == resource.to_s ? 'btn btn-primary active' : 'btn btn-secondary'),
+                request.params.merge(vote: vote),
+                class: (@vote == vote.to_s ? 'btn btn-primary active' : 'btn btn-secondary'),
                 role: 'button',
               ) %>
             <% end %>
           </div>
+        </div>
+
+        <% if current_user.is_admin? %>
+          <div class="btn-toolbar mb-3">
+            <div id="resourceNav" class="btn-group mr-2" role="group">
+              <% { all: 'All', any: 'Any Resource', baidu: 'Baidu Pan', bt: 'BT', none: 'No Resource' }.each do |resource, text| %>
+                <%= link_to(
+                  text,
+                  request.params.merge(resource: resource),
+                  class: (@resource == resource.to_s ? 'btn btn-primary active' : 'btn btn-secondary'),
+                  role: 'button',
+                ) %>
+              <% end %>
+            </div>
+
+            <div id="orderNav" class="btn-group" role="group">
+              <% { default: 'Default Order', latest_resource: 'Latest Resource First' }.each do |order, text| %>
+                <%= link_to(
+                  text,
+                  request.params.merge(order: order),
+                  class: (@order == order.to_s ? 'btn btn-primary active' : 'btn btn-secondary'),
+                  role: 'button',
+                ) %>
+              <% end %>
+            </div>
+          </div>
         <% end %>
       <% end %>
-
-      <div id="orderNav" class="btn-group mb-3" role="group">
-        <% { default: 'Default Order', latest: 'Latest First' }.each do |order, text| %>
-          <%= link_to(
-            text,
-            request.params.merge(order: order),
-            class: (@order == order.to_s ? 'btn btn-primary active' : 'btn btn-secondary'),
-            role: 'button',
-          ) %>
-        <% end %>
-      </div>
     </section>
 
     <%= form_tag movies_url, method: :get, class: 'form-inline' do %>

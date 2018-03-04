@@ -32,6 +32,8 @@ RSpec.describe 'movies/index' do
         allow(view).to receive(:current_user).and_return(create(:user, is_admin: true))
         @resource = 'any'
         controller.request.path_parameters['resource'] = 'any'
+        @order = 'latest_resource'
+        controller.request.path_parameters['order'] = 'latest_resource'
       end
 
       it 'renders resource filters' do
@@ -47,10 +49,23 @@ RSpec.describe 'movies/index' do
         expect(rendered).to have_selector("#resourceNav a[href*='resource=any'][class*='active']")
       end
 
+      it 'renders order options' do
+        render
+        expect(rendered).to have_selector('#orderNav')
+      end
+
+      it 'renders current order option as active' do
+        render
+        expect(rendered).to have_selector("#orderNav a[class*='active']", count: 1)
+        expect(rendered).to have_selector("#orderNav a[href*='order=latest'][class*='active']")
+      end
+
       it 'renders links with combined filters' do
         render
         expect(rendered).to have_selector("#voteNav a[href*='resource=any']")
-        expect(rendered).to have_selector("#resourceNav a[href*='vote=up']")
+        expect(rendered).to have_selector("#voteNav a[href*='order=latest_resource']")
+        expect(rendered).to have_selector("#resourceNav a[href*='order=latest_resource']")
+        expect(rendered).to have_selector("#orderNav a[href*='resource=any']")
       end
     end
 
@@ -64,8 +79,6 @@ RSpec.describe 'movies/index' do
 
   context 'when signed out' do
     before :each do
-      @order = 'latest'
-      controller.request.path_parameters['order'] = 'latest'
     end
 
     it 'hides vote filters' do
@@ -78,15 +91,9 @@ RSpec.describe 'movies/index' do
       expect(rendered).not_to have_selector('#resourceNav')
     end
 
-    it 'renders order options' do
+    it 'hides order options' do
       render
-      expect(rendered).to have_selector('#orderNav')
-    end
-
-    it 'renders current order option as active' do
-      render
-      expect(rendered).to have_selector("#orderNav a[class*='active']", count: 1)
-      expect(rendered).to have_selector("#orderNav a[href*='order=latest'][class*='active']")
+      expect(rendered).not_to have_selector('#orderNav')
     end
   end
 end

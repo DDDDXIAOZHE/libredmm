@@ -53,7 +53,7 @@ class MoviesController < ApplicationController
   def order_and_paginate
     @order = params[:order]
     case @order
-    when 'latest'
+    when 'latest_resource'
       @movies = @movies.includes(:resources).order('resources.created_at DESC')
     else
       @movies = @movies.order(code: :asc)
