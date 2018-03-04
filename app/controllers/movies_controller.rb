@@ -54,7 +54,7 @@ class MoviesController < ApplicationController
     @order = params[:order]
     case @order
     when 'latest'
-      @movies = @movies.order(created_at: :desc)
+      @movies = @movies.includes(:resources).order('resources.created_at DESC')
     else
       @movies = @movies.order(code: :asc)
       @order = 'default'
