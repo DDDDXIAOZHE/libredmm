@@ -29,7 +29,7 @@
             </div>
 
             <div id="orderNav" class="btn-group" role="group">
-              <% { default: 'Default Order', latest_resource: 'Latest Resource First' }.each do |order, text| %>
+              <% { default: 'Default Order', latest: 'Latest First', oldest: 'Oldest First' }.each do |order, text| %>
                 <%= link_to(
                   text,
                   request.params.merge(order: order),

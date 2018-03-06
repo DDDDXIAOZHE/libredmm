@@ -32,8 +32,8 @@ RSpec.describe 'movies/index' do
         allow(view).to receive(:current_user).and_return(create(:user, is_admin: true))
         @resource = 'any'
         controller.request.path_parameters['resource'] = 'any'
-        @order = 'latest_resource'
-        controller.request.path_parameters['order'] = 'latest_resource'
+        @order = 'latest'
+        controller.request.path_parameters['order'] = 'latest'
       end
 
       it 'renders resource filters' do
@@ -63,8 +63,8 @@ RSpec.describe 'movies/index' do
       it 'renders links with combined filters' do
         render
         expect(rendered).to have_selector("#voteNav a[href*='resource=any']")
-        expect(rendered).to have_selector("#voteNav a[href*='order=latest_resource']")
-        expect(rendered).to have_selector("#resourceNav a[href*='order=latest_resource']")
+        expect(rendered).to have_selector("#voteNav a[href*='order=latest']")
+        expect(rendered).to have_selector("#resourceNav a[href*='order=latest']")
         expect(rendered).to have_selector("#orderNav a[href*='resource=any']")
       end
     end
