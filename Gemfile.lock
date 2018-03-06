@@ -599,6 +599,7 @@ GEM
       xpath (>= 2.0, < 4.0)
     childprocess (0.8.0)
       ffi (~> 1.0, >= 1.0.11)
+    chronic (0.10.2)
     clearance (1.16.1)
       bcrypt
       email_validator (~> 1.4)
@@ -628,7 +629,7 @@ GEM
       railties (>= 3.2, < 5.2)
     email_validator (1.6.0)
       activemodel
-    erubi (1.7.0)
+    erubi (1.7.1)
     execjs (2.7.0)
     factory_bot (4.8.2)
       activesupport (>= 3.0.0)
@@ -705,13 +706,13 @@ GEM
       octicons (= 5.2.0)
       rails
     parallel (1.12.1)
-    parser (2.5.0.2)
+    parser (2.5.0.3)
       ast (~> 2.4.0)
     pg (1.0.0)
     popper_js (1.12.9)
     powerpack (0.1.1)
     public_suffix (3.0.2)
-    puma (3.11.2)
+    puma (3.11.3)
     rack (2.0.4)
     rack-mini-profiler (0.10.7)
       rack (>= 1.2.0)
@@ -744,7 +745,7 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rainbow (3.0.0)
     rake (12.3.0)
-    rb-fsevent (0.10.2)
+    rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
     rspec-core (3.7.1)
@@ -764,9 +765,9 @@ GEM
       rspec-mocks (~> 3.7.0)
       rspec-support (~> 3.7.0)
     rspec-support (3.7.1)
-    rubocop (0.52.1)
+    rubocop (0.53.0)
       parallel (~> 1.10)
-      parser (>= 2.4.0.2, < 3.0)
+      parser (>= 2.5)
       powerpack (~> 0.1)
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.7)
@@ -856,6 +857,7 @@ DEPENDENCIES
   bootstrap
   byebug
   capybara
+  chronic
   clearance
   codecov
   coffee-rails

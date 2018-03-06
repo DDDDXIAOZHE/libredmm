@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180302021254) do
+ActiveRecord::Schema.define(version: 20180306064241) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,7 +28,6 @@ ActiveRecord::Schema.define(version: 20180302021254) do
     t.string "maker"
     t.string "movie_length"
     t.string "page"
-    t.string "release_date"
     t.string "sample_images", array: true
     t.string "series"
     t.string "tags", array: true
@@ -36,6 +35,7 @@ ActiveRecord::Schema.define(version: 20180302021254) do
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.date "release_date"
   end
 
   create_table "resources", force: :cascade do |t|
@@ -47,6 +47,18 @@ ActiveRecord::Schema.define(version: 20180302021254) do
     t.datetime "updated_at", null: false
     t.boolean "is_obsolete", default: false
     t.index ["movie_id"], name: "index_resources_on_movie_id"
+  end
+
+  create_table "sexinsex", id: :serial, force: :cascade do |t|
+    t.integer "forum_id"
+    t.integer "type_id"
+    t.integer "thread_id"
+    t.string "title"
+    t.string "filename"
+    t.string "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["thread_id"], name: "index_sexinsex_on_thread_id", unique: true
   end
 
   create_table "users", force: :cascade do |t|

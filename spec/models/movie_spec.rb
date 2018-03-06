@@ -157,6 +157,17 @@ RSpec.describe Movie, type: :model do
         create(:movie, title: '')
       }.to raise_error(ActiveRecord::RecordInvalid)
     end
+
+    it 'converts release date in string to date' do
+      movie = create(:movie, release_date: '2018-03-01')
+      expect(movie.release_date).to eq(Date.new(2018, 3, 1))
+    end
+
+    it 'passes release date in date through' do
+      date = Date.new(2012, 3, 4)
+      movie = create(:movie, release_date: date)
+      expect(movie.release_date).to eq(date)
+    end
   end
 
   context 'scope' do

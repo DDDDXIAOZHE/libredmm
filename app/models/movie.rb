@@ -86,6 +86,10 @@ class Movie < ApplicationRecord
     end
   end
 
+  def release_date=(date)
+    super(date.is_a?(String) ? Chronic.parse(date).try(:to_date) : date)
+  end
+
   def to_param
     code
   end
