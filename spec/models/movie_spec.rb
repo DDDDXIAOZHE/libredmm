@@ -374,5 +374,35 @@ RSpec.describe Movie, type: :model do
         expect(Movie.fuzzy_match('title').all).to eq([movie])
       end
     end
+
+    describe 'latest_first' do
+      it 'orders by release_date desc' do
+        older = create :movie, release_date: '2017-01-01'
+        later = create :movie, release_date: '2018-01-01'
+        expect(Movie.latest_first.all).to eq([later, older])
+      end
+
+      it 'puts movie with null release_date at last' do
+        nodate = create :movie
+        older = create :movie, release_date: '2017-01-01'
+        later = create :movie, release_date: '2018-01-01'
+        expect(Movie.latest_first.all).to eq([later, older, nodate])
+      end
+    end
+
+    describe 'oldest_first' do
+      it 'orders by release_date desc' do
+        older = create :movie, release_date: '2017-01-01'
+        later = create :movie, release_date: '2018-01-01'
+        expect(Movie.oldest_first.all).to eq([older, later])
+      end
+
+      it 'puts movie with null release_date at last' do
+        nodate = create :movie
+        older = create :movie, release_date: '2017-01-01'
+        later = create :movie, release_date: '2018-01-01'
+        expect(Movie.oldest_first.all).to eq([older, later, nodate])
+      end
+    end
   end
 end

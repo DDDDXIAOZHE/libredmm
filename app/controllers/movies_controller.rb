@@ -54,9 +54,9 @@ class MoviesController < ApplicationController
     @order = params[:order]
     case @order
     when 'latest'
-      @movies = @movies.order(release_date: :desc)
+      @movies = @movies.latest_first
     when 'oldest'
-      @movies = @movies.order(release_date: :asc)
+      @movies = @movies.oldest_first
     else
       @movies = @movies.order(code: :asc)
       @order = 'default'
