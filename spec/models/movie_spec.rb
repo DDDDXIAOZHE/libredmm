@@ -205,6 +205,13 @@ RSpec.describe Movie, type: :model do
       end
     end
 
+    context 'when api returns non-ok code' do
+      it 'return false' do
+        stub_request(:any, /api\.libredmm\.com\/search\?q=/).to_return(status: 404)
+        expect(@movie.refresh).to be_falsey
+      end
+    end
+
     context 'when api returns invalid attrs' do
       it 'return false' do
         stub_request(:any, /api\.libredmm\.com\/search\?q=/).to_return(

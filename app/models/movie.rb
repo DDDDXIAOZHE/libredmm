@@ -94,6 +94,8 @@ class Movie < ApplicationRecord
 
   def refresh
     update Movie.attrs_from_opendmm(code)
+  rescue
+    false
   end
 
   def release_date=(date)
