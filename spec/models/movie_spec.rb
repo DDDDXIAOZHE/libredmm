@@ -170,6 +170,55 @@ RSpec.describe Movie, type: :model do
     end
   end
 
+  context 'refreshing' do
+    before :each do
+      @movie = create :movie
+    end
+
+    it 'searches details via api' do
+      expect(@api_stub).not_to have_been_requested
+      @movie.refresh
+      expect(@api_stub).to have_been_requested
+    end
+
+    context 'when api returns valid attrs' do
+      before :each do
+        stub_request(:any, /api\.libredmm\.com\/search\?q=/).to_return(
+          body: lambda { |_|
+            {
+              Code: 'ABC-123',
+            }.to_json
+          },
+        )
+      end
+
+      it 'return true attrs' do
+        expect(@movie.refresh).to be_truthy
+      end
+
+      it 'update attrs' do
+        expect {
+          @movie.refresh
+        }.to change {
+          @movie.code
+        }.to('ABC-123')
+      end
+    end
+
+    context 'when api returns invalid attrs' do
+      it 'return false' do
+        stub_request(:any, /api\.libredmm\.com\/search\?q=/).to_return(
+          body: lambda { |_|
+            {
+              Code: '',
+            }.to_json
+          },
+        )
+        expect(@movie.refresh).to be_falsey
+      end
+    end
+  end
+
   context 'scope' do
     describe 'with_resources' do
       it 'includes movies with only valid resources' do
