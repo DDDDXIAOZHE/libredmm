@@ -94,7 +94,7 @@ class Movie < ApplicationRecord
 
   def refresh
     update Movie.attrs_from_opendmm(code)
-  rescue
+  rescue StandardError
     false
   end
 

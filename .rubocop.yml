@@ -1,6 +1,7 @@
 AllCops:
   Exclude:
     - 'db/**/*.rb'
+    - 'bin/**/*'
 
 Style/BlockComments:
   Enabled: false
@@ -12,6 +13,9 @@ Style/Documentation:
   Enabled: false
 
 Style/EmptyMethod:
+  Enabled: false
+
+Style/ExpandPathArguments:
   Enabled: false
 
 Style/HashSyntax:
@@ -27,5 +31,8 @@ Style/NumericLiterals:
 Style/TrailingCommaInArguments:
   Enabled: false
 
-Style/TrailingCommaInLiteral:
+Style/TrailingCommaInArrayLiteral:
+  Enabled: false
+
+Style/TrailingCommaInHashLiteral:
   Enabled: false
