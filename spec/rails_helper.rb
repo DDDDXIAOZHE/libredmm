@@ -1,6 +1,8 @@
 require 'simplecov'
 SimpleCov.start 'rails' do
   add_filter %r{^/app/channels/}
+  add_filter %r{^/app/controllers/admin/}
+  add_filter %r{^/app/dashboards/}
   add_filter %r{^/lib/crawler/}
 end
 

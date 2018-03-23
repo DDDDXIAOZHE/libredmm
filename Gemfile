@@ -7,6 +7,7 @@ end
 
 gem 'rails'
 
+gem 'administrate'
 gem 'aws-sdk'
 gem 'aws-sdk-rails'
 gem 'bootstrap'
