@@ -46,15 +46,26 @@ RSpec.describe Movie, type: :model do
       expect(Movie.search!(@movie.code)).to eq(@movie)
     end
 
-    it 'ignore cases' do
+    it 'ignores cases' do
       expect(Movie.search!(@movie.code.downcase)).to eq(@movie)
       expect(Movie.search!(@movie.code.upcase)).to eq(@movie)
     end
 
-    it 'requires exact match' do
+    it 'allows extra digits at beginning' do
+      movie = create :movie, code: '300MIUM-059'
+      expect(Movie.search!('MIUM-059')).to eq(movie)
+    end
+
+    it 'does not allows extra letters at beginning' do
+      create :movie, code: 'AMIUM-059'
+      movie = create :movie, code: '300MIUM-059'
+      expect(Movie.search!('MIUM-059')).to eq(movie)
+    end
+
+    it 'does not allow extra digits at end' do
       create :movie, code: 'LIBRE-1000'
-      create :movie, code: 'LIBRE-100'
-      expect(Movie.search!('LIBRE-100').code).to eq('LIBRE-100')
+      movie = create :movie, code: 'LIBRE-100'
+      expect(Movie.search!('LIBRE-100')).to eq(movie)
     end
   end
 
