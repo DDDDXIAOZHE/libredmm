@@ -380,6 +380,14 @@ RSpec.describe Movie, type: :model do
         expect(Movie.not_voted_by(user).all).to eq([vote.movie])
       end
 
+      it 'excludes movies also voted by other' do
+        user = create :user
+        movie = create :movie
+        create :vote, user: user, movie: movie
+        create :vote, movie: movie
+        expect(Movie.not_voted_by(user).all).to eq([])
+      end
+
       it 'nil returns all movies' do
         expect(Movie.not_voted_by(nil).count).to eq(Movie.count)
       end
