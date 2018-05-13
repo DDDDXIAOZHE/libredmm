@@ -374,6 +374,18 @@ RSpec.describe Movie, type: :model do
         expect(Movie.not_voted_by(user).all).to eq([movie])
       end
 
+      it 'excludes voted movies' do
+        user = create :user
+        create :vote, user: user
+        expect(Movie.not_voted_by(user).all).to eq([])
+      end
+
+      it 'excludes bookmarked movies' do
+        user = create :user
+        create :vote, user: user, status: :bookmark
+        expect(Movie.not_voted_by(user).all).to eq([])
+      end
+
       it 'includes movies only voted by other' do
         user = create :user
         vote = create :vote

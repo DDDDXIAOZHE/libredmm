@@ -35,7 +35,7 @@ class Movie < ApplicationRecord
     )
   }
   scope :not_voted_by, ->(user) {
-    where.not(id: voted_by(user))
+    where.not(id: voted_by(user).or(bookmarked_by(user)))
   }
 
   scope :fuzzy_match, ->(keyword) {
