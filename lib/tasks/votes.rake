@@ -9,10 +9,10 @@ namespace :load do
       begin
         code.strip!
         movie = Movie.search!(code)
-        vote = Vote.find_or_initialize_by(user: user, movie: movie)
-        vote.status = args[:vote]
-        vote.save!
-      rescue ActiveRecord::RecordNotFound, ActiveRecord::RecordInvalid
+        puts movie.inspect
+        vote = movie.votes.create(user: user, status: args[:vote])
+        puts vote.inspect
+      rescue ActiveRecord::RecordNotFound
         unrecognized << code
       end
     end
