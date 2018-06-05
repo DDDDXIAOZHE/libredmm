@@ -251,6 +251,14 @@ RSpec.describe Movie, type: :model do
         expect(Movie.with_resources).to include(movie)
       end
 
+      it 'does not include duplicates' do
+        movie = create :movie
+        2.times do
+          create :resource, movie: movie
+        end
+        expect(Movie.with_resources.count).to eq(1)
+      end
+
       it 'excludes movies with no resource' do
         movie = create :movie
         expect(Movie.with_resources).not_to include(movie)

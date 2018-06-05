@@ -6,7 +6,7 @@ class Movie < ApplicationRecord
   has_many :obsolete_resources, -> { where(is_obsolete: true) }, dependent: :destroy, class_name: 'Resource'
 
   scope :with_resources, -> {
-    joins(:resources).where(resources: { is_obsolete: false })
+    joins(:resources).where(resources: { is_obsolete: false }).distinct
   }
   scope :with_baidu_pan_resources, -> {
     with_resources.where('resources.download_uri ILIKE ?', '%pan.baidu.com%')
