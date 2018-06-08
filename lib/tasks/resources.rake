@@ -1,7 +1,7 @@
 require 'open-uri'
 
-namespace :load do
-  namespace :resources do
+namespace :resources do
+  namespace :load do
     desc 'load hd1080.org resources'
     task :hd1080, %i[dump_uri] => :environment do |_, args|
       unrecognized = []
@@ -19,6 +19,24 @@ namespace :load do
       end
       puts "#{unrecognized.size} unrecognized:"
       puts unrecognized
+    end
+  end
+
+  namespace :obsolete do
+    desc 'obsolete bt resources'
+    task :bt, %i[uri] => :environment do |_, args|
+      failed = []
+      open(args[:uri]).each do |code|
+        begin
+          code.strip!
+          movie = Movie.search!(code)
+          movie.resources.in_bt.update_all(is_obsolete: true)
+        rescue ActiveRecord::RecordNotFound
+          failed << code
+        end
+      end
+      puts "#{failed.size} failed:"
+      puts failed
     end
   end
 end
