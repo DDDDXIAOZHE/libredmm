@@ -33,4 +33,22 @@ RSpec.describe Resource, type: :model do
       }.to raise_error(ActiveRecord::RecordInvalid)
     end
   end
+
+  context 'scope' do
+    describe 'in_baidu_pan' do
+      it 'includes only resources with pan.baidu.com in url' do
+        baidu_pan_resource = create :resource, download_uri: 'http://pan.baidu.com/s/xxx'
+        create :resource
+        expect(Resource.in_baidu_pan.all).to eq([baidu_pan_resource])
+      end
+    end
+
+    describe 'in_bt' do
+      it 'includes only resources with url ends with .torrent' do
+        bt_resource = create :resource, download_uri: 'http://www.libredmm.com/xxx.torrent'
+        create :resource
+        expect(Resource.in_bt.all).to eq([bt_resource])
+      end
+    end
+  end
 end
