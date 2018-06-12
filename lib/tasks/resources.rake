@@ -24,13 +24,15 @@ namespace :resources do
 
   namespace :obsolete do
     desc 'obsolete bt resources'
-    task :bt, %i[uri] => :environment do |_, args|
+    task :bt, %i[email dump_uri] => :environment do |_, args|
+      user = User.find_by_email!(args[:email])
       failed = []
-      open(args[:uri]).each do |code|
+      open(args[:dump_uri]).each do |code|
         begin
           code.strip!
           movie = Movie.search!(code)
           movie.resources.in_bt.update_all(is_obsolete: true)
+          Vote.where(user: user, movie: movie, status: :bookmark).destroy_all
         rescue ActiveRecord::RecordNotFound
           failed << code
         end
