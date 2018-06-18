@@ -4,21 +4,28 @@ namespace :resources do
   namespace :load do
     desc 'load hd1080.org resources'
     task :hd1080, %i[dump_uri] => :environment do |_, args|
-      unrecognized = []
+      duplicate = []
+      failed = []
+      loaded = []
       open(args[:dump_uri]).each do |line|
         next unless line.strip =~ /(.+)\s+(http.+)/
         path = Regexp.last_match(1)
         uri = Regexp.last_match(2)
-        next if Resource.exists?(download_uri: uri)
         code = File.basename(path, '.*').upcase.gsub(/^\d*/, '')
+        if Resource.exists?(download_uri: uri)
+          duplicate << code
+          next
+        end
         begin
           Movie.search!(code).resources.create!(download_uri: uri, note: 'Password: https://www.myhd1080.tv')
+          loaded << code
         rescue ActiveRecord::RecordNotFound, ActiveRecord::RecordInvalid
-          unrecognized << code
+          failed << code
         end
       end
-      puts "#{unrecognized.size} unrecognized:"
-      puts unrecognized
+      puts "#{duplicate.size} duplicate: #{duplicate}"
+      puts "#{loaded.size} loaded: #{loaded}"
+      puts "#{failed.size} failed: #{failed}"
     end
   end
 
