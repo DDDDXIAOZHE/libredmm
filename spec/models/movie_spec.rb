@@ -1,11 +1,20 @@
 require 'rails_helper'
 
 RSpec.describe Movie, type: :model do
-  it 'has only non-obsolete resources' do
+  it 'has resources' do
     movie = create :movie
     resource = create :resource, movie: movie
-    create :resource, movie: movie, is_obsolete: true
-    expect(movie.resources.all).to eq([resource])
+    obsolete_resource = create :resource, movie: movie, is_obsolete: true
+    expect(movie.resources).to include(resource)
+    expect(movie.resources).not_to include(obsolete_resource)
+  end
+
+  it 'has obsolete resources' do
+    movie = create :movie
+    resource = create :resource, movie: movie
+    obsolete_resource = create :resource, movie: movie, is_obsolete: true
+    expect(movie.obsolete_resources).not_to include(resource)
+    expect(movie.obsolete_resources).to include(obsolete_resource)
   end
 
   context 'on destroy' do
@@ -299,16 +308,19 @@ RSpec.describe Movie, type: :model do
         @baidu_pan_uri = 'http://pan.baidu.com/s/xxx'
       end
 
-      it 'matches pan.baidu.com' do
-        baidu_pan_resource = create :resource, download_uri: @baidu_pan_uri
-        create :movie
-        create :resource
-        expect(Movie.with_baidu_pan_resources.all).to eq([baidu_pan_resource.movie])
+      it 'includes movies with resources from pan.baidu.com' do
+        resource = create :resource, download_uri: @baidu_pan_uri
+        expect(Movie.with_baidu_pan_resources).to include(resource.movie)
+      end
+
+      it 'excludes movies with other resources' do
+        resource = create :resource
+        expect(Movie.with_baidu_pan_resources).not_to include(resource.movie)
       end
 
       it 'ignores obsolete resources' do
-        create :resource, download_uri: @baidu_pan_uri, is_obsolete: true
-        expect(Movie.with_baidu_pan_resources.all).not_to exist
+        resource = create :resource, download_uri: @baidu_pan_uri, is_obsolete: true
+        expect(Movie.with_baidu_pan_resources).not_to include(resource.movie)
       end
     end
 
@@ -317,22 +329,24 @@ RSpec.describe Movie, type: :model do
         @torrent_uri = 'http://www.libredmm.com/xxx.torrent'
       end
 
-      it 'matches .torrent' do
-        bt_resource = create :resource, download_uri: @torrent_uri
-        create :movie
-        create :resource
-        expect(Movie.with_bt_resources.all).to eq([bt_resource.movie])
+      it 'includes movies with resources with uri ends with .torrent' do
+        resource = create :resource, download_uri: @torrent_uri
+        expect(Movie.with_bt_resources).to include(resource.movie)
       end
 
-      it 'only matches .torrent at the end of uri' do
-        bt_resource = create :resource, download_uri: @torrent_uri
-        create :resource, download_uri: @torrent_uri + '/suffix'
-        expect(Movie.with_bt_resources.all).to eq([bt_resource.movie])
+      it 'excludes movies with resources with .torrent in the middle of uri' do
+        resource = create :resource, download_uri: 'http://www.libredmm.com/torrent/xxx'
+        expect(Movie.with_bt_resources).not_to include(resource.movie)
+      end
+
+      it 'excludes movies with other resources' do
+        resource = create :resource
+        expect(Movie.with_baidu_pan_resources).not_to include(resource.movie)
       end
 
       it 'ignores obsolete resources' do
-        create :resource, download_uri: @torrent_uri, is_obsolete: true
-        expect(Movie.with_baidu_pan_resources.all).not_to exist
+        resource = create :resource, download_uri: @torrent_uri, is_obsolete: true
+        expect(Movie.with_baidu_pan_resources).not_to include(resource.movie)
       end
     end
 
@@ -366,8 +380,13 @@ RSpec.describe Movie, type: :model do
         @downvote = create :vote, user: @user, status: :down
       end
 
-      it 'voted_by excludes bookmarks' do
-        expect(Movie.voted_by(@user).all).to eq([@upvote.movie, @downvote.movie])
+      it 'includes upvoted and downvoted movies' do
+        expect(Movie.voted_by(@user).all).to include(@upvote.movie)
+        expect(Movie.voted_by(@user).all).to include(@downvote.movie)
+      end
+
+      it 'excludes bookmarked movies' do
+        expect(Movie.voted_by(@user).all).not_to include(@bookmark.movie)
       end
 
       it 'nil does not exist' do
@@ -422,57 +441,57 @@ RSpec.describe Movie, type: :model do
     describe 'fuzzy_match' do
       it 'matches actress' do
         movie = create :movie, actresses: ['ACTRESS STUB']
-        expect(Movie.fuzzy_match('actress').all).to eq([movie])
+        expect(Movie.fuzzy_match('actress')).to include(movie)
       end
 
       it 'matches actress type' do
         movie = create :movie, actress_types: ['ACTRESS TYPE STUB']
-        expect(Movie.fuzzy_match('actress type').all).to eq([movie])
+        expect(Movie.fuzzy_match('actress type')).to include(movie)
       end
 
       it 'matches category' do
         movie = create :movie, categories: ['CATEGORY STUB']
-        expect(Movie.fuzzy_match('category').all).to eq([movie])
+        expect(Movie.fuzzy_match('category')).to include(movie)
       end
 
       it 'matches code' do
         movie = create :movie, code: 'CODE-001'
-        expect(Movie.fuzzy_match('code').all).to eq([movie])
+        expect(Movie.fuzzy_match('code')).to include(movie)
       end
 
       it 'matches director' do
         movie = create :movie, directors: ['DIRECTOR STUB']
-        expect(Movie.fuzzy_match('director').all).to eq([movie])
+        expect(Movie.fuzzy_match('director')).to include(movie)
       end
 
       it 'matches genre' do
         movie = create :movie, genres: ['GENRE STUB']
-        expect(Movie.fuzzy_match('genre').all).to eq([movie])
+        expect(Movie.fuzzy_match('genre')).to include(movie)
       end
 
       it 'matches label' do
         movie = create :movie, genres: ['LABEL STUB']
-        expect(Movie.fuzzy_match('label').all).to eq([movie])
+        expect(Movie.fuzzy_match('label')).to include(movie)
       end
 
       it 'matches maker' do
         movie = create :movie, maker: 'MAKER STUB'
-        expect(Movie.fuzzy_match('maker').all).to eq([movie])
+        expect(Movie.fuzzy_match('maker')).to include(movie)
       end
 
       it 'matches series' do
         movie = create :movie, series: 'SERIES STUB'
-        expect(Movie.fuzzy_match('series').all).to eq([movie])
+        expect(Movie.fuzzy_match('series')).to include(movie)
       end
 
       it 'matches tags' do
         movie = create :movie, tags: ['TAG STUB']
-        expect(Movie.fuzzy_match('tag').all).to eq([movie])
+        expect(Movie.fuzzy_match('tag')).to include(movie)
       end
 
       it 'matches title' do
         movie = create :movie, title: 'TITLE STUB'
-        expect(Movie.fuzzy_match('title').all).to eq([movie])
+        expect(Movie.fuzzy_match('title')).to include(movie)
       end
     end
 
