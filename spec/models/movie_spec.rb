@@ -376,28 +376,28 @@ RSpec.describe Movie, type: :model do
     end
 
     describe 'not_voted_by' do
-      it 'includes movies without vote' do
+      it 'includes movies without votes' do
         user = create :user
         movie = create :movie
-        expect(Movie.not_voted_by(user).all).to eq([movie])
+        expect(Movie.not_voted_by(user)).to include(movie)
       end
 
       it 'excludes voted movies' do
         user = create :user
-        create :vote, user: user
-        expect(Movie.not_voted_by(user).all).to eq([])
+        vote = create :vote, user: user
+        expect(Movie.not_voted_by(user)).not_to include(vote.movie)
       end
 
       it 'excludes bookmarked movies' do
         user = create :user
-        create :vote, user: user, status: :bookmark
-        expect(Movie.not_voted_by(user).all).to eq([])
+        vote = create :vote, user: user, status: :bookmark
+        expect(Movie.not_voted_by(user)).not_to include(vote.movie)
       end
 
       it 'includes movies only voted by other' do
         user = create :user
         vote = create :vote
-        expect(Movie.not_voted_by(user).all).to eq([vote.movie])
+        expect(Movie.not_voted_by(user)).to include(vote.movie)
       end
 
       it 'excludes movies also voted by other' do
@@ -405,11 +405,17 @@ RSpec.describe Movie, type: :model do
         movie = create :movie
         create :vote, user: user, movie: movie
         create :vote, movie: movie
-        expect(Movie.not_voted_by(user).all).to eq([])
+        expect(Movie.not_voted_by(user)).not_to include(movie)
       end
 
-      it 'nil returns all movies' do
-        expect(Movie.not_voted_by(nil).count).to eq(Movie.count)
+      it 'nil includes movies without votes' do
+        movie = create :movie
+        expect(Movie.not_voted_by(nil)).to include(movie)
+      end
+
+      it 'nil includes voted movies' do
+        vote = create :vote
+        expect(Movie.not_voted_by(nil)).to include(vote.movie)
       end
     end
 
