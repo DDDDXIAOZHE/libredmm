@@ -36,18 +36,67 @@ RSpec.describe Resource, type: :model do
 
   context 'scope' do
     describe 'in_baidu_pan' do
-      it 'includes only resources with pan.baidu.com in url' do
-        baidu_pan_resource = create :resource, download_uri: 'http://pan.baidu.com/s/xxx'
-        create :resource
-        expect(Resource.in_baidu_pan.all).to eq([baidu_pan_resource])
+      it 'includes resources with pan.baidu.com in url' do
+        resource = create :resource, download_uri: 'http://pan.baidu.com/s/xxx'
+        expect(Resource.in_baidu_pan).to include(resource)
+      end
+
+      it 'exclude other resources' do
+        resource = create :resource
+        expect(Resource.in_baidu_pan).not_to include(resource)
       end
     end
 
     describe 'in_bt' do
-      it 'includes only resources with url ends with .torrent' do
-        bt_resource = create :resource, download_uri: 'http://www.libredmm.com/xxx.torrent'
-        create :resource
-        expect(Resource.in_bt.all).to eq([bt_resource])
+      it 'includes resources with url ends with .torrent' do
+        resource = create :resource, download_uri: 'http://www.libredmm.com/xxx.torrent'
+        expect(Resource.in_bt).to include(resource)
+      end
+
+      it 'exclude other resources' do
+        resource = create :resource
+        expect(Resource.in_baidu_pan).not_to include(resource)
+      end
+    end
+
+    describe 'not_voted_by' do
+      it 'includes resources of movies without vote' do
+        user = create :user
+        resource = create :resource
+        expect(Resource.not_voted_by(user)).to include(resource)
+      end
+
+      it 'excludes resources of voted movies' do
+        user = create :user
+        resource = create :resource
+        create :vote, user: user, movie: resource.movie
+        expect(Resource.not_voted_by(user)).not_to include(resource)
+      end
+
+      it 'includes resources of movies only voted by other' do
+        user = create :user
+        resource = create :resource
+        vote = create :vote, movie: resource.movie
+        expect(Resource.not_voted_by(user)).to include(resource)
+      end
+
+      it 'excludes resources of movies also voted by other' do
+        user = create :user
+        resource = create :resource
+        create :vote, user: user, movie: resource.movie
+        create :vote, movie: resource.movie
+        expect(Resource.not_voted_by(user)).not_to include(resource)
+      end
+
+      it 'nil includes resources of movies without votes' do
+        resource = create :resource
+        expect(Resource.not_voted_by(nil)).to include(resource)
+      end
+
+      it 'nil includes resources of voted movies' do
+        resource = create :resource
+        create :vote, movie: resource.movie
+        expect(Resource.not_voted_by(nil)).to include(resource)
       end
     end
   end
