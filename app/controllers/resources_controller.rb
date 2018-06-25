@@ -5,12 +5,14 @@ class ResourcesController < ApplicationController
     end
   end
 
+  # GET /resources/1
   def show
     @resource = Resource.find(params[:id])
     @resource.movie.votes.create(user: current_user, status: :bookmark)
     redirect_to @resource.download_uri
   end
 
+  # DELETE /resources/1
   def destroy
     @resource = Resource.find(params[:id])
     @resource.update(is_obsolete: true)

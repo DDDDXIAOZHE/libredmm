@@ -1,6 +1,7 @@
 require 'open-uri'
 
 class RssController < ApplicationController
+  # GET /users/foo@bar.com/pipe.rss
   def pipe
     @user = User.find_by_email!(params[:user_email])
     xml = Nokogiri::XML(open(params[:src]))

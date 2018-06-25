@@ -1,4 +1,5 @@
 class PagesController < ApplicationController
+  # GET /search
   def search
     redirect_to Movie.search!(params[:q])
   rescue ActiveRecord::RecordNotFound
