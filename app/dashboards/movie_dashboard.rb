@@ -1,4 +1,4 @@
-require "administrate/base_dashboard"
+require 'administrate/base_dashboard'
 
 class MovieDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
@@ -10,7 +10,7 @@ class MovieDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     votes: Field::HasMany,
     resources: Field::HasMany,
-    obsolete_resources: Field::HasMany.with_options(class_name: "Resource"),
+    obsolete_resources: Field::HasMany.with_options(class_name: 'Resource'),
     id: Field::Number,
     actresses: Field::String,
     actress_types: Field::String,
@@ -39,65 +39,65 @@ class MovieDashboard < Administrate::BaseDashboard
   #
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
-  COLLECTION_ATTRIBUTES = [
-    :id,
-    :code,
-    :title,
-    :resources,
-    :votes,
+  COLLECTION_ATTRIBUTES = %i[
+    id
+    code
+    title
+    resources
+    votes
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
-  SHOW_PAGE_ATTRIBUTES = [
-    :votes,
-    :resources,
-    :obsolete_resources,
-    :id,
-    :actresses,
-    :actress_types,
-    :categories,
-    :code,
-    :cover_image,
-    :description,
-    :directors,
-    :genres,
-    :label,
-    :maker,
-    :movie_length,
-    :page,
-    :sample_images,
-    :series,
-    :tags,
-    :thumbnail_image,
-    :title,
-    :created_at,
-    :updated_at,
-    :release_date,
+  SHOW_PAGE_ATTRIBUTES = %i[
+    votes
+    resources
+    obsolete_resources
+    id
+    actresses
+    actress_types
+    categories
+    code
+    cover_image
+    description
+    directors
+    genres
+    label
+    maker
+    movie_length
+    page
+    sample_images
+    series
+    tags
+    thumbnail_image
+    title
+    created_at
+    updated_at
+    release_date
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
-  FORM_ATTRIBUTES = [
-    :actresses,
-    :actress_types,
-    :categories,
-    :code,
-    :cover_image,
-    :description,
-    :directors,
-    :genres,
-    :label,
-    :maker,
-    :movie_length,
-    :page,
-    :sample_images,
-    :series,
-    :tags,
-    :thumbnail_image,
-    :title,
-    :release_date,
+  FORM_ATTRIBUTES = %i[
+    actresses
+    actress_types
+    categories
+    code
+    cover_image
+    description
+    directors
+    genres
+    label
+    maker
+    movie_length
+    page
+    sample_images
+    series
+    tags
+    thumbnail_image
+    title
+    release_date
   ].freeze
 
   # Overwrite this method to customize how movies are displayed

@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     resources :users
     resources :votes
 
-    root to: "movies#index"
+    root to: 'movies#index'
   end
 
   root 'pages#index'

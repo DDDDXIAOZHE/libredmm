@@ -1,4 +1,4 @@
-require "administrate/base_dashboard"
+require 'administrate/base_dashboard'
 
 class ResourceDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
@@ -23,35 +23,35 @@ class ResourceDashboard < Administrate::BaseDashboard
   #
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
-  COLLECTION_ATTRIBUTES = [
-    :movie,
-    :id,
-    :download_uri,
-    :source_uri,
+  COLLECTION_ATTRIBUTES = %i[
+    movie
+    id
+    download_uri
+    source_uri
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
-  SHOW_PAGE_ATTRIBUTES = [
-    :movie,
-    :id,
-    :download_uri,
-    :source_uri,
-    :note,
-    :created_at,
-    :updated_at,
-    :is_obsolete,
+  SHOW_PAGE_ATTRIBUTES = %i[
+    movie
+    id
+    download_uri
+    source_uri
+    note
+    created_at
+    updated_at
+    is_obsolete
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
-  FORM_ATTRIBUTES = [
-    :movie,
-    :download_uri,
-    :source_uri,
-    :note,
-    :is_obsolete,
+  FORM_ATTRIBUTES = %i[
+    movie
+    download_uri
+    source_uri
+    note
+    is_obsolete
   ].freeze
 
   # Overwrite this method to customize how resources are displayed
