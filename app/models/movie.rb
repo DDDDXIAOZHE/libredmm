@@ -100,6 +100,10 @@ class Movie < ApplicationRecord
     super(date.is_a?(String) ? Chronic.parse(date).try(:to_date) : date)
   end
 
+  def full_name
+    "#{code} #{title}"
+  end
+
   def to_param
     code
   end

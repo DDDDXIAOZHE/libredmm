@@ -1,27 +1,27 @@
 require 'rails_helper'
 
 RSpec.describe 'Rss', type: :request do
-  before :each do
-    @user = create :user
-    @movie = create :movie
-    @feed = %(
-      <rss>
-        <channel>
-          <title>Foobar</title>
-          <item>
-            <title>#{@movie.code}</title>
-          </item>
-          <item>
-            <title>#{generate :code}</title>
-          </item>
-        </channel>
-      </rss>
-    )
-    @feed_uri = 'http://foo.com/bar.rss'
-    @feed_stub = stub_request(:any, /foo\.com\/bar\.rss/).to_return(body: @feed)
-  end
-
   describe 'GET /users/:user_email/pipe.rss' do
+    before :each do
+      @user = create :user
+      @movie = create :movie
+      @feed = %(
+        <rss>
+          <channel>
+            <title>Foobar</title>
+            <item>
+              <title>#{@movie.code}</title>
+            </item>
+            <item>
+              <title>#{generate :code}</title>
+            </item>
+          </channel>
+        </rss>
+      )
+      @feed_uri = 'http://foo.com/bar.rss'
+      @feed_stub = stub_request(:any, /foo\.com\/bar\.rss/).to_return(body: @feed)
+    end
+
     it 'works' do
       get "/users/#{@user.email}/pipe.rss?src=#{CGI.escape(@feed_uri)}"
       expect(response).to have_http_status(200)
@@ -38,6 +38,17 @@ RSpec.describe 'Rss', type: :request do
     it 'works when movie not found' do
       stub_request(:any, /api\.libredmm\.com\/search\?q=/).to_return(status: 404)
       get "/users/#{@user.email}/pipe.rss?src=#{CGI.escape(@feed_uri)}"
+      expect(response).to have_http_status(200)
+    end
+  end
+
+  describe 'GET /users/:user_email/torrents.rss' do
+    before :each do
+      @user = create :user
+    end
+
+    it 'works' do
+      get "/users/#{@user.email}/torrents.rss"
       expect(response).to have_http_status(200)
     end
   end

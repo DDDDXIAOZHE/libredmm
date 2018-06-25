@@ -22,5 +22,6 @@ Rails.application.routes.draw do
     get 'votes.codes', to: 'votes#index', format: false
     get 'votes.user.js', to: 'votes#index', format: false
     get 'pipe.rss', to: 'rss#pipe', format: false
+    get 'torrents.rss', to: 'rss#torrents', format: false
   end
 end

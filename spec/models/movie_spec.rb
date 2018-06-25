@@ -17,6 +17,18 @@ RSpec.describe Movie, type: :model do
     expect(movie.obsolete_resources).to include(obsolete_resource)
   end
 
+  context 'full_name' do
+    it 'contains code' do
+      movie = create :movie
+      expect(movie.full_name).to include(movie.code)
+    end
+
+    it 'contains title' do
+      movie = create :movie
+      expect(movie.full_name).to include(movie.title)
+    end
+  end
+
   context 'on destroy' do
     it 'destroys all votes' do
       vote = create :vote
