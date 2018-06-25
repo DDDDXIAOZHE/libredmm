@@ -4,17 +4,19 @@ namespace :votes do
   desc 'load votes'
   task :load, %i[email vote uri] => :environment do |_, args|
     user = User.find_by_email!(args[:email])
-    unrecognized = []
+    voted = []
+    failed = []
     open(args[:uri]).each do |code|
       begin
         code.strip!
         movie = Movie.search!(code)
-        vote = movie.votes.create(user: user, status: args[:vote])
+        movie.votes.create(user: user, status: args[:vote])
+        voted << movie.code
       rescue ActiveRecord::RecordNotFound
-        unrecognized << code
+        failed << code
       end
     end
-    puts "#{unrecognized.size} unrecognized:"
-    puts unrecognized
+    puts "#{voted.size} voted: #{voted}"
+    puts "#{failed.size} failed: #{failed}"
   end
 end

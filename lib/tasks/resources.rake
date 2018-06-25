@@ -17,8 +17,9 @@ namespace :resources do
           next
         end
         begin
-          Movie.search!(code).resources.create!(download_uri: uri, note: 'Password: https://www.myhd1080.tv')
-          loaded << code
+          movie = Movie.search!(code)
+          movie.resources.create!(download_uri: uri, note: 'Password: https://www.myhd1080.tv')
+          loaded << movie.code
         rescue ActiveRecord::RecordNotFound, ActiveRecord::RecordInvalid
           failed << code
         end
@@ -33,6 +34,7 @@ namespace :resources do
     desc 'obsolete bt resources'
     task :bt, %i[email dump_uri] => :environment do |_, args|
       user = User.find_by_email!(args[:email])
+      obsoleted = []
       failed = []
       open(args[:dump_uri]).each do |code|
         begin
@@ -40,12 +42,13 @@ namespace :resources do
           movie = Movie.search!(code)
           movie.resources.in_bt.update_all(is_obsolete: true)
           Vote.where(user: user, movie: movie, status: :bookmark).destroy_all
+          obsoleted << movie.code
         rescue ActiveRecord::RecordNotFound
           failed << code
         end
       end
-      puts "#{failed.size} failed:"
-      puts failed
+      puts "#{obsoleted.size} obsoleted: #{obsoleted}"
+      puts "#{failed.size} failed: #{failed}"
     end
   end
 end
