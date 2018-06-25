@@ -36,8 +36,8 @@ RSpec.describe Resource, type: :model do
 
   context 'scope' do
     describe 'in_baidu_pan' do
-      it 'includes resources with pan.baidu.com in url' do
-        resource = create :resource, download_uri: 'http://pan.baidu.com/s/xxx'
+      it 'includes resources with baidu pan url' do
+        resource = create :resource, download_uri: generate(:baidu_pan_uri)
         expect(Resource.in_baidu_pan).to include(resource)
       end
 
@@ -48,8 +48,8 @@ RSpec.describe Resource, type: :model do
     end
 
     describe 'in_bt' do
-      it 'includes resources with url ends with .torrent' do
-        resource = create :resource, download_uri: 'http://www.libredmm.com/xxx.torrent'
+      it 'includes resources with .torrent url' do
+        resource = create :resource, download_uri: generate(:torrent_uri)
         expect(Resource.in_bt).to include(resource)
       end
 

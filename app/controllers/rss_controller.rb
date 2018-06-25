@@ -20,6 +20,6 @@ class RssController < ApplicationController
   # GET /users/foo@bar.com/torrents.rss
   def torrents
     @user = User.find_by_email!(params[:user_email])
-    @torrents = Resource.not_voted_by(@user).order(created_at: :desc).limit(params.fetch(:limit, 20))
+    @torrents = Resource.in_bt.not_voted_by(@user).order(created_at: :desc).limit(params.fetch(:limit, 20))
   end
 end
