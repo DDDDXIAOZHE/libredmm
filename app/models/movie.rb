@@ -107,4 +107,21 @@ class Movie < ApplicationRecord
   def to_param
     code
   end
+
+  def normalize_code!
+    new_code = code.gsub(/^(\w+)-0*(\d{3,})/, '\1-\2')
+    return if new_code == code
+    dup = Movie.find_by(code: new_code)
+    if dup
+      merge_to!(dup)
+    else
+      update!(code: new_code)
+    end
+  end
+
+  def merge_to!(movie)
+    Vote.where(movie: self).update_all(movie_id: movie.id)
+    Resource.where(movie: self).update_all(movie_id: movie.id)
+    destroy!
+  end
 end

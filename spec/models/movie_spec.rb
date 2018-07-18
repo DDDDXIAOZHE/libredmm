@@ -17,7 +17,7 @@ RSpec.describe Movie, type: :model do
     expect(movie.obsolete_resources).to include(obsolete_resource)
   end
 
-  context 'full_name' do
+  describe '.full_name' do
     it 'contains code' do
       movie = create :movie
       expect(movie.full_name).to include(movie.code)
@@ -26,6 +26,79 @@ RSpec.describe Movie, type: :model do
     it 'contains title' do
       movie = create :movie
       expect(movie.full_name).to include(movie.title)
+    end
+  end
+
+  describe '.normalize_code!' do
+    context 'on short code' do
+      it 'does nothing' do
+        movie = create :movie, code: "CODE-020"
+        expect {
+          movie.normalize_code!
+        }.not_to change {
+          movie.code
+        }
+      end
+    end
+
+    context 'on long code without leading zero' do
+      it 'does nothing' do
+        movie = create :movie, code: "CODE-12345"
+        expect {
+          movie.normalize_code!
+        }.not_to change {
+          movie.code
+        }
+      end
+    end
+
+    context 'on long code with leading zero' do
+      it 'removes leading zero' do
+        movie = create :movie, code: "CODE-00123"
+        expect {
+          movie.normalize_code!
+        }.to change {
+          movie.code
+        }.to("CODE-123")
+      end
+
+      context 'on duplicate' do
+        it 'merges movies' do
+          movie = create :movie, code: "CODE-00123"
+          dup = create :movie, code: "CODE-123"
+          movie.normalize_code!
+          expect(movie).to be_destroyed
+        end
+      end
+    end
+  end
+
+  describe '.merge_to!' do
+    it 'merges votes' do
+      vote = create :vote
+      new_movie = create :movie
+      expect {
+        vote.movie.merge_to!(new_movie)
+      }.to change {
+        vote.reload.movie
+      }.to(new_movie)
+    end
+
+    it 'merges resources' do
+      resource = create :resource
+      new_movie = create :movie
+      expect {
+        resource.movie.merge_to!(new_movie)
+      }.to change {
+        resource.reload.movie
+      }.to(new_movie)
+    end
+
+    it 'destroy itself' do
+      movie = create :movie
+      new_movie = create :movie
+      movie.merge_to!(new_movie)
+      expect(movie).to be_destroyed
     end
   end
 
@@ -58,100 +131,102 @@ RSpec.describe Movie, type: :model do
     end
   end
 
-  context 'searching code in db' do
-    before :each do
-      @movie = create :movie
-    end
+  describe '#search' do
+    context 'for code in db' do
+      before :each do
+        @movie = create :movie
+      end
 
-    it 'returns existing movie' do
-      expect(Movie.search!(@movie.code)).to eq(@movie)
-    end
-
-    it 'ignores cases' do
-      expect(Movie.search!(@movie.code.downcase)).to eq(@movie)
-      expect(Movie.search!(@movie.code.upcase)).to eq(@movie)
-    end
-
-    it 'allows extra digits at beginning' do
-      movie = create :movie, code: '300MIUM-059'
-      expect(Movie.search!('MIUM-059')).to eq(movie)
-    end
-
-    it 'does not allows extra letters at beginning' do
-      create :movie, code: 'AMIUM-059'
-      movie = create :movie, code: '300MIUM-059'
-      expect(Movie.search!('MIUM-059')).to eq(movie)
-    end
-
-    it 'does not allow extra digits at end' do
-      create :movie, code: 'LIBRE-1000'
-      movie = create :movie, code: 'LIBRE-100'
-      expect(Movie.search!('LIBRE-100')).to eq(movie)
-    end
-  end
-
-  context 'searching code not in db' do
-    it 'creates movie' do
-      expect {
-        Movie.search!(generate(:code))
-      }.to change {
-        Movie.count
-      }.by(1)
-    end
-
-    it 'searches details via api' do
-      Movie.search!(generate(:code))
-      expect(@api_stub).to have_been_requested
-    end
-
-    it 'removes non-ascii characters when searching' do
-      Movie.search!('敏abc感123词')
-      expect(a_request(:get, 'api.libredmm.com/search?q=abc%20123')).to have_been_made
-    end
-
-    context 'when api returns movie already in db' do
       it 'returns existing movie' do
-        movie = create(:movie)
-        stub_request(:any, /api\.libredmm\.com\/search\?q=/).to_return(
-          body: lambda { |_|
-            {
-              Code: movie.code,
-              CoverImage: 'https://dummyimage.com/800',
-              Page: 'https://dummyimage.com/',
-              Title: 'Dummy Movie',
-            }.to_json
-          },
-        )
-        expect(Movie.search!(generate(:code))).to eq(movie)
+        expect(Movie.search!(@movie.code)).to eq(@movie)
+      end
+
+      it 'ignores cases' do
+        expect(Movie.search!(@movie.code.downcase)).to eq(@movie)
+        expect(Movie.search!(@movie.code.upcase)).to eq(@movie)
+      end
+
+      it 'allows extra digits at beginning' do
+        movie = create :movie, code: '300MIUM-059'
+        expect(Movie.search!('MIUM-059')).to eq(movie)
+      end
+
+      it 'does not allows extra letters at beginning' do
+        create :movie, code: 'AMIUM-059'
+        movie = create :movie, code: '300MIUM-059'
+        expect(Movie.search!('MIUM-059')).to eq(movie)
+      end
+
+      it 'does not allow extra digits at end' do
+        create :movie, code: 'LIBRE-1000'
+        movie = create :movie, code: 'LIBRE-100'
+        expect(Movie.search!('LIBRE-100')).to eq(movie)
       end
     end
 
-    context 'when api returns non-ok code' do
-      it 'raises RecordNotFound' do
-        stub_request(:any, /api\.libredmm\.com\/search\?q=/).to_return(status: 404)
+    context 'for code not in db' do
+      it 'creates movie' do
         expect {
           Movie.search!(generate(:code))
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        }.to change {
+          Movie.count
+        }.by(1)
       end
-    end
 
-    context 'when api returns invalid attrs' do
-      it 'raises RecordNotFound' do
-        stub_request(:any, /api\.libredmm\.com\/search\?q=/).to_return(
-          body: lambda { |_|
-            {
-              Code: '',
-            }.to_json
-          },
-        )
-        expect {
-          Movie.search!(generate(:code))
-        }.to raise_error(ActiveRecord::RecordNotFound)
+      it 'searches details via api' do
+        Movie.search!(generate(:code))
+        expect(@api_stub).to have_been_requested
+      end
+
+      it 'removes non-ascii characters when searching' do
+        Movie.search!('敏abc感123词')
+        expect(a_request(:get, 'api.libredmm.com/search?q=abc%20123')).to have_been_made
+      end
+
+      context 'when api returns movie already in db' do
+        it 'returns existing movie' do
+          movie = create(:movie)
+          stub_request(:any, /api\.libredmm\.com\/search\?q=/).to_return(
+            body: lambda { |_|
+              {
+                Code: movie.code,
+                CoverImage: 'https://dummyimage.com/800',
+                Page: 'https://dummyimage.com/',
+                Title: 'Dummy Movie',
+              }.to_json
+            },
+          )
+          expect(Movie.search!(generate(:code))).to eq(movie)
+        end
+      end
+
+      context 'when api returns non-ok code' do
+        it 'raises RecordNotFound' do
+          stub_request(:any, /api\.libredmm\.com\/search\?q=/).to_return(status: 404)
+          expect {
+            Movie.search!(generate(:code))
+          }.to raise_error(ActiveRecord::RecordNotFound)
+        end
+      end
+
+      context 'when api returns invalid attrs' do
+        it 'raises RecordNotFound' do
+          stub_request(:any, /api\.libredmm\.com\/search\?q=/).to_return(
+            body: lambda { |_|
+              {
+                Code: '',
+              }.to_json
+            },
+          )
+          expect {
+            Movie.search!(generate(:code))
+          }.to raise_error(ActiveRecord::RecordNotFound)
+        end
       end
     end
   end
 
-  context 'creating' do
+  context 'on create' do
     it 'requires a code' do
       expect {
         create(:movie, code: '')
@@ -202,7 +277,7 @@ RSpec.describe Movie, type: :model do
     end
   end
 
-  context 'refreshing' do
+  describe '.refresh' do
     before :each do
       @movie = create :movie
     end
