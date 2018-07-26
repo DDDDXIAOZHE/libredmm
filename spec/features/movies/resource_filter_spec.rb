@@ -60,10 +60,17 @@ RSpec.feature 'List movies with resource filter', type: :feature do
     end
   end
 
-  context 'baidu' do
+  context 'baidu_pan' do
     scenario 'when signed in as admin' do
-      visit movies_url(resource: 'baidu', as: @admin)
+      visit movies_url(resource: 'baidu_pan', as: @admin)
       expect(page).to have_selector('.movie', count: Movie.with_baidu_pan_resources.count)
+    end
+  end
+
+  context 'baidu_pan_only' do
+    scenario 'when signed in as admin' do
+      visit movies_url(resource: 'baidu_pan_only', as: @admin)
+      expect(page).to have_selector('.movie', count: Movie.with_baidu_pan_resources.without_bt_resources.count)
     end
   end
 

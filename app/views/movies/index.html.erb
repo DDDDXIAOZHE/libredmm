@@ -18,7 +18,7 @@
         <% if current_user.is_admin? %>
           <div class="btn-toolbar mb-3">
             <div id="resourceNav" class="btn-group mr-2" role="group">
-              <% { all: 'All', any: 'Any Resource', baidu: 'Baidu Pan', bt: 'BT', none: 'No Resource' }.each do |resource, text| %>
+              <% { all: 'All', any: 'Any Resource', baidu_pan: 'Baidu Pan', baidu_pan_only: 'Baidu Pan Only', bt: 'BT', none: 'No Resource' }.each do |resource, text| %>
                 <%= link_to(
                   text,
                   request.params.merge(resource: resource),

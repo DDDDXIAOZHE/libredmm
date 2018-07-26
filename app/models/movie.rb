@@ -19,6 +19,9 @@ class Movie < ApplicationRecord
       includes(:resources).where(resources: { is_obsolete: true })
     )
   }
+  scope :without_bt_resources, -> {
+    where.not(id: with_bt_resources)
+  }
 
   scope :bookmarked_by, ->(user) {
     includes(:votes).where(votes: { user: user, status: :bookmark })
