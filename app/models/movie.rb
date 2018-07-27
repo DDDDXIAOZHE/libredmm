@@ -20,7 +20,7 @@ class Movie < ApplicationRecord
     )
   }
   scope :without_bt_resources, -> {
-    where.not(id: with_bt_resources)
+    where.not(id: Movie.unscoped.with_bt_resources)
   }
 
   scope :bookmarked_by, ->(user) {

@@ -439,14 +439,15 @@ RSpec.describe Movie, type: :model do
 
     describe 'without_bt_resources' do
       before :each do
+        @baidu_pan_uri = 'http://pan.baidu.com/s/xxx'
         @torrent_uri = 'http://www.libredmm.com/xxx.torrent'
       end
 
       it 'excludes movies with resources with uri ends with .torrent' do
         movie = create :movie
-        create :resource, movie: movie
+        create :resource, movie: movie, download_uri: @baidu_pan_uri
         create :resource, movie: movie, download_uri: @torrent_uri
-        expect(Movie.without_bt_resources).not_to include(movie)
+        expect(Movie.with_baidu_pan_resources.without_bt_resources).not_to include(movie)
       end
 
       it 'includes movies with resources with .torrent in the middle of uri' do
