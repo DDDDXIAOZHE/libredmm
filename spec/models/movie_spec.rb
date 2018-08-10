@@ -366,37 +366,9 @@ RSpec.describe Movie, type: :model do
       end
     end
 
-    describe 'without_resources' do
-      it 'includes movies with no resource' do
-        movie = create :movie
-        expect(Movie.without_resources).to include(movie)
-      end
-
-      it 'includes movies with only obsolete resources' do
-        obsolete_resource = create :resource, is_obsolete: true
-        expect(Movie.without_resources).to include(obsolete_resource.movie)
-      end
-
-      it 'excludes movies with only valid resources' do
-        resource = create :resource
-        expect(Movie.without_resources).not_to include(resource.movie)
-      end
-
-      it 'excludes movies with both valid and obsolete resources' do
-        movie = create :movie
-        create :resource, movie: movie
-        create :resource, movie: movie, is_obsolete: true
-        expect(Movie.without_resources).not_to include(movie)
-      end
-    end
-
     describe 'with_baidu_pan_resources' do
-      before :each do
-        @baidu_pan_uri = 'http://pan.baidu.com/s/xxx'
-      end
-
       it 'includes movies with resources from pan.baidu.com' do
-        resource = create :resource, download_uri: @baidu_pan_uri
+        resource = create :resource, download_uri: generate(:baidu_pan_uri)
         expect(Movie.with_baidu_pan_resources).to include(resource.movie)
       end
 
@@ -405,19 +377,53 @@ RSpec.describe Movie, type: :model do
         expect(Movie.with_baidu_pan_resources).not_to include(resource.movie)
       end
 
-      it 'ignores obsolete resources' do
-        resource = create :resource, download_uri: @baidu_pan_uri, is_obsolete: true
-        expect(Movie.with_baidu_pan_resources).not_to include(resource.movie)
+      it 'excludes movies with obsolete baidu pan resources' do
+        movie = create :movie
+        create :resource, movie: movie, download_uri: generate(:baidu_pan_uri), is_obsolete: true
+        expect(Movie.with_baidu_pan_resources).not_to include(movie)
+      end
+
+      it 'excludes movies with obsolete baidu pan resources and valid other resource' do
+        movie = create :movie
+        create :resource, movie: movie, download_uri: generate(:baidu_pan_uri), is_obsolete: true
+        create :resource, movie: movie, download_uri: generate(:torrent_uri)
+        expect(Movie.with_baidu_pan_resources).not_to include(movie)
+      end
+    end
+
+    describe 'without_baidu_pan_resources' do
+      it 'excludes movies with resources from pan.baidu.com' do
+        movie = create :movie
+        create :resource, movie: movie, download_uri: generate(:baidu_pan_uri)
+        expect(Movie.without_baidu_pan_resources.without_bt_resources).not_to include(movie)
+      end
+
+      it 'excludes movies with resources from pan.baidu.com and other resources' do
+        movie = create :movie
+        create :resource, movie: movie, download_uri: generate(:baidu_pan_uri)
+        create :resource, movie: movie
+        expect(Movie.without_baidu_pan_resources.without_bt_resources).not_to include(movie)
+      end
+
+      it 'includes movies with only other resources' do
+        resource = create :resource
+        expect(Movie.without_baidu_pan_resources).to include(resource.movie)
+      end
+
+      it 'includes movies with no resource' do
+        movie = create :movie
+        expect(Movie.without_baidu_pan_resources).to include(movie)
+      end
+
+      it 'includes movies with obsolete baidu pan resources' do
+        resource = create :resource, download_uri: generate(:baidu_pan_uri), is_obsolete: true
+        expect(Movie.without_baidu_pan_resources).to include(resource.movie)
       end
     end
 
     describe 'with_bt_resources' do
-      before :each do
-        @torrent_uri = 'http://www.libredmm.com/xxx.torrent'
-      end
-
       it 'includes movies with resources with uri ends with .torrent' do
-        resource = create :resource, download_uri: @torrent_uri
+        resource = create :resource, download_uri: generate(:torrent_uri)
         expect(Movie.with_bt_resources).to include(resource.movie)
       end
 
@@ -431,23 +437,32 @@ RSpec.describe Movie, type: :model do
         expect(Movie.with_bt_resources).not_to include(resource.movie)
       end
 
-      it 'ignores obsolete resources' do
-        resource = create :resource, download_uri: @torrent_uri, is_obsolete: true
-        expect(Movie.with_bt_resources).not_to include(resource.movie)
+      it 'excludes movies with obsolete bt resources' do
+        movie = create :movie
+        create :resource, movie: movie, download_uri: generate(:torrent_uri), is_obsolete: true
+        expect(Movie.with_bt_resources).not_to include(movie)
+      end
+
+      it 'excludes movies with obsolete bt resources and valid other resources' do
+        movie = create :movie
+        create :resource, movie: movie, download_uri: generate(:torrent_uri), is_obsolete: true
+        create :resource, movie: movie
+        expect(Movie.with_bt_resources).not_to include(movie)
       end
     end
 
     describe 'without_bt_resources' do
-      before :each do
-        @baidu_pan_uri = 'http://pan.baidu.com/s/xxx'
-        @torrent_uri = 'http://www.libredmm.com/xxx.torrent'
-      end
-
       it 'excludes movies with resources with uri ends with .torrent' do
         movie = create :movie
-        create :resource, movie: movie, download_uri: @baidu_pan_uri
-        create :resource, movie: movie, download_uri: @torrent_uri
-        expect(Movie.with_baidu_pan_resources.without_bt_resources).not_to include(movie)
+        create :resource, movie: movie, download_uri: generate(:torrent_uri)
+        expect(Movie.without_bt_resources.without_bt_resources).not_to include(movie)
+      end
+
+      it 'excludes movies with resources with uri ends with .torrent with other resources' do
+        movie = create :movie
+        create :resource, movie: movie, download_uri: generate(:torrent_uri)
+        create :resource, movie: movie
+        expect(Movie.without_bt_resources.without_bt_resources).not_to include(movie)
       end
 
       it 'includes movies with resources with .torrent in the middle of uri' do
@@ -465,8 +480,8 @@ RSpec.describe Movie, type: :model do
         expect(Movie.without_bt_resources).to include(movie)
       end
 
-      it 'ignores obsolete resources' do
-        resource = create :resource, download_uri: @torrent_uri, is_obsolete: true
+      it 'includes movies with obsolete bt resources' do
+        resource = create :resource, download_uri: generate(:torrent_uri), is_obsolete: true
         expect(Movie.without_bt_resources).to include(resource.movie)
       end
     end

@@ -35,20 +35,24 @@ class MoviesController < ApplicationController
   end
 
   def filter_by_resource
-    @resource = params[:resource]
-    case @resource
-    when 'any'
-      @movies = signed_in_as_admin? ? @movies.with_resources : Movie.none
-    when 'baidu_pan'
+    @baidu_pan_resource = params[:baidu_pan_resource]
+    case @baidu_pan_resource
+    when 'with'
       @movies = signed_in_as_admin? ? @movies.with_baidu_pan_resources : Movie.none
-    when 'baidu_pan_only'
-      @movies = signed_in_as_admin? ? @movies.with_baidu_pan_resources.without_bt_resources : Movie.none
-    when 'bt'
-      @movies = signed_in_as_admin? ? @movies.with_bt_resources : Movie.none
-    when 'none'
-      @movies = signed_in_as_admin? ? @movies.without_resources : @movies
+    when 'without'
+      @movies = signed_in_as_admin? ? @movies.without_baidu_pan_resources : Movie.none
     else
-      @resource = 'all'
+      @baidu_pan_resource = 'any'
+    end
+
+    @bt_resource = params[:bt_resource]
+    case @bt_resource
+    when 'with'
+      @movies = signed_in_as_admin? ? @movies.with_bt_resources : Movie.none
+    when 'without'
+      @movies = signed_in_as_admin? ? @movies.without_bt_resources : Movie.none
+    else
+      @bt_resource = 'any'
     end
   end
 

@@ -30,23 +30,28 @@ RSpec.describe 'movies/index' do
     context 'as admin' do
       before :each do
         allow(view).to receive(:current_user).and_return(create(:user, is_admin: true))
-        @resource = 'any'
-        controller.request.path_parameters['resource'] = 'any'
+        @baidu_pan_resource = 'any'
+        controller.request.path_parameters['baidu_pan_resource'] = 'any'
+        @bt_resource = 'any'
+        controller.request.path_parameters['bt_resource'] = 'any'
         @order = 'latest'
         controller.request.path_parameters['order'] = 'latest'
       end
 
       it 'renders resource filters' do
         render
-        expect(rendered).to have_selector('#resourceNav')
+        expect(rendered).to have_selector('#baiduPanResourceNav')
+        expect(rendered).to have_selector('#btResourceNav')
       end
 
       it 'renders current filters as active' do
         render
         expect(rendered).to have_selector("#voteNav a[class*='active']", count: 1)
         expect(rendered).to have_selector("#voteNav a[href*='vote=up'][class*='active']")
-        expect(rendered).to have_selector("#resourceNav a[class*='active']", count: 1)
-        expect(rendered).to have_selector("#resourceNav a[href*='resource=any'][class*='active']")
+        expect(rendered).to have_selector("#baiduPanResourceNav a[class*='active']", count: 1)
+        expect(rendered).to have_selector("#baiduPanResourceNav a[href*='resource=any'][class*='active']")
+        expect(rendered).to have_selector("#btResourceNav a[class*='active']", count: 1)
+        expect(rendered).to have_selector("#btResourceNav a[href*='resource=any'][class*='active']")
       end
 
       it 'renders order options' do
@@ -64,7 +69,8 @@ RSpec.describe 'movies/index' do
         render
         expect(rendered).to have_selector("#voteNav a[href*='resource=any']")
         expect(rendered).to have_selector("#voteNav a[href*='order=latest']")
-        expect(rendered).to have_selector("#resourceNav a[href*='order=latest']")
+        expect(rendered).to have_selector("#baiduPanResourceNav a[href*='order=latest']")
+        expect(rendered).to have_selector("#btResourceNav a[href*='order=latest']")
         expect(rendered).to have_selector("#orderNav a[href*='resource=any']")
       end
     end
@@ -72,7 +78,8 @@ RSpec.describe 'movies/index' do
     context 'as non-admin' do
       it 'hides resource filters' do
         render
-        expect(rendered).not_to have_selector('#resourceNav')
+        expect(rendered).not_to have_selector('#baiduPanResourceNav')
+        expect(rendered).not_to have_selector('#btResourceNav')
       end
     end
   end
@@ -88,7 +95,8 @@ RSpec.describe 'movies/index' do
 
     it 'hides resource filters' do
       render
-      expect(rendered).not_to have_selector('#resourceNav')
+      expect(rendered).not_to have_selector('#baiduPanResourceNav')
+      expect(rendered).not_to have_selector('#btResourceNav')
     end
 
     it 'hides order options' do

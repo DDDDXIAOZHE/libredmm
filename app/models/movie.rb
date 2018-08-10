@@ -11,13 +11,11 @@ class Movie < ApplicationRecord
   scope :with_baidu_pan_resources, -> {
     with_resources.where('resources.download_uri ILIKE ?', '%pan.baidu.com%')
   }
+  scope :without_baidu_pan_resources, -> {
+    where.not(id: Movie.unscoped.with_baidu_pan_resources)
+  }
   scope :with_bt_resources, -> {
     with_resources.where('resources.download_uri ILIKE ?', '%.torrent')
-  }
-  scope :without_resources, -> {
-    includes(:resources).where(resources: { id: nil }).or(
-      includes(:resources).where(resources: { is_obsolete: true })
-    )
   }
   scope :without_bt_resources, -> {
     where.not(id: Movie.unscoped.with_bt_resources)

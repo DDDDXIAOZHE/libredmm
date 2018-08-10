@@ -17,19 +17,33 @@
 
         <% if current_user.is_admin? %>
           <div class="btn-toolbar mb-3">
-            <div id="resourceNav" class="btn-group mr-2" role="group">
-              <% { all: 'All', any: 'Any Resource', baidu_pan: 'Baidu Pan', baidu_pan_only: 'Baidu Pan Only', bt: 'BT', none: 'No Resource' }.each do |resource, text| %>
+            <div id="baiduPanResourceNav" class="btn-group mr-2" role="group">
+              <button type="button" class="btn btn-outline-dark" disabled>Baidu Pan Resource</button>
+              <% { with: 'With', without: 'Without', any: 'Any' }.each do |value, text| %>
                 <%= link_to(
                   text,
-                  request.params.merge(resource: resource),
-                  class: (@resource == resource.to_s ? 'btn btn-primary active' : 'btn btn-secondary'),
+                  request.params.merge(baidu_pan_resource: value),
+                  class: (@baidu_pan_resource == value.to_s ? 'btn btn-primary active' : 'btn btn-secondary'),
+                  role: 'button',
+                ) %>
+              <% end %>
+            </div>
+
+            <div id="btResourceNav" class="btn-group mr-2" role="group">
+              <button type="button" class="btn btn-outline-dark" disabled>BT Resource</button>
+              <% { with: 'With', without: 'Without', any: 'Any' }.each do |value, text| %>
+                <%= link_to(
+                  text,
+                  request.params.merge(bt_resource: value),
+                  class: (@bt_resource == value.to_s ? 'btn btn-primary active' : 'btn btn-secondary'),
                   role: 'button',
                 ) %>
               <% end %>
             </div>
 
             <div id="orderNav" class="btn-group" role="group">
-              <% { default: 'Default Order', latest: 'Latest First', oldest: 'Oldest First' }.each do |order, text| %>
+              <button type="button" class="btn btn-outline-dark" disabled>Order</button>
+              <% { default: 'Default', latest: 'Latest First', oldest: 'Oldest First' }.each do |order, text| %>
                 <%= link_to(
                   text,
                   request.params.merge(order: order),
