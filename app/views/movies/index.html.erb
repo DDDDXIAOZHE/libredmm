@@ -3,55 +3,28 @@
     <section>
       <% if signed_in? %>
         <div class="btn-toolbar mb-3">
-          <div id="voteNav" class="btn-group" role="group">
-            <% { all: 'All', up: 'Upvoted', down: 'Downvoted', bookmark: 'Bookmarked', none: 'Not Voted' }.each do |vote, text| %>
-              <%= link_to(
-                text,
-                request.params.merge(vote: vote),
-                class: (@vote == vote.to_s ? 'btn btn-primary active' : 'btn btn-secondary'),
-                role: 'button',
-              ) %>
-            <% end %>
-          </div>
+          <%= render partial: '/movies/filter_nav', locals: {
+            param_name: :vote,
+            options: %i[up down bookmark none],
+          } %>
         </div>
 
         <% if current_user.is_admin? %>
           <div class="btn-toolbar mb-3">
-            <div id="baiduPanResourceNav" class="btn-group mr-2" role="group">
-              <button type="button" class="btn btn-outline-dark" disabled>Baidu Pan Resource</button>
-              <% { with: 'With', without: 'Without', any: 'Any' }.each do |value, text| %>
-                <%= link_to(
-                  text,
-                  request.params.merge(baidu_pan_resource: value),
-                  class: (@baidu_pan_resource == value.to_s ? 'btn btn-primary active' : 'btn btn-secondary'),
-                  role: 'button',
-                ) %>
-              <% end %>
-            </div>
+            <%= render partial: '/movies/filter_nav', locals: {
+              param_name: :baidu_pan_resource,
+              options: %i[with without],
+            } %>
 
-            <div id="btResourceNav" class="btn-group mr-2" role="group">
-              <button type="button" class="btn btn-outline-dark" disabled>BT Resource</button>
-              <% { with: 'With', without: 'Without', any: 'Any' }.each do |value, text| %>
-                <%= link_to(
-                  text,
-                  request.params.merge(bt_resource: value),
-                  class: (@bt_resource == value.to_s ? 'btn btn-primary active' : 'btn btn-secondary'),
-                  role: 'button',
-                ) %>
-              <% end %>
-            </div>
+            <%= render partial: '/movies/filter_nav', locals: {
+              param_name: :bt_resource,
+              options: %i[with without],
+            } %>
 
-            <div id="orderNav" class="btn-group" role="group">
-              <button type="button" class="btn btn-outline-dark" disabled>Order</button>
-              <% { default: 'Default', latest: 'Latest First', oldest: 'Oldest First' }.each do |order, text| %>
-                <%= link_to(
-                  text,
-                  request.params.merge(order: order),
-                  class: (@order == order.to_s ? 'btn btn-primary active' : 'btn btn-secondary'),
-                  role: 'button',
-                ) %>
-              <% end %>
-            </div>
+            <%= render partial: '/movies/filter_nav', locals: {
+              param_name: :order,
+              options: %i[default latest_first oldest_first],
+            } %>
           </div>
         <% end %>
       <% end %>

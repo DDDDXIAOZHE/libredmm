@@ -30,7 +30,6 @@ class MoviesController < ApplicationController
       @movies = @movies.not_voted_by(current_user)
     else
       @movies = @movies.includes(:votes) if signed_in?
-      @vote = 'all'
     end
   end
 
@@ -41,8 +40,6 @@ class MoviesController < ApplicationController
       @movies = signed_in_as_admin? ? @movies.with_baidu_pan_resources : Movie.none
     when 'without'
       @movies = signed_in_as_admin? ? @movies.without_baidu_pan_resources : Movie.none
-    else
-      @baidu_pan_resource = 'any'
     end
 
     @bt_resource = params[:bt_resource]
@@ -51,17 +48,15 @@ class MoviesController < ApplicationController
       @movies = signed_in_as_admin? ? @movies.with_bt_resources : Movie.none
     when 'without'
       @movies = signed_in_as_admin? ? @movies.without_bt_resources : Movie.none
-    else
-      @bt_resource = 'any'
     end
   end
 
   def order_and_paginate
     @order = params[:order]
     case @order
-    when 'latest'
+    when 'latest_first'
       @movies = @movies.latest_first
-    when 'oldest'
+    when 'oldest_first'
       @movies = @movies.oldest_first
     else
       @movies = @movies.order(code: :asc)
