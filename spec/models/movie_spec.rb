@@ -32,7 +32,7 @@ RSpec.describe Movie, type: :model do
   describe '.normalize_code!' do
     context 'on short code' do
       it 'does nothing' do
-        movie = create :movie, code: "CODE-020"
+        movie = create :movie, code: 'CODE-020'
         expect {
           movie.normalize_code!
         }.not_to change {
@@ -43,7 +43,7 @@ RSpec.describe Movie, type: :model do
 
     context 'on long code without leading zero' do
       it 'does nothing' do
-        movie = create :movie, code: "CODE-12345"
+        movie = create :movie, code: 'CODE-12345'
         expect {
           movie.normalize_code!
         }.not_to change {
@@ -54,18 +54,18 @@ RSpec.describe Movie, type: :model do
 
     context 'on long code with leading zero' do
       it 'removes leading zero' do
-        movie = create :movie, code: "CODE-00123"
+        movie = create :movie, code: 'CODE-00123'
         expect {
           movie.normalize_code!
         }.to change {
           movie.code
-        }.to("CODE-123")
+        }.to('CODE-123')
       end
 
       context 'on duplicate' do
         it 'merges movies' do
-          movie = create :movie, code: "CODE-00123"
-          dup = create :movie, code: "CODE-123"
+          movie = create :movie, code: 'CODE-00123'
+          dup = create :movie, code: 'CODE-123'
           movie.normalize_code!
           expect(movie).to be_destroyed
         end
