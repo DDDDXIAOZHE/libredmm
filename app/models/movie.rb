@@ -5,20 +5,17 @@ class Movie < ApplicationRecord
   has_many :resources, -> { where(is_obsolete: false) }, dependent: :destroy
   has_many :obsolete_resources, -> { where(is_obsolete: true) }, dependent: :destroy, class_name: 'Resource'
 
-  scope :with_resources, -> {
-    joins(:resources).where(resources: { is_obsolete: false }).distinct
-  }
   scope :with_baidu_pan_resources, -> {
-    with_resources.where('resources.download_uri ILIKE ?', '%pan.baidu.com%')
+    where(id: Resource.valid.in_baidu_pan.distinct.pluck(:movie_id))
   }
   scope :without_baidu_pan_resources, -> {
-    where.not(id: Movie.unscoped.with_baidu_pan_resources)
+    where.not(id: Resource.valid.in_baidu_pan.distinct.pluck(:movie_id))
   }
   scope :with_bt_resources, -> {
-    with_resources.where('resources.download_uri ILIKE ?', '%.torrent')
+    where(id: Resource.valid.in_bt.distinct.pluck(:movie_id))
   }
   scope :without_bt_resources, -> {
-    where.not(id: Movie.unscoped.with_bt_resources)
+    where.not(id: Resource.valid.in_bt.distinct.pluck(:movie_id))
   }
 
   scope :bookmarked_by, ->(user) {

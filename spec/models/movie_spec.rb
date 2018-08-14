@@ -334,38 +334,6 @@ RSpec.describe Movie, type: :model do
   end
 
   context 'scope' do
-    describe 'with_resources' do
-      it 'includes movies with only valid resources' do
-        resource = create :resource
-        expect(Movie.with_resources).to include(resource.movie)
-      end
-
-      it 'includes movies with both valid and obsolete resources' do
-        movie = create :movie
-        create :resource, movie: movie
-        create :resource, movie: movie, is_obsolete: true
-        expect(Movie.with_resources).to include(movie)
-      end
-
-      it 'does not include duplicates' do
-        movie = create :movie
-        2.times do
-          create :resource, movie: movie
-        end
-        expect(Movie.with_resources.count).to eq(1)
-      end
-
-      it 'excludes movies with no resource' do
-        movie = create :movie
-        expect(Movie.with_resources).not_to include(movie)
-      end
-
-      it 'excludes movies with only obsolete resources' do
-        obsolete_resource = create :resource, is_obsolete: true
-        expect(Movie.with_resources).not_to include(obsolete_resource.movie)
-      end
-    end
-
     describe 'with_baidu_pan_resources' do
       it 'includes movies with resources from pan.baidu.com' do
         resource = create :resource, download_uri: generate(:baidu_pan_uri)
@@ -388,6 +356,13 @@ RSpec.describe Movie, type: :model do
         create :resource, movie: movie, download_uri: generate(:baidu_pan_uri), is_obsolete: true
         create :resource, movie: movie, download_uri: generate(:torrent_uri)
         expect(Movie.with_baidu_pan_resources).not_to include(movie)
+      end
+
+      it 'chains with with_bt_resources' do
+        movie = create :movie
+        create :resource, movie: movie, download_uri: generate(:baidu_pan_uri)
+        create :resource, movie: movie, download_uri: generate(:torrent_uri)
+        expect(Movie.with_baidu_pan_resources.with_bt_resources).to include(movie)
       end
     end
 
