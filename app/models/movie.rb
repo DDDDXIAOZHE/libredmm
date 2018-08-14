@@ -6,16 +6,16 @@ class Movie < ApplicationRecord
   has_many :obsolete_resources, -> { where(is_obsolete: true) }, dependent: :destroy, class_name: 'Resource'
 
   scope :with_baidu_pan_resources, -> {
-    where(id: Resource.valid.in_baidu_pan.distinct.pluck(:movie_id))
+    where(id: joins(:resources).merge(Resource.valid.in_baidu_pan))
   }
   scope :without_baidu_pan_resources, -> {
-    where.not(id: Resource.valid.in_baidu_pan.distinct.pluck(:movie_id))
+    where.not(id: joins(:resources).merge(Resource.valid.in_baidu_pan))
   }
   scope :with_bt_resources, -> {
-    where(id: Resource.valid.in_bt.distinct.pluck(:movie_id))
+    where(id: joins(:resources).merge(Resource.valid.in_bt))
   }
   scope :without_bt_resources, -> {
-    where.not(id: Resource.valid.in_bt.distinct.pluck(:movie_id))
+    where.not(id: joins(:resources).merge(Resource.valid.in_bt))
   }
 
   scope :bookmarked_by, ->(user) {
