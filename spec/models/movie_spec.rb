@@ -364,6 +364,27 @@ RSpec.describe Movie, type: :model do
         create :resource, movie: movie, download_uri: generate(:torrent_uri)
         expect(Movie.with_baidu_pan_resources.with_bt_resources).to include(movie)
       end
+
+      it 'peforms better than naive intersection on already limited scope', benchmark: true do
+        user = create :user
+        100.times do
+          movie = create :movie
+          create :vote, movie: movie, user: user
+          create :resource, movie: movie, download_uri: generate(:baidu_pan_uri)
+        end
+        5000.times do
+          create :resource, download_uri: generate(:baidu_pan_uri)
+        end
+        s = Movie.voted_by(user)
+        Benchmark.bm(10) do |bm|
+          bm.report('joins') do
+            s.joins(:resources).merge(Resource.valid.in_baidu_pan).pluck(:id)
+          end
+          bm.report('intersect') do
+            s.where(id: Resource.valid.in_baidu_pan.distinct.pluck(:movie_id)).pluck(:id)
+          end
+        end
+      end
     end
 
     describe 'without_baidu_pan_resources' do
