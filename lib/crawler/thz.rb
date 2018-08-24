@@ -16,11 +16,11 @@ class ThzCrawler
   end
 
   def crawl
-    crawl_forum @agent.get('http://vipthz.com/forum-220-1.html'), backfill: false
+    crawl_forum @agent.get('http://thz6.com/forum-220-1.html'), backfill: false
   end
 
   def backfill(start_index)
-    crawl_forum @agent.get("http://vipthz.com/forum-220-#{start_index}.html"), backfill: true
+    crawl_forum @agent.get("http://thz6.com/forum-220-#{start_index}.html"), backfill: true
   end
 
   def crawl_forum(page, backfill:)
