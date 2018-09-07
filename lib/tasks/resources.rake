@@ -17,11 +17,14 @@ namespace :resources do
           next
         end
         begin
+          tries ||= 5
           movie = Movie.search!(code)
           movie.resources.create!(download_uri: uri, note: 'Password: https://www.myhd1080.tv')
-          loaded << movie.code
         rescue ActiveRecord::RecordNotFound, ActiveRecord::RecordInvalid
+          retry if (tries -= 1) > 0
           failed << code
+        else
+          loaded << movie.code
         end
       end
       puts "#{duplicate.size} duplicate: #{duplicate}"
