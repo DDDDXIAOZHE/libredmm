@@ -8,7 +8,6 @@ xml.rss version: '2.0' do
     for torrent in @torrents
       xml.item do
         xml.title torrent.movie.full_name.to_s
-        xml.pubDate torrent.created_at.to_s(:rfc822)
         xml.guid File.basename(torrent.download_uri)
         xml.enclosure(type: 'application/x-bittorrent', url: torrent.download_uri)
       end
