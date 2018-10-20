@@ -2,7 +2,7 @@ require 'open-uri'
 
 namespace :votes do
   desc 'load votes'
-  task :load, %i[email vote uri] => :environment do |_, args|
+  task :load, %i[email vote uri force] => :environment do |_, args|
     user = User.find_by_email!(args[:email])
     voted = []
     duplicate = []
@@ -11,6 +11,7 @@ namespace :votes do
       begin
         code.strip!
         movie = Movie.search!(code)
+        movie.votes.where(user: user).destroy_all if args[:force]
         movie.votes.create!(user: user, status: args[:vote])
         voted << movie.code
       rescue ActiveRecord::RecordInvalid
