@@ -628,10 +628,17 @@ RSpec.describe Movie, type: :model do
     end
 
     describe 'latest_first' do
-      it 'orders by release_date desc' do
+      it 'orders by release_date desc first' do
         older = create :movie, release_date: '2017-01-01'
         later = create :movie, release_date: '2018-01-01'
         expect(Movie.latest_first.all).to eq([later, older])
+      end
+
+      it 'orders by code asc next' do
+        a = create :movie, code: 'A-123', release_date: '2017-01-01'
+        b = create :movie, code: 'B-456', release_date: '2017-01-01'
+        later = create :movie, release_date: '2018-01-01'
+        expect(Movie.latest_first.all).to eq([later, a, b])
       end
 
       it 'puts movie with null release_date at last' do
@@ -643,10 +650,17 @@ RSpec.describe Movie, type: :model do
     end
 
     describe 'oldest_first' do
-      it 'orders by release_date desc' do
+      it 'orders by release_date desc first' do
         older = create :movie, release_date: '2017-01-01'
         later = create :movie, release_date: '2018-01-01'
         expect(Movie.oldest_first.all).to eq([older, later])
+      end
+
+      it 'orders by code asc next' do
+        a = create :movie, code: 'A-123', release_date: '2017-01-01'
+        b = create :movie, code: 'B-456', release_date: '2017-01-01'
+        later = create :movie, release_date: '2018-01-01'
+        expect(Movie.oldest_first.all).to eq([a, b, later])
       end
 
       it 'puts movie with null release_date at last' do

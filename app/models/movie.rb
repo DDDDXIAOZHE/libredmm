@@ -60,8 +60,8 @@ class Movie < ApplicationRecord
     )
   }
 
-  scope :latest_first, -> { order('release_date DESC NULLS LAST') }
-  scope :oldest_first, -> { order('release_date ASC NULLS LAST') }
+  scope :latest_first, -> { order('release_date DESC NULLS LAST, code ASC') }
+  scope :oldest_first, -> { order('release_date ASC NULLS LAST, code ASC') }
 
   validates :code, :cover_image, :page, :title, presence: true
   validates :code, uniqueness: { case_sensitive: false }
