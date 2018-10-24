@@ -36,10 +36,21 @@ RSpec.describe 'Movies', type: :request do
   end
 
   describe 'DELETE /movies/:code' do
-    it 'redirects back to movie' do
-      @movie = create(:movie)
-      delete movie_url(@movie)
-      expect(response).to redirect_to(@movie)
+    context 'when successfully refreshes' do
+      it 'redirects back to movie' do
+        @movie = create(:movie)
+        delete movie_url(@movie)
+        expect(response).to redirect_to(@movie)
+      end
+    end
+
+    context 'when fails to refresh' do
+      it 'redirects back to movie' do
+        @movie = create(:movie)
+        stub_request(:any, /api\.libredmm\.com\/search\?q=/).to_return(status: 404)
+        delete movie_url(@movie)
+        expect(response).to redirect_to(@movie)
+      end
     end
   end
 end
