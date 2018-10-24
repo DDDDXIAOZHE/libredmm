@@ -44,6 +44,10 @@
       <% end %>
       <dt>Data Source</dt>
       <dd><%= link_to @movie.page, @movie.page %></dd>
+      <% if signed_in_as_admin? %>
+        <dt>Wrong information?</dt>
+        <dd><%= link_to 'Refresh', @movie, method: :delete, class: 'btn btn-warning', id: 'refresh' %></dd>
+      <% end %>
     </dl>
   </div>
 </div>

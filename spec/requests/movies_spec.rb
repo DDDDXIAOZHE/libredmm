@@ -34,4 +34,12 @@ RSpec.describe 'Movies', type: :request do
       end
     end
   end
+
+  describe 'DELETE /movies/:code' do
+    it 'redirects back to movie' do
+      @movie = create(:movie)
+      delete movie_url(@movie)
+      expect(response).to redirect_to(@movie)
+    end
+  end
 end

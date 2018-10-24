@@ -15,6 +15,21 @@ class MoviesController < ApplicationController
     redirect_to code: @movie.code if @movie.code != params[:code]
   end
 
+  # DELETE /movies/1
+  # DELETE /movies/1.json
+  def destroy
+    @movie = Movie.search!(params[:code])
+    respond_to do |format|
+      if @movie.refresh
+        format.html { redirect_back fallback_location: @movie, notice: 'Refreshed!' }
+        format.json { render :show, status: :ok, location: @movie }
+      else
+        format.html { redirect_back fallback_location: @movie, alert: 'Failed to refresh!' }
+        format.json { render :show, status: :unprocessable_entity, location: @movie }
+      end
+    end
+  end
+
   private
 
   def filter_by_vote

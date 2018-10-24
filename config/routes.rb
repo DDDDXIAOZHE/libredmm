@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   root 'pages#index'
   get '/search', to: 'pages#search'
 
-  resources :movies, param: :code, only: %i[index show] do
+  resources :movies, param: :code, only: %i[index show destroy] do
     put 'vote', to: 'votes#update'
     delete 'vote', to: 'votes#destroy'
   end

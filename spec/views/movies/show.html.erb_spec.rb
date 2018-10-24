@@ -30,6 +30,11 @@ RSpec.describe 'movies/show' do
       allow(view).to receive(:current_user).and_return(@user)
     end
 
+    it 'hides refresh button' do
+      render
+      expect(rendered).not_to have_selector('#refresh')
+    end
+
     it 'hides resources' do
       render
       expect(rendered).not_to have_selector('#resources')
@@ -66,6 +71,11 @@ RSpec.describe 'movies/show' do
       allow(view).to receive(:current_user).and_return(@admin)
     end
 
+    it 'renders refresh button' do
+      render
+      expect(rendered).to have_selector('#refresh')
+    end
+
     it 'renders resources' do
       render
       expect(rendered).to have_selector('#resources tbody tr', count: @movie.resources.count)
@@ -90,7 +100,17 @@ RSpec.describe 'movies/show' do
   end
 
   context 'when not signed in' do
-    it 'does not render vote links' do
+    it 'hides refresh button' do
+      render
+      expect(rendered).not_to have_selector('#refresh')
+    end
+
+    it 'hides resources' do
+      render
+      expect(rendered).not_to have_selector('#resources')
+    end
+
+    it 'hides vote links' do
       render
       expect(rendered).not_to have_selector("a[href*='#{@movie.code}/vote']")
     end
