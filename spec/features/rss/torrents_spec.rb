@@ -3,7 +3,10 @@ require 'rails_helper'
 RSpec.feature 'Request unvoted torrents RSS', type: :feature do
   before :each do
     @user = create :user
-    @baidu_pan_resource = create :resource, download_uri: generate(:baidu_pan_uri)
+    @baidu_pan_resource = create(
+      :resource,
+      download_uri: generate(:baidu_pan_uri),
+    )
     @torrent_resource = create :resource, download_uri: generate(:torrent_uri)
   end
 

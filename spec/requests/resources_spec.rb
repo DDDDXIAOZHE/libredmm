@@ -41,7 +41,9 @@ RSpec.describe 'Resources', type: :request do
           }.to change {
             Vote.count
           }.by(1)
-          expect(@resource.movie.votes.where(user: @user).first.status).to eq('bookmark')
+          expect(@resource.movie.votes.where(user: @user).first.status).to(
+            eq('bookmark'),
+          )
         end
       end
 

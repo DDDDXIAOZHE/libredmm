@@ -76,7 +76,7 @@ RSpec.describe Resource, type: :model do
       it 'includes resources of movies only voted by other' do
         user = create :user
         resource = create :resource
-        vote = create :vote, movie: resource.movie
+        create :vote, movie: resource.movie
         expect(Resource.not_voted_by(user)).to include(resource)
       end
 

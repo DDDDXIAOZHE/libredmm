@@ -7,7 +7,9 @@ class VotesController < ApplicationController
   def index
     @user = User.find_by_email!(params[:user_email])
     respond_to do |format|
-      format.codes { render plain: Movie.voted_by(@user).pluck(:code).sort.join("\n") }
+      format.codes do
+        render plain: Movie.voted_by(@user).pluck(:code).sort.join("\n")
+      end
       format.js { render :index }
     end
   end
@@ -18,10 +20,17 @@ class VotesController < ApplicationController
     respond_to do |format|
       begin
         @vote.update_attributes(vote_params)
-        format.html { redirect_back fallback_location: @movie, notice: "Voted #{@vote.status}!" }
+        format.html do
+          redirect_back(
+            fallback_location: @movie,
+            notice: "Voted #{@vote.status}!",
+          )
+        end
         format.json { render :show, status: :ok, location: @movie }
       rescue ArgumentError, ActiveRecord::RecordInvalid
-        format.html { redirect_back fallback_location: @movie, notice: 'Vote failed!' }
+        format.html do
+          redirect_back fallback_location: @movie, notice: 'Vote failed!'
+        end
         format.json { render json: @vote.errors, status: :unprocessable_entity }
       end
     end
@@ -32,7 +41,9 @@ class VotesController < ApplicationController
   def destroy
     @vote.destroy
     respond_to do |format|
-      format.html { redirect_back fallback_location: @movie, notice: 'Unvoted!' }
+      format.html do
+        redirect_back fallback_location: @movie, notice: 'Unvoted!'
+      end
       format.json { head :no_content }
     end
   end
@@ -45,7 +56,8 @@ class VotesController < ApplicationController
     @vote = @movie.votes.find_or_initialize_by(user: current_user)
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
+  # Never trust parameters from the scary internet, only allow the white list
+  # through.
   def vote_params
     params.require(:vote).permit(:status)
   end

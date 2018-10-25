@@ -28,7 +28,9 @@ RSpec.describe 'movies/index' do
 
     context 'as admin' do
       before :each do
-        allow(view).to receive(:current_user).and_return(create(:user, is_admin: true))
+        allow(view).to receive(:current_user).and_return(
+          create(:user, is_admin: true),
+        )
         @baidu_pan_resource = 'with'
         controller.request.path_parameters['baidu_pan_resource'] = 'with'
         @bt_resource = 'with'
@@ -45,9 +47,15 @@ RSpec.describe 'movies/index' do
 
       it 'renders current filters as active' do
         render
-        expect(rendered).to have_selector("#voteNav a[class*='active']", count: 1)
-        expect(rendered).to have_selector("#baiduPanResourceNav a[class*='active']", count: 1)
-        expect(rendered).to have_selector("#btResourceNav a[class*='active']", count: 1)
+        expect(rendered).to have_selector(
+          "#voteNav a[class*='active']", count: 1
+        )
+        expect(rendered).to have_selector(
+          "#baiduPanResourceNav a[class*='active']", count: 1
+        )
+        expect(rendered).to have_selector(
+          "#btResourceNav a[class*='active']", count: 1
+        )
       end
 
       it 'renders order options' do
@@ -57,15 +65,23 @@ RSpec.describe 'movies/index' do
 
       it 'renders current order option as active' do
         render
-        expect(rendered).to have_selector("#orderNav a[class*='active']", count: 1)
+        expect(rendered).to have_selector(
+          "#orderNav a[class*='active']", count: 1
+        )
       end
 
       it 'renders links with combined filters' do
         render
-        expect(rendered).to have_selector("#voteNav a[href*='bt_resource=with']")
+        expect(rendered).to have_selector(
+          "#voteNav a[href*='bt_resource=with']",
+        )
         expect(rendered).to have_selector("#voteNav a[href*='order=default']")
-        expect(rendered).to have_selector("#baiduPanResourceNav a[href*='order=default']")
-        expect(rendered).to have_selector("#btResourceNav a[href*='order=default']")
+        expect(rendered).to have_selector(
+          "#baiduPanResourceNav a[href*='order=default']",
+        )
+        expect(rendered).to have_selector(
+          "#btResourceNav a[href*='order=default']",
+        )
         expect(rendered).to have_selector("#orderNav a[href*='vote=up']")
       end
     end

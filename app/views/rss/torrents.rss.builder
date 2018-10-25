@@ -5,11 +5,14 @@ xml.rss version: '2.0' do
     xml.language 'zh-cn'
     xml.pubDate Time.now.utc.to_s(:rfc822)
 
-    for torrent in @torrents
+    @torrents.each do |torrent|
       xml.item do
         xml.title torrent.movie.full_name.to_s
         xml.guid File.basename(torrent.download_uri)
-        xml.enclosure(type: 'application/x-bittorrent', url: torrent.download_uri)
+        xml.enclosure(
+          type: 'application/x-bittorrent',
+          url: torrent.download_uri,
+        )
       end
     end
   end

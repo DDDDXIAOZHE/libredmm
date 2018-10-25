@@ -18,7 +18,12 @@ Rails.application.routes.draw do
 
   resources :resources, only: %i[show destroy]
 
-  resources :users, param: :email, constraints: { user_email: /.+/ }, only: [] do
+  resources(
+    :users,
+    param: :email,
+    constraints: { user_email: /.+/ },
+    only: [],
+  ) do
     get 'votes.codes', to: 'votes#index', format: false
     get 'votes.user.js', to: 'votes#index', format: false
     get 'pipe.rss', to: 'rss#pipe', format: false

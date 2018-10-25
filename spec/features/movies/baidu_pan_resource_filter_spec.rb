@@ -41,7 +41,10 @@ RSpec.feature 'List movies with baidu pan resource filter', type: :feature do
 
     scenario 'when signed in as admin' do
       visit movies_url(baidu_pan_resource: 'with', as: @admin)
-      expect(page).to have_selector('.movie', count: Movie.with_baidu_pan_resources.count)
+      expect(page).to have_selector(
+        '.movie',
+        count: Movie.with_baidu_pan_resources.count,
+      )
     end
 
     scenario 'when signed out' do
@@ -50,8 +53,18 @@ RSpec.feature 'List movies with baidu pan resource filter', type: :feature do
     end
 
     scenario 'and chained after vote filter' do
-      create(:vote, user: @admin, movie: Movie.with_baidu_pan_resources.first, status: :up)
-      create(:vote, user: @admin, movie: Movie.without_baidu_pan_resources.first, status: :up)
+      create(
+        :vote,
+        user: @admin,
+        movie: Movie.with_baidu_pan_resources.first,
+        status: :up,
+      )
+      create(
+        :vote,
+        user: @admin,
+        movie: Movie.without_baidu_pan_resources.first,
+        status: :up,
+      )
       visit movies_url(baidu_pan_resource: 'with', vote: 'up', as: @admin)
       expect(page).to have_selector('.movie', count: 1)
     end
@@ -65,7 +78,10 @@ RSpec.feature 'List movies with baidu pan resource filter', type: :feature do
 
     scenario 'when signed in as admin' do
       visit movies_url(baidu_pan_resource: 'without', as: @admin)
-      expect(page).to have_selector('.movie', count: Movie.without_baidu_pan_resources.count)
+      expect(page).to have_selector(
+        '.movie',
+        count: Movie.without_baidu_pan_resources.count,
+      )
     end
 
     scenario 'when signed out' do
@@ -74,8 +90,18 @@ RSpec.feature 'List movies with baidu pan resource filter', type: :feature do
     end
 
     scenario 'and chained after vote filter' do
-      create(:vote, user: @admin, movie: Movie.with_baidu_pan_resources.first, status: :up)
-      create(:vote, user: @admin, movie: Movie.without_baidu_pan_resources.first, status: :up)
+      create(
+        :vote,
+        user: @admin,
+        movie: Movie.with_baidu_pan_resources.first,
+        status: :up,
+      )
+      create(
+        :vote,
+        user: @admin,
+        movie: Movie.without_baidu_pan_resources.first,
+        status: :up,
+      )
       visit movies_url(baidu_pan_resource: 'without', vote: 'up', as: @admin)
       expect(page).to have_selector('.movie', count: 1)
     end

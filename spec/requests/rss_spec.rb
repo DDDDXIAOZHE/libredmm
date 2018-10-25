@@ -19,7 +19,9 @@ RSpec.describe 'Rss', type: :request do
         </rss>
       )
       @feed_uri = 'http://foo.com/bar.rss'
-      @feed_stub = stub_request(:any, /foo\.com\/bar\.rss/).to_return(body: @feed)
+      @feed_stub = stub_request(:any, %r{foo\.com/bar\.rss}).to_return(
+        body: @feed,
+      )
     end
 
     it 'works' do
@@ -36,7 +38,9 @@ RSpec.describe 'Rss', type: :request do
     end
 
     it 'works when movie not found' do
-      stub_request(:any, /api\.libredmm\.com\/search\?q=/).to_return(status: 404)
+      stub_request(:any, %r{api\.libredmm\.com/search\?q=}).to_return(
+        status: 404,
+      )
       get "/users/#{@user.email}/pipe.rss?src=#{CGI.escape(@feed_uri)}"
       expect(response).to have_http_status(200)
     end

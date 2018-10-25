@@ -16,7 +16,9 @@ class ResourcesController < ApplicationController
   def destroy
     @resource = Resource.find(params[:id])
     @resource.update(is_obsolete: true)
-    @resource.movie.votes.where(user: current_user, status: :bookmark).destroy_all
+    @resource.movie.votes.where(
+      user: current_user, status: :bookmark,
+    ).destroy_all
     redirect_to @resource.movie
   end
 end

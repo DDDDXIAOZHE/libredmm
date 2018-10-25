@@ -4,7 +4,9 @@ RSpec.describe VotesHelper, type: :helper do
   describe 'oneregex' do
     it 'generates regex that matches all input codes' do
       codes = Array.new(10) { |_| generate :code }
-      expect(codes).to all(match(Regexp.new(oneregex(codes), Regexp::IGNORECASE)))
+      expect(codes).to all(
+        match(Regexp.new(oneregex(codes), Regexp::IGNORECASE)),
+      )
     end
 
     it 'handles speical format of FC2' do
@@ -16,7 +18,9 @@ RSpec.describe VotesHelper, type: :helper do
         'FC2 12345',
         'FC2-12345',
       ]
-      expect(variants).to all(match(Regexp.new(oneregex(codes), Regexp::IGNORECASE)))
+      expect(variants).to all(
+        match(Regexp.new(oneregex(codes), Regexp::IGNORECASE)),
+      )
     end
 
     it 'handles speical format of S-Cute' do
@@ -25,7 +29,9 @@ RSpec.describe VotesHelper, type: :helper do
         'S-Cute 223_miho_01',
         'S-Cute #223 miho #1',
       ]
-      expect(variants).to all(match(Regexp.new(oneregex(codes), Regexp::IGNORECASE)))
+      expect(variants).to all(
+        match(Regexp.new(oneregex(codes), Regexp::IGNORECASE)),
+      )
     end
   end
 end

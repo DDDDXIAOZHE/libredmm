@@ -47,9 +47,20 @@ RSpec.describe 'Movies', type: :request do
     context 'when fails to refresh' do
       it 'redirects back to movie' do
         @movie = create(:movie)
-        stub_request(:any, /api\.libredmm\.com\/search\?q=/).to_return(status: 404)
+        stub_request(:any, %r{api\.libredmm\.com/search\?q=}).to_return(
+          status: 404,
+        )
         delete movie_url(@movie)
         expect(response).to redirect_to(@movie)
+      end
+
+      it 'returns on unprocessable_entity on failed json request' do
+        @movie = create(:movie)
+        stub_request(:any, %r{api\.libredmm\.com/search\?q=}).to_return(
+          status: 404,
+        )
+        delete movie_url(@movie, format: :json)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end

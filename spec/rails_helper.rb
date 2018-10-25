@@ -69,9 +69,9 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
 
   config.before :each do
-    @api_stub = stub_request(:any, /api\.libredmm\.com\/search\?q=/).to_return(
-      body: lambda { |request|
-        a = attributes_for(:movie).map { |k, v|
+    @api_stub = stub_request(:any, %r{api\.libredmm\.com/search\?q=}).to_return(
+      body: ->(request) {
+        attributes_for(:movie).map { |k, v|
           [k.to_s.camelize.to_sym, v]
         }.to_h.merge(
           Code: request.uri.query_values['q'],

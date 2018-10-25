@@ -7,8 +7,9 @@ namespace :resources do
       duplicate = []
       failed = []
       loaded = []
-      open(args[:dump_uri]).each do |line|
+      URI.parse(args[:dump_uri]).open.each do |line|
         next unless line.strip =~ /(.+)\s+(http.+)/
+
         path = Regexp.last_match(1)
         uri = Regexp.last_match(2)
         code = File.basename(path, '.*').upcase.gsub(/^\d*/, '')
@@ -19,7 +20,10 @@ namespace :resources do
         begin
           tries ||= 5
           movie = Movie.search!(code)
-          movie.resources.create!(download_uri: uri, note: 'Password: https://www.myhd1080.tv')
+          movie.resources.create!(
+            download_uri: uri,
+            note: 'Password: https://www.myhd1080.tv',
+          )
         rescue ActiveRecord::RecordNotFound, ActiveRecord::RecordInvalid
           retry if (tries -= 1) > 0
           failed << code
@@ -39,7 +43,7 @@ namespace :resources do
       user = User.find_by_email!(args[:email])
       obsoleted = []
       failed = []
-      open(args[:dump_uri]).each do |code|
+      URI.parse(args[:dump_uri]).open.each do |code|
         begin
           code.strip!
           movie = Movie.search!(code)

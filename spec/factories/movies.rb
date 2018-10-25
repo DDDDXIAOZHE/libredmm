@@ -7,11 +7,13 @@ FactoryBot.define do
     code
     cover_image { 'https://dummyimage.com/800' }
     page { 'https://dummyimage.com/' }
-    sample_images { [
-      'https://dummyimage.com/555',
-      'https://dummyimage.com/666',
-      'https://dummyimage.com/777',
-    ] }
+    sample_images do
+      [
+        'https://dummyimage.com/555',
+        'https://dummyimage.com/666',
+        'https://dummyimage.com/777',
+      ]
+    end
     title { 'Dummy Movie' }
   end
 end

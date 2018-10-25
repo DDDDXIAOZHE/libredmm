@@ -17,7 +17,10 @@ RSpec.describe 'Votes', type: :request do
     describe 'PUT /movies/:movie_code/vote' do
       it 'creates vote' do
         expect {
-          put movie_vote_url(@movie, as: @user), params: { vote: { status: :up } }
+          put(
+            movie_vote_url(@movie, as: @user),
+            params: { vote: { status: :up } },
+          )
         }.to change {
           Vote.where(movie: @movie, user: @user).count
         }.by(1)
@@ -25,7 +28,10 @@ RSpec.describe 'Votes', type: :request do
 
       it 'rejects illegal vote status' do
         expect {
-          put movie_vote_url(@movie, as: @user), params: { vote: { status: :foo } }
+          put(
+            movie_vote_url(@movie, as: @user),
+            params: { vote: { status: :foo } },
+          )
         }.not_to change {
           Vote.where(movie: @movie, user: @user).count
         }
@@ -56,7 +62,10 @@ RSpec.describe 'Votes', type: :request do
       end
 
       it 'redirects back' do
-        delete movie_vote_url(@movie, as: @user), headers: { 'HTTP_REFERER' => movies_url }
+        delete(
+          movie_vote_url(@movie, as: @user),
+          headers: { 'HTTP_REFERER' => movies_url },
+        )
         expect(response).to redirect_to(movies_url)
       end
 
@@ -77,7 +86,10 @@ RSpec.describe 'Votes', type: :request do
     describe 'PUT /movies/:movie_code/vote' do
       it 'update vote' do
         expect {
-          put movie_vote_url(@movie, as: @user), params: { vote: { status: :down } }
+          put(
+            movie_vote_url(@movie, as: @user),
+            params: { vote: { status: :down } },
+          )
         }.to change {
           Vote.find_by(movie: @movie, user: @user).status
         }
@@ -85,7 +97,10 @@ RSpec.describe 'Votes', type: :request do
 
       it 'rejects illegal vote status' do
         expect {
-          put movie_vote_url(@movie, as: @user), params: { vote: { status: :foo } }
+          put(
+            movie_vote_url(@movie, as: @user),
+            params: { vote: { status: :foo } },
+          )
         }.not_to change {
           Vote.where(movie: @movie, user: @user).count
         }
@@ -116,7 +131,10 @@ RSpec.describe 'Votes', type: :request do
       end
 
       it 'redirects back' do
-        delete movie_vote_url(@movie, as: @user), headers: { 'HTTP_REFERER' => movies_url }
+        delete(
+          movie_vote_url(@movie, as: @user),
+          headers: { 'HTTP_REFERER' => movies_url },
+        )
         expect(response).to redirect_to(movies_url)
       end
 

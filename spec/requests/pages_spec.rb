@@ -12,7 +12,9 @@ RSpec.describe 'Pages', type: :request do
 
     context 'when movie not found' do
       it 'redirect_to fuzzy match page' do
-        allow(Movie).to receive(:search!).and_raise(ActiveRecord::RecordNotFound)
+        allow(Movie).to(
+          receive(:search!).and_raise(ActiveRecord::RecordNotFound),
+        )
         q = 'foo bar'
         get search_url(q: q)
         expect(response).to redirect_to(movies_url(fuzzy: q))

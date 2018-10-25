@@ -18,13 +18,13 @@ module VotesHelper
 
     branches = groups.map { |series, nums|
       if series == 'S-CUTE'
-        nums += nums.map { |num|
+        nums += nums.map do |num|
           num.split('_').map { |token|
-            token.gsub(/^0*(\d+)/) {
+            token.gsub(/^0*(\d+)/) do
               "#?#{Regexp.last_match(1)}"
-            }
+            end
           }.join(' ')
-        }
+        end
       end
       "(#{series}[-_ ()]*0*(#{nums.join('|')}))"
     }.join('|')

@@ -21,11 +21,17 @@ class MoviesController < ApplicationController
     @movie = Movie.search!(params[:code])
     respond_to do |format|
       if @movie.refresh
-        format.html { redirect_back fallback_location: @movie, notice: 'Refreshed!' }
+        format.html do
+          redirect_back fallback_location: @movie, notice: 'Refreshed!'
+        end
         format.json { render :show, status: :ok, location: @movie }
       else
-        format.html { redirect_back fallback_location: @movie, alert: 'Failed to refresh!' }
-        format.json { render :show, status: :unprocessable_entity, location: @movie }
+        format.html do
+          redirect_back fallback_location: @movie, alert: 'Failed to refresh!'
+        end
+        format.json do
+          render :show, status: :unprocessable_entity, location: @movie
+        end
       end
     end
   end
@@ -49,14 +55,25 @@ class MoviesController < ApplicationController
   end
 
   def filter_by_resource
+    filter_by_baidu_pan_resource
+    filter_by_bt_resource
+  end
+
+  def filter_by_baidu_pan_resource
     @baidu_pan_resource = params[:baidu_pan_resource]
     case @baidu_pan_resource
     when 'with'
-      @movies = signed_in_as_admin? ? @movies.with_baidu_pan_resources : Movie.none
+      @movies = signed_in_as_admin? ?
+        @movies.with_baidu_pan_resources :
+        Movie.none
     when 'without'
-      @movies = signed_in_as_admin? ? @movies.without_baidu_pan_resources : Movie.none
+      @movies = signed_in_as_admin? ?
+        @movies.without_baidu_pan_resources :
+        Movie.none
     end
+  end
 
+  def filter_by_bt_resource
     @bt_resource = params[:bt_resource]
     case @bt_resource
     when 'with'

@@ -7,7 +7,7 @@ namespace :votes do
     voted = []
     duplicate = []
     failed = []
-    open(args[:uri]).each do |code|
+    URI.parse(args[:uri]).open.each do |code|
       begin
         code.strip!
         movie = Movie.search!(code)
