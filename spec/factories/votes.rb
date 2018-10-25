@@ -2,6 +2,6 @@ FactoryBot.define do
   factory :vote do
     user
     movie
-    status :up
+    status { :up }
   end
 end
