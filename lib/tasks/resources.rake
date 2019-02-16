@@ -12,7 +12,8 @@ namespace :resources do
 
         path = Regexp.last_match(1)
         uri = Regexp.last_match(2)
-        code = File.basename(path, '.*').upcase.gsub(/^\d*/, '')
+        code = File.basename(path, '.*').upcase.gsub(
+          /^\d*?(?=(3d|2d|[a-z]))/i, '')
         if Resource.exists?(download_uri: uri)
           duplicate << code
           next
