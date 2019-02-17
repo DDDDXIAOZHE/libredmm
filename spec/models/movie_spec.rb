@@ -146,21 +146,24 @@ RSpec.describe Movie, type: :model do
         expect(Movie.search!(@movie.code.upcase)).to eq(@movie)
       end
 
-      it 'allows extra digits at beginning' do
+      it 'allows extra 3 digits at beginning' do
         movie = create :movie, code: '300MIUM-059'
         expect(Movie.search!('MIUM-059')).to eq(movie)
+      end
+
+      it 'does not allows extra single digit at beginning' do
+        movie = create :movie, code: '3DSVR-020'
+        expect(Movie.search!('DSVR-020')).not_to eq(movie)
       end
 
       it 'does not allows extra letters at beginning' do
-        create :movie, code: 'AMIUM-059'
-        movie = create :movie, code: '300MIUM-059'
-        expect(Movie.search!('MIUM-059')).to eq(movie)
+        movie = create :movie, code: 'AMIUM-059'
+        expect(Movie.search!('MIUM-059')).not_to eq(movie)
       end
 
       it 'does not allow extra digits at end' do
-        create :movie, code: 'LIBRE-1000'
-        movie = create :movie, code: 'LIBRE-100'
-        expect(Movie.search!('LIBRE-100')).to eq(movie)
+        movie = create :movie, code: 'LIBRE-1000'
+        expect(Movie.search!('LIBRE-100')).not_to eq(movie)
       end
     end
 

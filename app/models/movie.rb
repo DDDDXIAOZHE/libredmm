@@ -75,12 +75,12 @@ class Movie < ApplicationRecord
 
   def self.search!(code)
     code = code.gsub(/[^[:ascii:]]+/, ' ').strip
-    movie = where('code ~* ?', "^\\d*#{Regexp.escape(code)}$").first
+    movie = where('code ~* ?', "^(\\d{3})?#{Regexp.escape(code)}$").first
     return movie if movie
 
     begin
       attrs = attrs_from_opendmm(code)
-      return where('code ~* ?', "^\\d*#{Regexp.escape(attrs[:code])}$").first ||
+      return where('code ~* ?', "^(\\d{3})?#{Regexp.escape(attrs[:code])}$").first ||
              create!(attrs)
     rescue StandardError
       raise ActiveRecord::RecordNotFound
