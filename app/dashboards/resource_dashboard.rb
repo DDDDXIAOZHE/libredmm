@@ -12,7 +12,6 @@ class ResourceDashboard < Administrate::BaseDashboard
     id: Field::Number,
     download_uri: Field::String,
     source_uri: Field::String,
-    note: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     is_obsolete: Field::Boolean,
@@ -37,7 +36,6 @@ class ResourceDashboard < Administrate::BaseDashboard
     id
     download_uri
     source_uri
-    note
     created_at
     updated_at
     is_obsolete
@@ -50,7 +48,6 @@ class ResourceDashboard < Administrate::BaseDashboard
     movie
     download_uri
     source_uri
-    note
     is_obsolete
   ].freeze
 

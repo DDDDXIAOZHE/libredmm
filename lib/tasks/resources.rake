@@ -21,11 +21,8 @@ namespace :resources do
         end
         begin
           tries ||= 5
-          movie = Movie.search!(code)
-          movie.resources.create!(
-            download_uri: uri,
-            note: 'Password: https://www.myhd1080.tv',
-          )
+          movie = Movie.search! code
+          movie.resources.create!(download_uri: uri)
         rescue ActiveRecord::RecordNotFound, ActiveRecord::RecordInvalid
           retry if (tries -= 1) > 0
           failed << code
