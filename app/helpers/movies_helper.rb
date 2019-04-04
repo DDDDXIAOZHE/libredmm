@@ -1,5 +1,16 @@
 module MoviesHelper
-  def vote_link(movie, status, icon, height)
+  def link_to_open_all(movies)
+    link_to(
+      'Open all in new tabs',
+      '#',
+      data: {
+        urls: movies.map(url_for).join(','),
+      },
+      class: 'open-all',
+    )
+  end
+
+  def link_to_vote(movie, status, icon, height)
     return nil unless signed_in?
 
     vote = movie.votes.find do |v|
