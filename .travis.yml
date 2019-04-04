@@ -2,6 +2,8 @@ env:
   global:
     - CC_TEST_REPORTER_ID=1985c3183e1b7bbf5f36fe113fdb5f7d8eb72634f111012f0fd998fa0aa8af90
 language: ruby
+rvm:
+  - 2.6.2
 cache: bundler
 services:
   - postgresql
