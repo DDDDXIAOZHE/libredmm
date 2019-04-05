@@ -1,12 +1,12 @@
 module MoviesHelper
   def link_to_open_all(movies)
     link_to(
-      'Open all in new tabs',
+      octicon('link-external', height: 20),
       '#',
       data: {
-        urls: movies.map(url_for).join(','),
+        urls: movies.map { |m| url_for(m) },
       },
-      class: 'open-all',
+      class: 'link_to_open_all',
     )
   end
 
