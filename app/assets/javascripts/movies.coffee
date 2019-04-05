@@ -8,3 +8,5 @@ $ ->
     urls = $(this).data("urls")
     urls.map (url) ->
       window.open(url, "_blank")
+
+  $('[data-toggle="tooltip"]').tooltip()

@@ -4,8 +4,10 @@ module MoviesHelper
       octicon('link-external', height: 20),
       '#',
       data: {
+        toggle: 'tooltip',
         urls: movies.map { |m| url_for(m) },
       },
+      title: 'Open all in new tabs',
       class: 'link_to_open_all',
     )
   end
