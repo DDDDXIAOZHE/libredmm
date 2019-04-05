@@ -2,6 +2,24 @@
   <%= "#{@movie.code} #{@movie.title}" %>
 <% end %>
 
+<% content_for :js do %>
+  <script>
+    $(function() {
+      document.onkeydown = function(e) {
+        if (e.key === "d") {
+          $("a.vote-down")[0].click();
+        } else if (e.key === "u") {
+          $("a.vote-up")[0].click();
+        } else if (e.key === "b") {
+          $("a.vote-bookmark")[0].click();
+        } else if (e.key === "w") {
+          $("a.resource-download:link")[0].click();
+        }
+      };
+    });
+  </script>
+<% end %>
+
 <h1>
   <span><%= @movie.code %></span>
   <span><%= @movie.title %></span>
@@ -65,7 +83,7 @@
       <tbody>
         <% @movie.resources.each do |resource| %>
           <tr>
-            <td><%= link_to resource.download_uri, resource %></td>
+            <td><%= link_to resource.download_uri, resource, class: 'resource-download' %></td>
             <td><%= link_to(resource.source_uri, resource.source_uri) if resource.source_uri %></td>
             <td><%= link_to(
               octicon(:trashcan), resource,

@@ -20,7 +20,7 @@ module MoviesHelper
       link_to(
         movie_vote_url(movie),
         method: :delete,
-        class: 'text-primary align-bottom',
+        class: "text-primary align-bottom vote-#{status}",
       ) do
         octicon icon, height: height
       end
@@ -28,7 +28,7 @@ module MoviesHelper
       link_to(
         movie_vote_url(movie, vote: { status: status }),
         method: :put,
-        class: 'text-secondary',
+        class: "text-secondary vote-#{status}",
       ) do
         octicon icon, height: height
       end
