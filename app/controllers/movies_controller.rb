@@ -3,6 +3,7 @@ class MoviesController < ApplicationController
   # GET /movies.json
   def index
     @movies = params[:fuzzy] ? Movie.fuzzy_match(params[:fuzzy]) : Movie.all
+    filter_by_vr
     filter_by_vote
     filter_by_resource
     order_and_paginate
@@ -37,6 +38,16 @@ class MoviesController < ApplicationController
   end
 
   private
+
+  def filter_by_vr
+    @vr = params[:vr]
+    case @vr
+    when 'yes'
+      @movies = @movies.vr
+    when 'no'
+      @movies = @movies.non_vr
+    end
+  end
 
   def filter_by_vote
     @vote = params[:vote]

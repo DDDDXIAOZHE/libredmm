@@ -71,6 +71,13 @@ class Movie < ApplicationRecord
   scope :latest_first, -> { order('release_date DESC NULLS LAST, code ASC') }
   scope :oldest_first, -> { order('release_date ASC NULLS LAST, code ASC') }
 
+  scope :vr, -> {
+    where('title ILIKE ?', '【VR】%')
+  }
+  scope :non_vr, -> {
+    where('title NOT ILIKE ?', '【VR】%')
+  }
+
   validates :code, :cover_image, :page, :title, presence: true
   validates :code, uniqueness: { case_sensitive: false }
 
@@ -111,6 +118,10 @@ class Movie < ApplicationRecord
 
   def full_name
     "#{code} #{title}"
+  end
+
+  def vr?
+    title.start_with? '【VR】'
   end
 
   def to_param

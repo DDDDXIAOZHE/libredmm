@@ -1,6 +1,17 @@
 <nav class="card mb-3">
   <div class="card-body">
     <section>
+      <div class="btn-toolbar mb-3">
+        <%= render partial: '/movies/filter_nav', locals: {
+          param_name: :order,
+          options: %i[default latest_first oldest_first],
+        } %>
+
+        <%= render partial: '/movies/filter_nav', locals: {
+          param_name: :vr,
+          options: %i[yes no],
+        } %>
+      </div>
       <% if signed_in? %>
         <div class="btn-toolbar mb-3">
           <%= render partial: '/movies/filter_nav', locals: {
@@ -19,11 +30,6 @@
             <%= render partial: '/movies/filter_nav', locals: {
               param_name: :bt_resource,
               options: %i[with without],
-            } %>
-
-            <%= render partial: '/movies/filter_nav', locals: {
-              param_name: :order,
-              options: %i[default latest_first oldest_first],
             } %>
           </div>
         <% end %>

@@ -29,6 +29,18 @@ RSpec.describe Movie, type: :model do
     end
   end
 
+  describe '.vr?' do
+    it 'returns true for VR movie' do
+      movie = create :movie, title: '【VR】Dummy VR'
+      expect(movie.vr?).to be_truthy
+    end
+
+    it 'returns false for regular movie' do
+      movie = create :movie
+      expect(movie.vr?).to be_falsey
+    end
+  end
+
   describe '.normalize_code!' do
     before :context do
       Movie.skip_callback(:save, :before, :normalize_code)
@@ -638,6 +650,36 @@ RSpec.describe Movie, type: :model do
       it 'nil includes voted movies' do
         vote = create :vote
         expect(Movie.not_voted_by(nil)).to include(vote.movie)
+      end
+    end
+
+    describe 'vr' do
+      before :each do
+        @vr_movie = create :movie, title: '【VR】Dummy VR'
+        @regular_movie = create :movie
+      end
+
+      it 'includes vr movies' do
+        expect(Movie.vr.all).to include(@vr_movie)
+      end
+
+      it 'excludes regular movies' do
+        expect(Movie.vr.all).not_to include(@regular_movie)
+      end
+    end
+
+    describe 'non_vr' do
+      before :each do
+        @vr_movie = create :movie, title: '【VR】Dummy VR'
+        @regular_movie = create :movie
+      end
+
+      it 'excludes vr movies' do
+        expect(Movie.non_vr.all).not_to include(@vr_movie)
+      end
+
+      it 'includes regular movies' do
+        expect(Movie.non_vr.all).to include(@regular_movie)
       end
     end
 

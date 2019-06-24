@@ -8,6 +8,16 @@ RSpec.describe 'movies/index' do
     @movies = Movie.all.page(1)
   end
 
+  it 'renders order options' do
+    render
+    expect(rendered).to have_selector('#orderNav')
+  end
+
+  it 'renders vr options' do
+    render
+    expect(rendered).to have_selector('#vrNav')
+  end
+
   context 'when signed in' do
     before :each do
       allow(view).to receive(:signed_in?).and_return(true)
@@ -58,11 +68,7 @@ RSpec.describe 'movies/index' do
         )
       end
 
-      it 'renders order options' do
-        render
-        expect(rendered).to have_selector('#orderNav')
-      end
-
+      
       it 'renders current order option as active' do
         render
         expect(rendered).to have_selector(
@@ -108,11 +114,6 @@ RSpec.describe 'movies/index' do
       render
       expect(rendered).not_to have_selector('#baiduPanResourceNav')
       expect(rendered).not_to have_selector('#btResourceNav')
-    end
-
-    it 'hides order options' do
-      render
-      expect(rendered).not_to have_selector('#orderNav')
     end
   end
 end
