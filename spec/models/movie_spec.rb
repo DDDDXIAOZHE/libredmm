@@ -30,6 +30,14 @@ RSpec.describe Movie, type: :model do
   end
 
   describe '.normalize_code!' do
+    before :context do
+      Movie.skip_callback(:save, :before, :normalize_code)
+    end
+
+    after :context do
+      Movie.set_callback(:save, :before, :normalize_code)
+    end
+
     context 'on short code' do
       it 'does nothing' do
         movie = create :movie, code: 'CODE-020'
@@ -69,6 +77,17 @@ RSpec.describe Movie, type: :model do
           movie.normalize_code!
           expect(movie).to be_destroyed
         end
+      end
+    end
+
+    context 'on code with 3 leading digits' do
+      it 'removes 3 leading digits' do
+        movie = create :movie, code: '300CODE-123'
+        expect {
+          movie.normalize_code!
+        }.to change {
+          movie.code
+        }.to('CODE-123')
       end
     end
   end

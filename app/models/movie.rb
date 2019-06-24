@@ -74,6 +74,8 @@ class Movie < ApplicationRecord
   validates :code, :cover_image, :page, :title, presence: true
   validates :code, uniqueness: { case_sensitive: false }
 
+  before_save :normalize_code
+
   paginates_per 20
 
   def self.search!(code)
@@ -115,15 +117,20 @@ class Movie < ApplicationRecord
     code
   end
 
-  def normalize_code!
-    new_code = code.gsub(/^(\w+)-0*(\d{3,})/, '\1-\2')
-    return if new_code == code
+  def normalize_code
+    code.gsub!(/^\d{3}?(\w+)-0*(\d{3,})/, '\1-\2')
+  end
 
-    dup = Movie.find_by(code: new_code)
+  def normalize_code!
+    old_code = code.dup
+    normalize_code
+    return if old_code == code
+
+    dup = Movie.find_by(code: code)
     if dup
       merge_to!(dup)
     else
-      update!(code: new_code)
+      save!
     end
   end
 
