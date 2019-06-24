@@ -94,12 +94,12 @@ RSpec.describe Movie, type: :model do
 
     context 'on code with 3 leading digits' do
       it 'removes 3 leading digits' do
-        movie = create :movie, code: '300CODE-123'
+        movie = create :movie, code: '300CODE-90'
         expect {
           movie.normalize_code!
         }.to change {
           movie.code
-        }.to('CODE-123')
+        }.to('CODE-90')
       end
     end
   end

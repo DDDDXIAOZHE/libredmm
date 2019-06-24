@@ -129,7 +129,8 @@ class Movie < ApplicationRecord
   end
 
   def normalize_code
-    code.gsub!(/^\d{3}?(\w+)-0*(\d+)/, '\1-\2')
+    code.gsub!(/^\d{3}/, '')
+    code.gsub!(/^(\w+)-0*(\d{3,})/, '\1-\2')
   end
 
   def normalize_code!
