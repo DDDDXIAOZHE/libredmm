@@ -30,7 +30,7 @@
             if (m[0].match(/<%= oneregex(Movie.with_baidu_pan_resources.pluck(:code)) %>/i)) {
                 cls.push('baidu_pan')
             }
-            var mark = `<mark class="${cls.join()}">${m[0]}</mark>`;
+            var mark = `<mark class="${cls.join(' ')}">${m[0]}</mark>`;
             a.innerHTML = a.innerHTML.replace(m[0], mark);
         }
     });
