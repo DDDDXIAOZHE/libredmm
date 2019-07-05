@@ -18,18 +18,18 @@
             Movie.bookmarked_by(@user).pluck(:code) +
             Movie.with_baidu_pan_resources.pluck(:code)
         )%>/i);
-        cls = []
-        if (m[0].match(/<%= oneregex(Movie.upvoted_by(@user).pluck(:code)) %>)) {
-            cls.push('upvote')
-        } else if (m[0].match(/<%= oneregex(Movie.downvoted_by(@user).pluck(:code)) %>)) {
-            cls.push('downvote')
-        } else if (m[0].match(/<%= oneregex(Movie.bookmarked_by(@user).pluck(:code)) %>)) {
-            cls.push('bookmark')
-        }
-        if (m[0].match(/<%= oneregex(Movie.with_baidu_pan_resources.pluck(:code)) %>)) {
-            cls.push('baidu_pan')
-        }
         if (m) {
+            var cls = []
+            if (m[0].match(/<%= oneregex(Movie.upvoted_by(@user).pluck(:code)) %>/i)) {
+                cls.push('upvote')
+            } else if (m[0].match(/<%= oneregex(Movie.downvoted_by(@user).pluck(:code)) %>/i)) {
+                cls.push('downvote')
+            } else if (m[0].match(/<%= oneregex(Movie.bookmarked_by(@user).pluck(:code)) %>/i)) {
+                cls.push('bookmark')
+            }
+            if (m[0].match(/<%= oneregex(Movie.with_baidu_pan_resources.pluck(:code)) %>/i)) {
+                cls.push('baidu_pan')
+            }
             var mark = `<mark class="${cls.join()}">${m[0]}</mark>`;
             a.innerHTML = a.innerHTML.replace(m[0], mark);
         }
