@@ -9,6 +9,26 @@ RSpec.describe VotesHelper, type: :helper do
       )
     end
 
+    it 'matches variants' do
+      codes = ['ABC-123']
+      variants = [
+        'ABC0123',
+        'ABC-00123',
+        'ABC_000123',
+        'ABC 0000123',
+      ]
+      expect(variants).to all(
+        match(Regexp.new(oneregex(codes), Regexp::IGNORECASE)),
+      )
+    end
+
+    it 'doesn not match brackets' do
+      codes = ['ABC-123']
+      expect('(ABC)123').not_to match(
+        Regexp.new(oneregex(codes), Regexp::IGNORECASE),
+      )
+    end
+
     it 'handles speical format of FC2' do
       codes = ['FC2-PPV 012345']
       variants = [

@@ -26,7 +26,7 @@ module VotesHelper
           }.join(' ')
         end
       end
-      "(#{series}[-_ ()]*0*(#{nums.join('|')}))"
+      "(#{series}[-_ ]*0*(#{nums.join('|')}))"
     }.join('|')
 
     "(#{branches})(\\b|\\z|\\D)"
