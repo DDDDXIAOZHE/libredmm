@@ -6,7 +6,6 @@
 // @author       LibreDMM
 // @match        http*://tp.m-team.cc/adult.php*
 // @match        http*://www.hd1080.org/forum.php*
-// @match        http*://www.lsj1080.tv/forum.php*
 // @match        http*://www.sehuatang.org/forum*
 // @match        http*://localhost*
 // ==/UserScript==
@@ -14,13 +13,24 @@
 (function() {
     'use strict';
     document.querySelectorAll('a').forEach(function(a){
-        if (window.location.hostname == "www.hd1080.org" || window.location.hostname == "www.lsj1080.tv") {
-            var m = a.text.match(/<%= oneregex(Movie.with_baidu_pan_resources.pluck(:code)) %>/i);
-        } else {
-            var m = a.text.match(/<%= oneregex(Movie.voted_by(@user).pluck(:code) + Movie.bookmarked_by(@user).pluck(:code)) %>/i);
+        var m = a.text.match(/<%= oneregex(
+            Movie.voted_by(@user).pluck(:code) +
+            Movie.bookmarked_by(@user).pluck(:code) +
+            Movie.with_baidu_pan_resources.pluck(:code)
+        )%>/i);
+        cls = []
+        if (m[0].match(/<%= oneregex(Movie.upvoted_by(@user).pluck(:code)) %>)) {
+            cls.push('upvote')
+        } else if (m[0].match(/<%= oneregex(Movie.downvoted_by(@user).pluck(:code)) %>)) {
+            cls.push('downvote')
+        } else if (m[0].match(/<%= oneregex(Movie.bookmarked_by(@user).pluck(:code)) %>)) {
+            cls.push('bookmark')
+        }
+        if (m[0].match(/<%= oneregex(Movie.with_baidu_pan_resources.pluck(:code)) %>)) {
+            cls.push('baidu_pan')
         }
         if (m) {
-            var mark = '<mark>' + m[0] + '</mark>';
+            var mark = `<mark class="${cls.join()}">${m[0]}</mark>`;
             a.innerHTML = a.innerHTML.replace(m[0], mark);
         }
     });
