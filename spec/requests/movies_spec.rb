@@ -32,6 +32,13 @@ RSpec.describe 'Movies', type: :request do
         get(movie_url(code: generate(:code)))
         expect(response).to redirect_to(code: movie.code)
       end
+
+      it 'redirects with request format preserved' do
+        movie = create :movie
+        allow(Movie).to receive(:search!) { movie }
+        get(movie_url(code: generate(:code), format: :json))
+        expect(response).to redirect_to(code: movie.code, format: :json)
+      end
     end
   end
 

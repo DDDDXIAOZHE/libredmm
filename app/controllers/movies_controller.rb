@@ -13,7 +13,10 @@ class MoviesController < ApplicationController
   # GET /movies/1.json
   def show
     @movie = Movie.search!(params[:code])
-    redirect_to code: @movie.code if @movie.code != params[:code]
+    redirect_to(
+      code: @movie.code,
+      format: request.format.json? ? :json : nil,
+    ) if @movie.code != params[:code]
   end
 
   # DELETE /movies/1
