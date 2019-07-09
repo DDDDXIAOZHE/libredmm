@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.feature 'Request unvoted torrents RSS', type: :feature do

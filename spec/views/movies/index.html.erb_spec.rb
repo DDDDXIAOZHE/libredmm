@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'movies/index' do
@@ -68,7 +70,6 @@ RSpec.describe 'movies/index' do
         )
       end
 
-      
       it 'renders current order option as active' do
         render
         expect(rendered).to have_selector(

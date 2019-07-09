@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'open-uri'
 
 namespace :resources do
@@ -43,15 +45,13 @@ namespace :resources do
       obsoleted = []
       failed = []
       URI.parse(args[:dump_uri]).open.each do |code|
-        begin
-          code.strip!
-          movie = Movie.search!(code)
-          movie.resources.in_bt.update_all(is_obsolete: true)
-          Vote.where(user: user, movie: movie, status: :bookmark).destroy_all
-          obsoleted << movie.code
-        rescue ActiveRecord::RecordNotFound
-          failed << code
-        end
+        code.strip!
+        movie = Movie.search!(code)
+        movie.resources.in_bt.update_all(is_obsolete: true)
+        Vote.where(user: user, movie: movie, status: :bookmark).destroy_all
+        obsoleted << movie.code
+      rescue ActiveRecord::RecordNotFound
+        failed << code
       end
       puts "#{obsoleted.size} obsoleted: #{obsoleted}"
       puts "#{failed.size} failed: #{failed}"

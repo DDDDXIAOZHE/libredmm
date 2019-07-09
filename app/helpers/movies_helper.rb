@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MoviesHelper
   def link_to_open_all(movies)
     link_to(

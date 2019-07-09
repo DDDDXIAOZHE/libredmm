@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   sequence :code do |n|
     "CODE-#{format('%03d', n)}"

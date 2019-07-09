@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ResourcesController < ApplicationController
   before_action do
     unless signed_in_as_admin?

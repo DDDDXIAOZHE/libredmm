@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MoviesController < ApplicationController
   # GET /movies
   # GET /movies.json

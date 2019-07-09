@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.feature 'List movies with bt resource filter', type: :feature do
