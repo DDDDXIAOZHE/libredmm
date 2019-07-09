@@ -26,7 +26,7 @@ namespace :resources do
           movie = Movie.search! code
           movie.resources.create!(download_uri: uri)
         rescue ActiveRecord::RecordNotFound, ActiveRecord::RecordInvalid
-          retry if (tries -= 1) > 0
+          retry if (tries -= 1).positive?
           failed << code
         else
           loaded << movie.code
