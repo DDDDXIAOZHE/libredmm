@@ -41,20 +41,21 @@ RSpec.describe Movie, type: :model do
     end
   end
 
-  describe '.normalize_code!' do
-    before :context do
-      Movie.skip_callback(:save, :before, :normalize_code)
-    end
-
-    after :context do
-      Movie.set_callback(:save, :before, :normalize_code)
+  describe '.normalize_code' do
+    it 'changes code to upper case' do
+      movie = build :movie, code: 'code-123'
+      expect {
+        movie.normalize_code
+      }.to change {
+        movie.code
+      }.to('CODE-123')
     end
 
     context 'on short code' do
       it 'does nothing' do
-        movie = create :movie, code: 'CODE-020'
+        movie = build :movie, code: 'CODE-020'
         expect {
-          movie.normalize_code!
+          movie.normalize_code
         }.not_to change {
           movie.code
         }
@@ -63,9 +64,9 @@ RSpec.describe Movie, type: :model do
 
     context 'on long code without leading zero' do
       it 'does nothing' do
-        movie = create :movie, code: 'CODE-12345'
+        movie = build :movie, code: 'CODE-12345'
         expect {
-          movie.normalize_code!
+          movie.normalize_code
         }.not_to change {
           movie.code
         }
@@ -74,91 +75,24 @@ RSpec.describe Movie, type: :model do
 
     context 'on long code with leading zero' do
       it 'removes leading zero' do
-        movie = create :movie, code: 'CODE-00123'
+        movie = build :movie, code: 'CODE-00123'
         expect {
-          movie.normalize_code!
+          movie.normalize_code
         }.to change {
           movie.code
         }.to('CODE-123')
-      end
-
-      context 'on duplicate' do
-        it 'merges movies' do
-          movie = create :movie, code: 'CODE-00123'
-          create :movie, code: 'CODE-123'
-          movie.normalize_code!
-          expect(movie).to be_destroyed
-        end
       end
     end
 
     context 'on code with 3 leading digits' do
       it 'removes 3 leading digits' do
-        movie = create :movie, code: '300CODE-90'
+        movie = build :movie, code: '300CODE-90'
         expect {
-          movie.normalize_code!
+          movie.normalize_code
         }.to change {
           movie.code
         }.to('CODE-90')
       end
-    end
-  end
-
-  describe '.merge_to!' do
-    it 'merges votes' do
-      vote = create :vote
-      new_movie = create :movie
-      expect {
-        vote.movie.merge_to!(new_movie)
-      }.to change {
-        vote.reload.movie
-      }.to(new_movie)
-    end
-
-    it 'merges resources' do
-      resource = create :resource
-      new_movie = create :movie
-      expect {
-        resource.movie.merge_to!(new_movie)
-      }.to change {
-        resource.reload.movie
-      }.to(new_movie)
-    end
-
-    it 'destroy itself' do
-      movie = create :movie
-      new_movie = create :movie
-      movie.merge_to!(new_movie)
-      expect(movie).to be_destroyed
-    end
-  end
-
-  context 'on destroy' do
-    it 'destroys all votes' do
-      vote = create :vote
-      expect {
-        vote.movie.destroy
-      }.to change {
-        Vote.count
-      }.by(-1)
-    end
-
-    it 'destroys valid resources' do
-      resource = create :resource
-      expect {
-        resource.movie.destroy
-      }.to change {
-        Resource.count
-      }.by(-1)
-    end
-
-    it 'destroys obsolete resources as well' do
-      resource = create :resource, is_obsolete: true
-      expect {
-        resource.movie.destroy
-      }.to change {
-        Resource.count
-      }.by(-1)
     end
   end
 

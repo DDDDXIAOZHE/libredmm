@@ -42,7 +42,7 @@ class Movie < ApplicationRecord
   }
 
   scope :with_code, ->(code) {
-    where('code ~* ?', "^(\\d{3})?#{Regexp.escape(code)}$")
+    where(code: code.upcase)
   }
   scope :fuzzy_match, ->(keyword) {
     where('code ILIKE ?', "%#{keyword}%").or(
@@ -129,26 +129,8 @@ class Movie < ApplicationRecord
   end
 
   def normalize_code
+    code.upcase!
     code.gsub!(/^\d{3}/, '')
-    code.gsub!(/^(\w+)-0*(\d{3,})/, '\1-\2')
-  end
-
-  def normalize_code!
-    old_code = code.dup
-    normalize_code
-    return if old_code == code
-
-    dup = Movie.find_by(code: code)
-    if dup
-      merge_to!(dup)
-    else
-      save!
-    end
-  end
-
-  def merge_to!(movie)
-    Vote.where(movie: self).update_all(movie_id: movie.id)
-    Resource.where(movie: self).update_all(movie_id: movie.id)
-    destroy!
+    code.gsub!(/^(\w+)-0*(\d{3,})$/, '\1-\2')
   end
 end
