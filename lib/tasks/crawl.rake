@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 require 'open-uri'
-require 'crawler/thz'
+require 'crawlers/thz'
 
 namespace :crawl do
   desc 'crawl thzvvv.com'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'simplecov'
 SimpleCov.start 'rails' do
   add_filter %r{^/app/channels/}
@@ -5,7 +7,7 @@ SimpleCov.start 'rails' do
   add_filter %r{^/app/dashboards/}
   add_filter %r{^/app/jobs/}
   add_filter %r{^/app/mailers/}
-  add_filter %r{^/lib/crawler/}
+  add_filter %r{^/lib/crawlers/}
 end
 
 if ENV['CI'] == 'true'
