@@ -1,14 +1,26 @@
+# frozen_string_literal: true
+
 class VotesController < ApplicationController
   before_action :require_login, only: %i[update destroy]
   before_action :set_movie_and_vote, only: %i[update destroy]
   protect_from_forgery except: :index
 
-  # GET /users/foo@bar.com/vote.codes
+  # GET /users/foo@bar.com/votes.codes
   def index
     @user = User.find_by_email!(params[:user_email])
     respond_to do |format|
       format.codes do
-        render plain: Movie.voted_by(@user).pluck(:code).sort.join("\n")
+        movies = case params[:status]
+                 when 'up'
+                   Movie.upvoted_by(@user)
+                 when 'down'
+                   Movie.downvoted_by(@user)
+                 when 'bookmark'
+                   Movie.bookmarked_by(@user)
+                 else
+                   Movie.voted_by(@user)
+                 end
+        render plain: movies.pluck(:code).sort.join("\n")
       end
       format.js { render :index }
     end
@@ -18,21 +30,19 @@ class VotesController < ApplicationController
   # PUT /movies/CODE-001/vote.json
   def update
     respond_to do |format|
-      begin
-        @vote.update_attributes(vote_params)
-        format.html do
-          redirect_back(
-            fallback_location: @movie,
-            notice: "Voted #{@vote.status}!",
-          )
-        end
-        format.json { render :show, status: :ok, location: @movie }
-      rescue ArgumentError, ActiveRecord::RecordInvalid
-        format.html do
-          redirect_back fallback_location: @movie, notice: 'Vote failed!'
-        end
-        format.json { render json: @vote.errors, status: :unprocessable_entity }
+      @vote.update_attributes(vote_params)
+      format.html do
+        redirect_back(
+          fallback_location: @movie,
+          notice: "Voted #{@vote.status}!",
+        )
       end
+      format.json { render :show, status: :ok, location: @movie }
+    rescue ArgumentError, ActiveRecord::RecordInvalid
+      format.html do
+        redirect_back fallback_location: @movie, notice: 'Vote failed!'
+      end
+      format.json { render json: @vote.errors, status: :unprocessable_entity }
     end
   end
 
