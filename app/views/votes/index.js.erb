@@ -4,11 +4,11 @@
 // @version      <%= Time.now.strftime('%y%m%d.%H%M%S') %>
 // @description  Highlight matched AV codes (aka Fanhao)
 // @author       LibreDMM
-// @match        http*://tp.m-team.cc/adult.php*
-// @match        http*://www.hd1080.org/forum.php*
-// @match        http*://www.sehuatang.org/forum*
-// @match        http*://localhost*
+<% ENV['TAMPERMONKEY_MATCHES'].split(',').each do |match| -%>
+// @match        <%= match %>
+<% end -%>
 // ==/UserScript==
+
 
 (function() {
     'use strict';
