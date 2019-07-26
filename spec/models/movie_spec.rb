@@ -44,15 +44,6 @@ RSpec.describe Movie, type: :model do
   end
 
   describe '.normalize_code' do
-    it 'changes code to upper case' do
-      movie = build :movie, code: 'code-123'
-      expect {
-        movie.normalize_code
-      }.to change {
-        movie.code
-      }.to('CODE-123')
-    end
-
     context 'on short code' do
       it 'does nothing' do
         movie = build :movie, code: 'CODE-020'
@@ -310,6 +301,13 @@ RSpec.describe Movie, type: :model do
   end
 
   context 'scope' do
+    describe 'with_case' do
+      it 'ignores case' do
+        movie = create :movie, code: 'Carib 123456-789'
+        expect(Movie.with_code(movie.code.downcase)).to include(movie)
+      end
+    end
+
     describe 'with_baidu_pan_resources' do
       it 'includes movies with resources from pan.baidu.com' do
         resource = create :resource, download_uri: generate(:baidu_pan_uri)

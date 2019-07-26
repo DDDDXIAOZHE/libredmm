@@ -44,7 +44,7 @@ class Movie < ApplicationRecord
   }
 
   scope :with_code, ->(code) {
-    where(code: code.upcase)
+    where('LOWER(code) = ?', code.downcase)
   }
   scope :fuzzy_match, ->(keyword) {
     where('code ILIKE ?', "%#{keyword}%").or(
@@ -131,7 +131,6 @@ class Movie < ApplicationRecord
   end
 
   def normalize_code
-    code.upcase!
     code.gsub!(/^\d{3}/, '')
     code.gsub!(/^(\w+)-0*(\d{3,})$/, '\1-\2')
   end
