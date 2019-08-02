@@ -1,20 +1,12 @@
 # frozen_string_literal: true
 
-require 'mechanize'
 require 'aws-sdk-s3'
+require 'mechanize'
 
 class ThzCrawler
   def initialize
     @agent = Mechanize.new
-
-    Aws.config.update(
-      credentials: Aws::Credentials.new(
-        ENV['AWS_ACCESS_KEY_ID'],
-        ENV['AWS_SECRET_ACCESS_KEY'],
-      ),
-    )
-    s3 = Aws::S3::Resource.new(region: 'us-west-1')
-    @s3_bucket = s3.bucket ENV['AWS_S3_BUCKET']
+    @s3 = AwsS3.new
   end
 
   def crawl
@@ -32,7 +24,7 @@ class ThzCrawler
   end
 
   def crawl_forum(page, backfill:)
-    puts "=== #{page.uri} ==="
+    puts "=== #{page.uri} ===" unless Rails.env.test?
     found_new_resource = false
     page.links_with(
       text: /\S+/,
@@ -44,22 +36,10 @@ class ThzCrawler
         "%#{thread_link.href}",
       ).exists?
 
-      thread_page = thread_link.click
-      puts "# #{thread_page.uri}"
-      torrent_link = thread_page.link_with!(text: /.+\.torrent/)
-      movie = Movie.search! torrent_link.to_s
-      download_link = torrent_link.click.link_with!(
-        href: /forum.php\?mod=attachment&aid=.+/,
-      )
-      s3_url = upload_to_s3(torrent_link.to_s, download_link)
-      resource = movie.resources.create!(
-        download_uri: s3_url,
-        source_uri: thread_page.uri.to_s,
-      )
+      parse_thread(thread_link)
       found_new_resource = true
-      puts " ✓ #{movie.code} #{movie.title} <- #{resource.download_uri}"
     rescue StandardError => e
-      warn " x #{e}: #{thread_link}"
+      warn " x #{e}: #{thread_link}" unless Rails.env.test?
     end
     return unless found_new_resource || backfill
 
@@ -67,14 +47,19 @@ class ThzCrawler
     crawl_forum(next_page_link.click, backfill: backfill) if next_page_link
   end
 
-  def upload_to_s3(filename, dl_link)
-    object = @s3_bucket.object("thz/#{filename}")
-    object.put(
-      body: dl_link.click.content,
-      content_disposition: 'attachment',
-      content_type: 'application/x-bittorrent',
-      acl: 'public-read',
-    ) unless object.exists?
-    object.public_url
+  def parse_thread(link)
+    page = link.click
+    puts "# #{page.uri} #{link}" unless Rails.env.test?
+    torrent_link = page.link_with!(text: /.+\.torrent/)
+    movie = Movie.search! torrent_link.to_s
+    download_link = torrent_link.click.link_with!(
+      href: /forum.php\?mod=attachment&aid=.+/,
+    )
+    s3_url = @s3.put_torrent("thz/#{torrent_link}", download_link)
+    resource = movie.resources.create!(
+      download_uri: s3_url,
+      source_uri: page.uri.to_s,
+    )
+    puts " ✓ #{movie.code} #{movie.title} <- #{resource.download_uri}" unless Rails.env.test?
   end
 end
