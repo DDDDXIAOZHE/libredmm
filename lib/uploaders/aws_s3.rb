@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'aws-sdk-s3'
+
 class AwsS3
   def initialize
     Aws.config.update(

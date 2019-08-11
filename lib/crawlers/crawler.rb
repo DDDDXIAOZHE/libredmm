@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'aws-sdk-s3'
 require 'mechanize'
+require 'uploaders/aws_s3'
 
 class Crawler
   def initialize
