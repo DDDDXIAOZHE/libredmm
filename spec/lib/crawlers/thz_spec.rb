@@ -13,11 +13,15 @@ RSpec.describe ThzCrawler do
       'http://s3.aws.com/path/to.torrent',
     )
     allow(AwsS3).to receive(:new).and_return(s3)
-    WebMock.allow_net_connect!
-  end
-
-  after(:each) do
-    WebMock.disable_net_connect!
+    stub_request(:get, %r{/forum-\d+-\d+.html}).to_return(
+      File.new('spec/lib/crawlers/fixtures/thz.forum.html'),
+    )
+    stub_request(:get, %r{/thread-\d+-\d+-\d+.html}).to_return(
+      File.new('spec/lib/crawlers/fixtures/thz.thread.html'),
+    )
+    stub_request(:get, %r{/imc_attachad-ad.html}).to_return(
+      File.new('spec/lib/crawlers/fixtures/thz.attachment.html'),
+    )
   end
 
   describe '.crawl' do
