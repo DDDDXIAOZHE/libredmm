@@ -8,10 +8,10 @@ RSpec.describe ThzCrawler do
 
   before(:each) do
     stub_request(:get, %r{/forum-\d+-1.html}).to_return(
-      File.new('spec/lib/crawlers/fixtures/thz.forum.html'),
+      File.new('spec/lib/crawlers/fixtures/thz.forum.first.trimmed.html'),
     )
     stub_request(:get, %r{/forum-\d+-2.html}).to_return(
-      File.new('spec/lib/crawlers/fixtures/thz.forum.last.html'),
+      File.new('spec/lib/crawlers/fixtures/thz.forum.last.trimmed.html'),
     )
     stub_request(:get, %r{/thread-\d+-\d+-\d+.html}).to_return(
       File.new('spec/lib/crawlers/fixtures/thz.thread.html'),
