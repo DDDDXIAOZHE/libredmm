@@ -1,6 +1,10 @@
 env:
   global:
+    - AWS_ACCESS_KEY_ID=access_key
+    - AWS_SECRET_ACCESS_KEY=secret/access/key
+    - AWS_S3_BUCKET=travis_ci
     - CC_TEST_REPORTER_ID=1985c3183e1b7bbf5f36fe113fdb5f7d8eb72634f111012f0fd998fa0aa8af90
+    - TAMPERMONKEY_MATCHES="http*://localhost*"
 language: ruby
 rvm:
   - 2.6.3
