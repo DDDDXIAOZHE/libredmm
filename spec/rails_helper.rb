@@ -7,7 +7,6 @@ SimpleCov.start 'rails' do
   add_filter %r{^/app/dashboards/}
   add_filter %r{^/app/jobs/}
   add_filter %r{^/app/mailers/}
-  add_filter %r{^/lib/uploaders/}
 end
 
 if ENV['CI'] == 'true'

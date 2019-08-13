@@ -2,17 +2,11 @@
 
 require 'rails_helper'
 require 'crawlers/thz'
-require 'uploaders/aws_s3'
 
-RSpec.describe ThzCrawler do
+RSpec.describe ThzCrawler, focus: true do
   let(:crawler) { ThzCrawler.new }
-  let(:s3) { instance_double('S3') }
 
   before(:each) do
-    allow(s3).to receive(:put_torrent).and_return(
-      'http://s3.aws.com/path/to.torrent',
-    )
-    allow(AwsS3).to receive(:new).and_return(s3)
     stub_request(:get, %r{/forum-\d+-\d+.html}).to_return(
       File.new('spec/lib/crawlers/fixtures/thz.forum.html'),
     )
@@ -46,8 +40,8 @@ RSpec.describe ThzCrawler do
         m.call(*args)
         thread_parsed = true
       }
+      expect(crawler).to receive(:upload_torrent).once.and_call_original
       crawler.crawl
-      expect(s3).to have_received(:put_torrent).once
     end
 
     it 'continues to next page if new resource found' do

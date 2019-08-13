@@ -1,12 +1,22 @@
 # frozen_string_literal: true
 
+require 'aws-sdk-s3'
 require 'mechanize'
-require 'uploaders/aws_s3'
 
 class Crawler
   def initialize
     @agent = Mechanize.new
-    @s3 = AwsS3.new
+
+    Aws.config.update(
+      credentials: Aws::Credentials.new(
+        ENV['AWS_ACCESS_KEY_ID'],
+        ENV['AWS_SECRET_ACCESS_KEY'],
+      ),
+    )
+    @s3_bucket = Aws::S3::Resource.new(
+      region: 'us-west-1',
+      stub_responses: Rails.env.test?,
+    ).bucket(ENV['AWS_S3_BUCKET'])
   end
 
   def crawl_forum(page, backfill:)
@@ -39,8 +49,8 @@ class Crawler
     page = link.click
     title = extract_title_from_thread page
     movie = Movie.search! title
-    download_link = extract_dl_link_from_thread page
-    s3_url = @s3.put_torrent("thz/#{title}", download_link)
+    dl_link = extract_dl_link_from_thread page
+    s3_url = upload_torrent("thz/#{title}", dl_link)
     resource = movie.resources.create!(
       download_uri: s3_url,
       source_uri: page.uri.to_s,
@@ -58,5 +68,16 @@ class Crawler
     # :nocov:
     raise NotImplementedError
     # :nocov:
+  end
+
+  def upload_torrent(path, dl_link)
+    object = @s3_bucket.object(path)
+    object.put(
+      body: dl_link.click.content,
+      content_disposition: 'attachment',
+      content_type: 'application/x-bittorrent',
+      acl: 'public-read',
+    ) unless object.exists?
+    object.public_url
   end
 end
