@@ -21,21 +21,11 @@ class Crawler
 
   def crawl_forum(page, backfill:)
     puts "=== #{page.uri} ===" unless Rails.env.test?
-    found_new_resource = false
-    extract_threads_from_forum(page).each do |thread_link|
-      next if Resource.where(
-        'source_uri LIKE ?',
-        "%#{thread_link.href}",
-      ).exists?
-
+    return unless extract_threads_from_forum(page).map { |thread_link|
       parse_thread thread_link
-      found_new_resource = true
-    rescue StandardError => e
-      warn " x #{e}: #{thread_link}" unless Rails.env.test?
-    end
-    return unless found_new_resource || backfill
+    }.any? || backfill
 
-    next_page_link = page.link_with(text: /下一页/)
+    next_page_link = page.link_with(text: /下一页/, href: /forum/)
     crawl_forum(next_page_link.click, backfill: backfill) if next_page_link
   end
 
@@ -46,16 +36,23 @@ class Crawler
   end
 
   def parse_thread(link)
+    resource = Resource.where('source_uri LIKE ?', "%#{link.href}").first
+    if resource
+      puts " o #{resource.movie.full_name} -- #{resource.download_uri}" unless Rails.env.test?
+      return
+    end
+
     page = link.click
     title = extract_title_from_thread page
-    movie = Movie.search! title
     dl_link = extract_dl_link_from_thread page
-    s3_url = upload_torrent("thz/#{title}", dl_link)
-    resource = movie.resources.create!(
-      download_uri: s3_url,
+    resource = Movie.search!(title).resources.create!(
+      download_uri: upload_torrent("thz/#{title}", dl_link),
       source_uri: page.uri.to_s,
     )
-    puts " ✓ #{movie.code} #{movie.title} <- #{resource.download_uri}" unless Rails.env.test?
+    puts " ✓ #{resource.movie.full_name} <- #{resource.download_uri}" unless Rails.env.test?
+    resource
+  rescue StandardError => e
+    warn " x #{e} :: #{link}" unless Rails.env.test?
   end
 
   def extract_title_from_thread(_page)
