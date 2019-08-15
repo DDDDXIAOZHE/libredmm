@@ -33,7 +33,7 @@ RSpec.describe ThzCrawler do
       crawler.crawl
       expect(Resource.first).to have_attributes(
         source_uri: 'http://thz5.cc/thread-213795-1-1.html',
-        download_uri: 'https://libredmm.s3.us-west-1.amazonaws.com/thz/%5BThZu.Cc%5Dofje-178.torrent',
+        download_uri: end_with('thz/%5BThZu.Cc%5Dofje-178.torrent'),
       )
     end
   end
