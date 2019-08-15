@@ -17,7 +17,7 @@ class ThzCrawler < Crawler
     )
   end
 
-  def extract_threads_from_forum(page)
+  def extract_thread_links_from_forum(page)
     page.links_with(
       text: /\S+/,
       href: /thread-\d+-1-\d+\.html/,

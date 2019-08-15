@@ -21,18 +21,22 @@ class Crawler
 
   def crawl_forum(page, backfill:)
     puts "=== #{page.uri} ===" unless Rails.env.test?
-    return unless extract_threads_from_forum(page).map { |thread_link|
+    return unless extract_thread_links_from_forum(page).map { |thread_link|
       parse_thread thread_link
     }.any? || backfill
 
-    next_page_link = page.link_with(text: /下一页/, href: /forum/)
+    next_page_link = extract_next_page_link_from_forum(page)
     crawl_forum(next_page_link.click, backfill: backfill) if next_page_link
   end
 
-  def extract_threads_from_forum(_page)
+  def extract_thread_links_from_forum(_page)
     # :nocov:
     raise NotImplementedError
     # :nocov:
+  end
+
+  def extract_next_page_link_from_forum(page)
+    page.link_with(text: /下一页/, href: /forum/)
   end
 
   def parse_thread(link)

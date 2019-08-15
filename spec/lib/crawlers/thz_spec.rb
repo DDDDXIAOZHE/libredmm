@@ -22,38 +22,27 @@ RSpec.describe ThzCrawler do
   end
 
   describe '.crawl' do
-    it 'parses threads' do
-      expect(crawler).to receive(:parse_thread).at_least(:once).and_return(nil)
+    it 'crawls forum without backfilling' do
+      expect(crawler).to receive(:crawl_forum).twice.with(
+        anything, backfill: false
+      ).and_call_original
       crawler.crawl
     end
 
-    it 'uploads to s3' do
-      expect(crawler).to receive(:upload_torrent).at_least(:once).and_return(nil)
+    it 'creates resources' do
       crawler.crawl
-    end
-
-    it 'stops at current page if no new resource' do
-      expect(crawler).to receive(:crawl_forum).once.and_call_original
-      allow(crawler).to receive(:parse_thread).and_return(nil)
-      crawler.crawl
-    end
-
-    it 'continues to next page if new resource found' do
-      expect(crawler).to receive(:crawl_forum).twice.and_call_original
-      crawler.crawl
-    end
-
-    it 'stops at current page when repeatedly crawling' do
-      crawler.crawl
-      expect(crawler).to receive(:crawl_forum).once.and_call_original
-      crawler.crawl
+      expect(Resource.first).to have_attributes(
+        source_uri: 'http://thz5.cc/thread-213795-1-1.html',
+        download_uri: 'https://libredmm.s3.us-west-1.amazonaws.com/thz/%5BThZu.Cc%5Dofje-178.torrent',
+      )
     end
   end
 
   describe '.backfill' do
-    it 'continues to next page even if no new resource found' do
-      expect(crawler).to receive(:crawl_forum).twice.and_call_original
-      allow(crawler).to receive(:parse_thread).and_return(nil)
+    it 'crawls forum with backfilling' do
+      expect(crawler).to receive(:crawl_forum).twice.with(
+        anything, backfill: true
+      ).and_call_original
       crawler.backfill 1
     end
   end
