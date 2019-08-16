@@ -6,6 +6,7 @@ class ThzCrawler < Crawler
   def crawl
     crawl_forum(
       @agent.get('http://taohuazu.cc/forum-220-1.html'),
+      tag: '桃花族',
       backfill: false,
     )
   end
@@ -13,6 +14,7 @@ class ThzCrawler < Crawler
   def backfill(start_index)
     crawl_forum(
       @agent.get("http://taohuazu.cc/forum-220-#{start_index}.html"),
+      tag: '桃花族',
       backfill: true,
     )
   end
@@ -33,9 +35,5 @@ class ThzCrawler < Crawler
     page.link_with!(text: /.+\.torrent/).click.link_with!(
       href: /forum.php\?mod=attachment&aid=.+/,
     )
-  end
-
-  def resource_tags
-    ['桃花族']
   end
 end

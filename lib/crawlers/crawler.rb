@@ -19,14 +19,14 @@ class Crawler
     ).bucket(ENV['AWS_S3_BUCKET'])
   end
 
-  def crawl_forum(page, backfill:)
+  def crawl_forum(page, tag:, backfill:)
     puts "=== #{page.uri} ===" unless Rails.env.test?
     return unless extract_thread_links_from_forum(page).map { |thread_link|
-      parse_thread thread_link
+      parse_thread thread_link, tag: tag
     }.any? || backfill
 
     next_page_link = extract_next_page_link_from_forum(page)
-    crawl_forum(next_page_link.click, backfill: backfill) if next_page_link
+    crawl_forum(next_page_link.click, tag: tag, backfill: backfill) if next_page_link
   end
 
   def extract_thread_links_from_forum(_page)
@@ -39,7 +39,7 @@ class Crawler
     page.link_with(text: /下一页/, href: /forum/)
   end
 
-  def parse_thread(link)
+  def parse_thread(link, tag:)
     resource = Resource.where('source_uri LIKE ?', "%#{link.href}").first
     if resource
       puts " o #{resource.movie.full_name} -- #{resource.download_uri}" unless Rails.env.test?
@@ -52,7 +52,7 @@ class Crawler
     resource = Movie.search!(title).resources.create!(
       download_uri: upload_torrent("thz/#{title}", dl_link),
       source_uri: page.uri.to_s,
-      tags: resource_tags,
+      tags: [tag],
     )
     puts " ✓ #{resource.movie.full_name} <- #{resource.download_uri}" unless Rails.env.test?
     resource
@@ -67,12 +67,6 @@ class Crawler
   end
 
   def extract_dl_link_from_thread(_page)
-    # :nocov:
-    raise NotImplementedError
-    # :nocov:
-  end
-
-  def resource_tags
     # :nocov:
     raise NotImplementedError
     # :nocov:

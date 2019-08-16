@@ -24,7 +24,7 @@ RSpec.describe ThzCrawler do
   describe '.crawl' do
     it 'crawls forum without backfilling' do
       expect(crawler).to receive(:crawl_forum).twice.with(
-        anything, backfill: false
+        anything, tag: '桃花族', backfill: false
       ).and_call_original
       crawler.crawl
     end
@@ -42,7 +42,7 @@ RSpec.describe ThzCrawler do
   describe '.backfill' do
     it 'crawls forum with backfilling' do
       expect(crawler).to receive(:crawl_forum).twice.with(
-        anything, backfill: true
+        anything, tag: '桃花族', backfill: true
       ).and_call_original
       crawler.backfill 1
     end
