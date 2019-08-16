@@ -1,29 +1,28 @@
 env:
   global:
-    - AWS_ACCESS_KEY_ID=access_key
-    - AWS_SECRET_ACCESS_KEY=secret/access/key
-    - AWS_S3_BUCKET=travis_ci
-    - CC_TEST_REPORTER_ID=1985c3183e1b7bbf5f36fe113fdb5f7d8eb72634f111012f0fd998fa0aa8af90
-    - TAMPERMONKEY_MATCHES="http*://localhost*"
+  - AWS_ACCESS_KEY_ID=access_key
+  - AWS_SECRET_ACCESS_KEY=secret/access/key
+  - AWS_S3_BUCKET=travis_ci
+  - CC_TEST_REPORTER_ID=1985c3183e1b7bbf5f36fe113fdb5f7d8eb72634f111012f0fd998fa0aa8af90
+  - TAMPERMONKEY_MATCHES="http*://localhost*"
 language: ruby
 rvm:
-  - 2.6.3
+- 2.6.3
 cache: bundler
 services:
-  - postgresql
+- postgresql
 before_script:
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-  - chmod +x ./cc-test-reporter
-  - ./cc-test-reporter before-build
+- curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
+  > ./cc-test-reporter
+- chmod +x ./cc-test-reporter
+- "./cc-test-reporter before-build"
 script:
-  - bin/rails db:create RAILS_ENV=test
-  - bin/rails db:migrate RAILS_ENV=test
-  - bin/rails spec
+- bin/rails db:create RAILS_ENV=test
+- bin/rails db:migrate RAILS_ENV=test
+- bin/rails spec
 after_script:
-  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+- "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT"
 notifications:
-  email:
-    recipients:
-      - admin@libredmm.com
-    on_success: always
-    on_failure: always
+  email: false
+  slack:
+    secure: J+K0ONJ65wzL/xMAqw8uxF0p4nZGVeUkaGRFjWjzls+cJ6QF2rPWoqsZCaarGWNYAKYKiNqkj2jovjqnMPVi/89rU/ftd+KrfdZEWAfXCQ+pdqL80sMajJSYVZQKIxbktHEtCuruSVJyefkd6Ljl2GDJk8kZFtP7yKENdNSN8EPFsRC4DlafuKa72ChWDFGRiRIMkwl39sGC6M/RFU/nNmsKOIIIQscpq2SPYhR1m36NAvwHfkw8dubZYl7O2bEhOogIS8+DpCVFJFoFZM1wFgleBUDT7UPeslyOBFkdNNbVP+3ruSL7Z8k0n9dN02jxgAnkw2it0vGaK3NlV9ClAN84hd3yWlDBTjk5ktW1ELU2rOmz/TUve0Cp6cj9rcx/rPY2ZRLf7sLjpPt1620gHrg1RosG4q7WMHp69RRZTtpmYJ6gXFAjLgjRUu4/PRffgX74Jlz1vQdqgLpCShhoEcl3SvCtXp+OeUv1aS8w6JtKdM6RSukBuKjiDCLC4BAr7fMIFXJgxLGiJklp/yauLA00wnalsBlEqhkNPaXHzfmRFttTRV/2wxkXNGfQC4QcCtgkG5hv7HczfoDsaBcS99N7+pJovT1l5E/V3EC9f43oofnGBulLAw8z/FNIOnaZtZdHmal4G9W9iZmE3pAQBL9Caz7zDhIE5jQ7XgyhCPM=
