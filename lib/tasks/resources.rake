@@ -5,7 +5,7 @@ require 'open-uri'
 namespace :resources do
   namespace :load do
     desc 'load hd1080.org resources'
-    task :hd1080, %i[dump_uri] => :environment do |_, args|
+    task :hd1080, %i[dump_uri tag] => :environment do |_, args|
       duplicate = []
       failed = []
       loaded = []
@@ -24,7 +24,7 @@ namespace :resources do
         begin
           tries ||= 5
           movie = Movie.search! code
-          movie.resources.create!(download_uri: uri)
+          movie.resources.create!(download_uri: uri, tags: [tag])
         rescue ActiveRecord::RecordNotFound, ActiveRecord::RecordInvalid
           retry if (tries -= 1).positive?
           failed << code

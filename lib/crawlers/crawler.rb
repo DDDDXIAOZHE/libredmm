@@ -52,6 +52,7 @@ class Crawler
     resource = Movie.search!(title).resources.create!(
       download_uri: upload_torrent("thz/#{title}", dl_link),
       source_uri: page.uri.to_s,
+      tags: resource_tags,
     )
     puts " ✓ #{resource.movie.full_name} <- #{resource.download_uri}" unless Rails.env.test?
     resource
@@ -66,6 +67,12 @@ class Crawler
   end
 
   def extract_dl_link_from_thread(_page)
+    # :nocov:
+    raise NotImplementedError
+    # :nocov:
+  end
+
+  def resource_tags
     # :nocov:
     raise NotImplementedError
     # :nocov:

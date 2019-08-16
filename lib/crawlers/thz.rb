@@ -34,4 +34,8 @@ class ThzCrawler < Crawler
       href: /forum.php\?mod=attachment&aid=.+/,
     )
   end
+
+  def resource_tags
+    ['桃花族']
+  end
 end

@@ -34,6 +34,7 @@ RSpec.describe ThzCrawler do
       expect(Resource.first).to have_attributes(
         source_uri: 'http://thz5.cc/thread-213795-1-1.html',
         download_uri: end_with('thz/%5BThZu.Cc%5Dofje-178.torrent'),
+        tags: ['桃花族'],
       )
     end
   end

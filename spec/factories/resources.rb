@@ -17,5 +17,6 @@ FactoryBot.define do
     movie
     download_uri { generate :uri }
     is_obsolete { false }
+    tags { [] }
   end
 end

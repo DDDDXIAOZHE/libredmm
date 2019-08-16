@@ -19,6 +19,7 @@ RSpec.describe Crawler do
     allow(crawler).to receive(:extract_dl_link_from_thread).and_return(
       spy('dl_link'),
     )
+    allow(crawler).to receive(:resource_tags).and_return(['dummy_crawler'])
   end
 
   describe '.crawl_forum' do
