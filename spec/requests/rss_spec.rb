@@ -48,13 +48,9 @@ RSpec.describe 'Rss', type: :request do
     end
   end
 
-  describe 'GET /users/:user_email/torrents.rss' do
-    before :each do
-      @user = create :user
-    end
-
+  describe 'GET /rss/torrents.rss' do
     it 'works' do
-      get "/users/#{@user.email}/torrents.rss"
+      get '/rss/torrents.rss'
       expect(response).to have_http_status(200)
     end
   end

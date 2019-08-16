@@ -20,6 +20,8 @@ Rails.application.routes.draw do
 
   resources :resources, only: %i[show destroy]
 
+  get 'rss/torrents.rss', to: 'rss#torrents', format: false, as: 'torrents'
+
   resources(
     :users,
     param: :email,
@@ -29,6 +31,5 @@ Rails.application.routes.draw do
     get 'votes.codes', to: 'votes#index', format: false, as: :vote_codes
     get 'votes.user.js', to: 'votes#index', format: false
     get 'pipe.rss', to: 'rss#pipe', format: false
-    get 'torrents.rss', to: 'rss#torrents', format: false, as: 'torrents'
   end
 end

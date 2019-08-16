@@ -19,11 +19,10 @@ class RssController < ApplicationController
     render xml: xml
   end
 
-  # GET /users/foo@bar.com/torrents.rss
+  # GET /rss/torrents.rss
   def torrents
-    @user = User.find_by_email!(params[:user_email])
-    @torrents = Resource.in_bt.not_voted_by(@user).order(
-      created_at: :desc,
-    ).limit(params.fetch(:limit, 20))
+    @torrents = Resource.in_bt.order(created_at: :desc)
+    @torrents = @torrents.where('? = ANY(tags)', params[:tag]) if params[:tag]
+    @torrents = @torrents.limit(params.fetch(:limit, 20))
   end
 end
