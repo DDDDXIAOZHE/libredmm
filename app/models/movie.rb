@@ -89,7 +89,7 @@ class Movie < ApplicationRecord
 
   def self.search!(code)
     code = code.gsub(/[^[:ascii:]]+/, ' ').strip
-    movie = with_code(code).first
+    movie = with_code(code[/\w+-\d+/] || '').first
     return movie if movie
 
     begin
