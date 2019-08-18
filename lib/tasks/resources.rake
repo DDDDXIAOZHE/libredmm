@@ -24,7 +24,7 @@ namespace :resources do
         begin
           tries ||= 5
           movie = Movie.search! code
-          movie.resources.create!(download_uri: uri, tags: [tag])
+          movie.resources.create!(download_uri: uri, tags: [args[:tag]])
         rescue ActiveRecord::RecordNotFound, ActiveRecord::RecordInvalid
           retry if (tries -= 1).positive?
           failed << code
