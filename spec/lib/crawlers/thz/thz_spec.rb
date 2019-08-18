@@ -21,30 +21,23 @@ RSpec.describe ThzCrawler do
     )
   end
 
-  describe '.crawl' do
-    it 'crawls forum without backfilling' do
+  describe '.crawl_censored' do
+    it 'crawls forum' do
       expect(crawler).to receive(:crawl_forum).twice.with(
         anything, tag: '桃花族', backfill: false
       ).and_call_original
-      crawler.crawl
+      crawler.crawl_censored page: 1, backfill: false
     end
 
     it 'creates resources' do
-      crawler.crawl
+      crawler.crawl_censored page: 1, backfill: false
       expect(Resource.first).to have_attributes(
         source_uri: 'http://thz5.cc/thread-213795-1-1.html',
-        download_uri: end_with('thz/%5BThZu.Cc%5Dofje-178.torrent'),
+        download_uri: end_with(
+          "#{CGI.escape('桃花族')}/#{CGI.escape('[ThZu.Cc]ofje-178.torrent')}",
+        ),
         tags: ['桃花族'],
       )
-    end
-  end
-
-  describe '.backfill' do
-    it 'crawls forum with backfilling' do
-      expect(crawler).to receive(:crawl_forum).twice.with(
-        anything, tag: '桃花族', backfill: true
-      ).and_call_original
-      crawler.backfill 1
     end
   end
 end

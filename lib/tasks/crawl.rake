@@ -1,18 +1,27 @@
 # frozen_string_literal: true
 
 require 'open-uri'
+require 'crawlers/sht'
 require 'crawlers/thz'
 
 namespace :crawl do
-  desc 'crawl thzvvv.com'
-  task :thz => :environment do
-    ThzCrawler.new.crawl
+  namespace :thz do
+    desc 'Crawl 桃花族 亚洲有碼原創'
+    task :censored, %i[start_index backfill] => :environment do |_, args|
+      ThzCrawler.new.crawl_censored(
+        page: args.fetch(:page, 1),
+        backfill: args.fetch(:backfill, false),
+      )
+    end
   end
 
-  namespace :thz do
-    desc 'backfill thzvvv.com'
-    task :backfill, %i[start_index] => :environment do |_, args|
-      ThzCrawler.new.backfill args.fetch(:start_index, 1)
+  namespace :sht do
+    desc 'Crawl 色花堂 高清中文字幕'
+    task :subtitled, %i[start_index backfill] => :environment do |_, args|
+      ShtCrawler.new.crawl_subtitled(
+        page: args.fetch(:page, 1),
+        backfill: args.fetch(:backfill, false),
+      )
     end
   end
 end

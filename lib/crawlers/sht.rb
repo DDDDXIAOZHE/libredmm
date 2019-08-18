@@ -2,11 +2,11 @@
 
 require 'crawlers/crawler'
 
-class ThzCrawler < Crawler
-  def crawl_censored(page:, backfill:)
+class ShtCrawler < Crawler
+  def crawl_subtitled(page:, backfill:)
     crawl_forum(
-      @agent.get("http://taohuazu.cc/forum-220-#{page}.html"),
-      tag: '桃花族',
+      @agent.get("https://www.sehuatang.org/forum-103-#{page}.html"),
+      tag: '色花堂中字',
       backfill: backfill,
     )
   end
@@ -24,8 +24,6 @@ class ThzCrawler < Crawler
   end
 
   def extract_dl_link_from_thread(page)
-    page.link_with!(text: /.+\.torrent/).click.link_with!(
-      href: /forum.php\?mod=attachment&aid=.+/,
-    )
+    page.link_with!(text: /.+\.torrent/)
   end
 end

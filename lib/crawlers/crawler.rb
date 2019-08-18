@@ -50,7 +50,7 @@ class Crawler
     title = extract_title_from_thread page
     dl_link = extract_dl_link_from_thread page
     resource = Movie.search!(title).resources.create!(
-      download_uri: upload_torrent("thz/#{title}", dl_link),
+      download_uri: upload_torrent("#{tag}/#{title}", dl_link),
       source_uri: page.uri.to_s,
       tags: [tag],
     )
