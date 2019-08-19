@@ -286,7 +286,7 @@ RSpec.describe Movie, type: :model do
   end
 
   context 'scope' do
-    describe 'with_case' do
+    describe 'with_code' do
       it 'ignores case' do
         movie = create :movie, code: 'Carib 123456-789'
         expect(Movie.with_code(movie.code.downcase)).to include(movie)

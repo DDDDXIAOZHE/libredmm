@@ -37,6 +37,18 @@ RSpec.describe Resource, type: :model do
   end
 
   context 'scope' do
+    describe 'with_tag' do
+      it 'works' do
+        resource = create :resource, tags: %w[TAG 标签]
+        expect(Resource.with_tag('标签')).to include(resource)
+      end
+
+      it 'ignores partial matches' do
+        resource = create :resource, tags: %w[长标签]
+        expect(Resource.with_tag('标签')).not_to include(resource)
+      end
+    end
+
     describe 'in_baidu_pan' do
       it 'includes resources with baidu pan url' do
         resource = create :resource, download_uri: generate(:baidu_pan_uri)

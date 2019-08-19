@@ -57,7 +57,7 @@ RSpec.describe Crawler do
         )
         crawler.crawl_forum spy('forum_page'), tag: tag, backfill: false
       end
-      
+
       context 'on repeatedly crawling' do
         before(:each) do
           allow(crawler).to receive(:extract_thread_links_from_forum).and_return(

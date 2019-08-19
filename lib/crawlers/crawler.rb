@@ -40,9 +40,7 @@ class Crawler
   end
 
   def parse_thread(link, tag:)
-    resource = Resource.where(
-      '? = ANY(tags)', tag
-    ).where(
+    resource = Resource.with_tag(tag).where(
       'source_uri LIKE ?', "%#{link.href}"
     ).first
     if resource

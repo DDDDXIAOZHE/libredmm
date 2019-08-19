@@ -22,7 +22,7 @@ class RssController < ApplicationController
   # GET /rss/torrents.rss
   def torrents
     @torrents = Resource.in_bt.order(created_at: :desc)
-    @torrents = @torrents.where('? = ANY(tags)', params[:tag]) if params[:tag]
+    @torrents = @torrents.with_tag(params[:tag]) if params[:tag]
     @torrents = @torrents.limit(params.fetch(:limit, 20))
   end
 end
