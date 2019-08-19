@@ -20,7 +20,7 @@ class ShtCrawler < Crawler
   end
 
   def extract_title_from_thread(page)
-    page.link_with!(text: /.+\.torrent/).to_s
+    page.link_with!(text: /.+\.torrent/).to_s.gsub(' ', '')
   end
 
   def extract_dl_link_from_thread(page)
