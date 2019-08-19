@@ -1,0 +1,772 @@
+HTTP/1.1 200 OK
+Server: nginx
+Date: Mon, 19 Aug 2019 03:10:09 GMT
+Content-Type: text/html; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+Vary: Accept-Encoding
+X-Powered-By: PHP/7.1.18
+Set-Cookie: cPNj_2132_saltkey=qENGZVzc; expires=Wed, 18-Sep-2019 03:10:09 GMT; Max-Age=2592000; path=/; secure; HttpOnly
+Set-Cookie: cPNj_2132_lastvisit=1566180609; expires=Wed, 18-Sep-2019 03:10:09 GMT; Max-Age=2592000; path=/; secure
+Set-Cookie: cPNj_2132_sid=CPcPh5; expires=Tue, 20-Aug-2019 03:10:09 GMT; Max-Age=86400; path=/; secure
+Set-Cookie: cPNj_2132_lastact=1566184209%09forum.php%09viewthread; expires=Tue, 20-Aug-2019 03:10:09 GMT; Max-Age=86400; path=/; secure
+Set-Cookie: cPNj_2132_st_p=0%7C1566184209%7C3b6b095206707660ce5a5ba3202d18f2; path=/; secure
+Set-Cookie: cPNj_2132_visitedfid=37; expires=Wed, 18-Sep-2019 03:10:09 GMT; Max-Age=2592000; path=/; secure
+Set-Cookie: cPNj_2132_viewid=tid_156592; path=/; secure
+Set-Cookie: cPNj_2132_sid=CPcPh5; expires=Tue, 20-Aug-2019 03:10:09 GMT; Max-Age=86400; path=/; secure
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><script type="text/javascript">window.NREUM||(NREUM={}),__nr_require=function(e,n,t){function r(t){if(!n[t]){var o=n[t]={exports:{}};e[t][0].call(o.exports,function(n){var o=e[t][1][n];return r(o||n)},o,o.exports)}return n[t].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<t.length;o++)r(t[o]);return r}({1:[function(e,n,t){function r(){}function o(e,n,t){return function(){return i(e,[c.now()].concat(u(arguments)),n?null:this,t),n?void 0:this}}var i=e("handle"),a=e(3),u=e(4),f=e("ee").get("tracer"),c=e("loader"),s=NREUM;"undefined"==typeof window.newrelic&&(newrelic=s);var p=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],d="api-",l=d+"ixn-";a(p,function(e,n){s[n]=o(d+n,!0,"api")}),s.addPageAction=o(d+"addPageAction",!0),s.setCurrentRouteName=o(d+"routeName",!0),n.exports=newrelic,s.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(e,n){var t={},r=this,o="function"==typeof n;return i(l+"tracer",[c.now(),e,t],r),function(){if(f.emit((o?"":"no-")+"fn-start",[c.now(),r,o],t),o)try{return n.apply(this,arguments)}catch(e){throw f.emit("fn-err",[arguments,this,e],t),e}finally{f.emit("fn-end",[c.now()],t)}}}};a("actionText,setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(e,n){m[n]=o(l+n)}),newrelic.noticeError=function(e,n){"string"==typeof e&&(e=new Error(e)),i("err",[e,c.now(),!1,n])}},{}],2:[function(e,n,t){function r(e,n){if(!o)return!1;if(e!==o)return!1;if(!n)return!0;if(!i)return!1;for(var t=i.split("."),r=n.split("."),a=0;a<r.length;a++)if(r[a]!==t[a])return!1;return!0}var o=null,i=null,a=/Version\/(\S+)\s+Safari/;if(navigator.userAgent){var u=navigator.userAgent,f=u.match(a);f&&u.indexOf("Chrome")===-1&&u.indexOf("Chromium")===-1&&(o="Safari",i=f[1])}n.exports={agent:o,version:i,match:r}},{}],3:[function(e,n,t){function r(e,n){var t=[],r="",i=0;for(r in e)o.call(e,r)&&(t[i]=n(r,e[r]),i+=1);return t}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],4:[function(e,n,t){function r(e,n,t){n||(n=0),"undefined"==typeof t&&(t=e?e.length:0);for(var r=-1,o=t-n||0,i=Array(o<0?0:o);++r<o;)i[r]=e[n+r];return i}n.exports=r},{}],5:[function(e,n,t){n.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(e,n,t){function r(){}function o(e){function n(e){return e&&e instanceof r?e:e?f(e,u,i):i()}function t(t,r,o,i){if(!d.aborted||i){e&&e(t,r,o);for(var a=n(o),u=v(t),f=u.length,c=0;c<f;c++)u[c].apply(a,r);var p=s[y[t]];return p&&p.push([b,t,r,a]),a}}function l(e,n){h[e]=v(e).concat(n)}function m(e,n){var t=h[e];if(t)for(var r=0;r<t.length;r++)t[r]===n&&t.splice(r,1)}function v(e){return h[e]||[]}function g(e){return p[e]=p[e]||o(t)}function w(e,n){c(e,function(e,t){n=n||"feature",y[t]=n,n in s||(s[n]=[])})}var h={},y={},b={on:l,addEventListener:l,removeEventListener:m,emit:t,get:g,listeners:v,context:n,buffer:w,abort:a,aborted:!1};return b}function i(){return new r}function a(){(s.api||s.feature)&&(d.aborted=!0,s=d.backlog={})}var u="nr@context",f=e("gos"),c=e(3),s={},p={},d=n.exports=o();d.backlog=s},{}],gos:[function(e,n,t){function r(e,n,t){if(o.call(e,n))return e[n];var r=t();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,n,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return e[n]=r,r}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],handle:[function(e,n,t){function r(e,n,t,r){o.buffer([e],r),o.emit(e,n,t)}var o=e("ee").get("handle");n.exports=r,r.ee=o},{}],id:[function(e,n,t){function r(e){var n=typeof e;return!e||"object"!==n&&"function"!==n?-1:e===window?0:a(e,i,function(){return o++})}var o=1,i="nr@id",a=e("gos");n.exports=r},{}],loader:[function(e,n,t){function r(){if(!E++){var e=x.info=NREUM.info,n=l.getElementsByTagName("script")[0];if(setTimeout(s.abort,3e4),!(e&&e.licenseKey&&e.applicationID&&n))return s.abort();c(y,function(n,t){e[n]||(e[n]=t)}),f("mark",["onload",a()+x.offset],null,"api");var t=l.createElement("script");t.src="https://"+e.agent,n.parentNode.insertBefore(t,n)}}function o(){"complete"===l.readyState&&i()}function i(){f("mark",["domContent",a()+x.offset],null,"api")}function a(){return O.exists&&performance.now?Math.round(performance.now()):(u=Math.max((new Date).getTime(),u))-x.offset}var u=(new Date).getTime(),f=e("handle"),c=e(3),s=e("ee"),p=e(2),d=window,l=d.document,m="addEventListener",v="attachEvent",g=d.XMLHttpRequest,w=g&&g.prototype;NREUM.o={ST:setTimeout,SI:d.setImmediate,CT:clearTimeout,XHR:g,REQ:d.Request,EV:d.Event,PR:d.Promise,MO:d.MutationObserver};var h=""+location,y={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1130.min.js"},b=g&&w&&w[m]&&!/CriOS/.test(navigator.userAgent),x=n.exports={offset:u,now:a,origin:h,features:{},xhrWrappable:b,userAgent:p};e(1),l[m]?(l[m]("DOMContentLoaded",i,!1),d[m]("load",r,!1)):(l[v]("onreadystatechange",o),d[v]("onload",r)),f("mark",["firstbyte",u],null,"api");var E=0,O=e(5)},{}]},{},["loader"]);</script>
+<title>SIRO-3914  【初撮り】【女子校育ちお嬢様】【敏感潮体質 - 亚洲有码原创 -  色花堂 -  Powered by Discuz!</title>
+<link href="/thread-156592-1-1.html" rel="canonical" />
+<meta name="keywords" content="SIRO-3914  【初撮り】【女子校育ちお嬢様】【敏感潮体質" />
+<meta name="description" content=" SIRO-3914  【初撮り】【女子校育ちお嬢様】【敏感潮体質 ,色花堂" />
+<meta name="generator" content="Discuz! X3.4" />
+<meta name="author" content="Discuz! Team and Comsenz UI Team" />
+<meta name="copyright" content="2001-2017 Comsenz Inc." />
+<meta name="MSSmartTagsPreventParsing" content="True" />
+<meta http-equiv="MSThemeCompatible" content="Yes" />
+<base href="/" /><link rel="stylesheet" type="text/css" href="data/cache/style_1_common.css?Q11" /><link rel="stylesheet" type="text/css" href="data/cache/style_1_forum_viewthread.css?Q11" /><link rel="stylesheet" id="css_extstyle" type="text/css" href="./template/default/style/t1/style.css" /><script type="text/javascript">var STYLEID = '1', STATICURL = 'static/', IMGDIR = 'static/image/common', VERHASH = 'Q11', charset = 'utf-8', discuz_uid = '0', cookiepre = 'cPNj_2132_', cookiedomain = '', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread', creditnotice = '1|银币|,2|金币|,3|积分|', defaultstyle = './template/default/style/t1', REPORTURL = 'aHR0cHM6Ly93d3cuc2VodWF0YW5nLm9yZy90aHJlYWQtMTU2NTkyLTEtMS5odG1s', SITEURL = '/', JSPATH = 'data/cache/', CSSPATH = 'data/cache/style_', DYNAMICURL = '';</script>
+<script src="data/cache/common.js?Q11" type="text/javascript"></script>
+<meta name="application-name" content="色花堂" />
+<meta name="msapplication-tooltip" content="色花堂" />
+<meta name="msapplication-task" content="name=新帖瀑布流;action-uri=/portal.php;icon-uri=/static/image/common/portal.ico" /><meta name="msapplication-task" content="name=论坛;action-uri=/forum.php;icon-uri=/static/image/common/bbs.ico" />
+<link rel="archives" title="色花堂" href="/archiver/" />
+<script src="data/cache/forum.js?Q11" type="text/javascript"></script>
+</head>
+
+<body id="nv_forum" class="pg_viewthread" onkeydown="if(event.keyCode==27) return false;">
+<div id="append_parent"></div><div id="ajaxwaitid"></div>
+<div id="toptb" class="cl">
+<div class="wp">
+<div class="z"><a href="javascript:;"  onclick="setHomepage('/');">设为首页</a><a href="/"  onclick="addFavorite(this.href, '色花堂');return false;">收藏本站</a><script src="/static/js/language.js" type="text/javascript"></script>
+</div>
+<div class="y">
+<a id="switchblind" href="javascript:;" onclick="toggleBlind(this)" title="开启辅助访问" class="switchblind">开启辅助访问</a>
+<a href="javascript:;" id="switchwidth" onclick="widthauto(this)" title="切换到宽版" class="switchwidth">切换到宽版</a>
+</div>
+</div>
+</div>
+
+<div id="qmenu_menu" class="p_pop blk" style="display: none;">
+<div class="ptm pbw hm">
+请 <a href="javascript:;" class="xi2" onclick="lsSubmit()"><strong>登录</strong></a> 后使用快捷导航<br />没有帐号？<a href="member.php?mod=register" class="xi2 xw1">立即注册</a>
+</div>
+<div id="fjump_menu" class="btda"></div></div><div id="hd">
+<div class="wp">
+<div class="hdc cl"><h2><a href="./" title="色花堂"><img src="static/image/common/logo.png" alt="色花堂" border="0" /></a></h2><script src="data/cache/logging.js?Q11" type="text/javascript"></script>
+<form method="post" autocomplete="off" id="lsform" action="/member.php?mod=logging&amp;action=login&amp;loginsubmit=yes&amp;infloat=yes&amp;lssubmit=yes" onsubmit="return lsSubmit();">
+<div class="fastlg cl">
+<span id="return_ls" style="display:none"></span>
+<div class="y pns">
+<table cellspacing="0" cellpadding="0">
+<tr>
+<td>
+<span class="ftid">
+<select name="fastloginfield" id="ls_fastloginfield" width="40" tabindex="900">
+<option value="username">用户名</option>
+<option value="email">Email</option>
+</select>
+</span>
+<script type="text/javascript">simulateSelect('ls_fastloginfield')</script>
+</td>
+<td><input type="text" name="username" id="ls_username" autocomplete="off" class="px vm" tabindex="901" /></td>
+<td class="fastlg_l"><label for="ls_cookietime"><input type="checkbox" name="cookietime" id="ls_cookietime" class="pc" value="2592000" tabindex="903" checked="checked"/>自动登录</label></td>
+<td>&nbsp;<a href="javascript:;" onclick="showWindow('login', 'member.php?mod=logging&action=login&viewlostpw=1')">找回密码</a></td>
+</tr>
+<tr>
+<td><label for="ls_password" class="z psw_w">密码</label></td>
+<td><input type="password" name="password" id="ls_password" class="px vm" autocomplete="off" tabindex="902" /></td>
+<td class="fastlg_l"><button type="submit" class="pn vm" tabindex="904" style="width: 75px;"><em>登录</em></button></td>
+<td>&nbsp;<a href="member.php?mod=register" class="xi2 xw1">立即注册</a></td>
+</tr>
+</table>
+<input type="hidden" name="quickforward" value="yes" />
+<input type="hidden" name="handlekey" value="ls" />
+</div>
+</div>
+</form>
+
+</div>
+
+<div id="nv">
+<a href="javascript:;" id="qmenu" onmouseover="delayShow(this, function () {showMenu({'ctrlid':'qmenu','pos':'34!','ctrlclass':'a','duration':2});showForummenu(37);})">快捷导航</a>
+<ul><li class="a" id="mn_forum" ><a href="forum.php" hidefocus="true" title="BBS"  >论坛<span>BBS</span></a></li><li id="mn_N743b" ><a href="book.html" hidefocus="true"  >小说</a></li><li id="mn_portal" ><a href="portal.php" hidefocus="true" title="Portal"  >新帖瀑布流<span>Portal</span></a></li><li id="mn_Nd403" ><a href="https://www.wesrre1q.com:8786/123.rar" hidefocus="true" title="网址发布器"  >网址发布器<span>网址发布器</span></a></li></ul>
+</div>
+<div class="p_pop h_pop" id="mn_userapp_menu" style="display: none"></div><div id="mu" class="cl">
+</div><div id="scbar" class="cl">
+<form id="scbar_form" method="post" autocomplete="off" onsubmit="searchFocus($('scbar_txt'))" action="search.php?searchsubmit=yes" target="_blank">
+<input type="hidden" name="mod" id="scbar_mod" value="search" />
+<input type="hidden" name="formhash" value="ad442a44" />
+<input type="hidden" name="srchtype" value="title" />
+<input type="hidden" name="srhfid" value="37" />
+<input type="hidden" name="srhlocality" value="forum::viewthread" />
+<table cellspacing="0" cellpadding="0">
+<tr>
+<td class="scbar_icon_td"></td>
+<td class="scbar_txt_td"><input type="text" name="srchtxt" id="scbar_txt" value="请输入搜索内容" autocomplete="off" x-webkit-speech speech /></td>
+<td class="scbar_type_td"><a href="javascript:;" id="scbar_type" class="xg1" onclick="showMenu(this.id)" hidefocus="true">搜索</a></td>
+<td class="scbar_btn_td"><button type="submit" name="searchsubmit" id="scbar_btn" sc="1" class="pn pnc" value="true"><strong class="xi2">搜索</strong></button></td>
+<td class="scbar_hot_td">
+<div id="scbar_hot">
+</div>
+</td>
+</tr>
+</table>
+</form>
+</div>
+<ul id="scbar_type_menu" class="p_pop" style="display: none;"><li><a href="javascript:;" rel="curforum" fid="37" >本版</a></li><li><a href="javascript:;" rel="forum" class="curtype">帖子</a></li><li><a href="javascript:;" rel="user">用户</a></li></ul>
+<script type="text/javascript">
+initSearchmenu('scbar', '');
+</script>
+</div>
+</div>
+
+
+<div id="wp" class="wp">
+<div class="h10"></div>
+<div class="show-text cl"><a href="https://www.shqc03.com/a007/" target="_blank" class="js-randomBg">凤凰棋牌</a>
+<a href="https://www.2481e.com/vip0981.htm" target="_blank" class="js-randomBg">澳门皇冠赌场</a>
+<a href="https://hjcqp.188qv.cn/sehua/" target="_blank" class="js-randomBg">黄金城棋牌</a>
+<a href="https://www.lmj8.com/dwenzi.htm" target="_blank" class="js-randomBg">吉祥坊BBIN</a>
+<a href="https://www.dj134.com/wang78.htm" target="_blank" class="js-randomBg">凤凰娱乐城</a>
+<a href="https://quanwuyouxiang.com/sehua/" target="_blank" class="js-randomBg">大赢家棋牌</a>
+<a href="https://www.xsy2.net/lianmeng.html" target="_blank" class="js-randomBg">网上彩票站</a>
+<a href="https://www.jjy118.com/ffgg59.htm" target="_blank" class="js-randomBg">凤凰国际赌场</a>
+<a href="https://www.455sq.com/2avcom.html" target="_blank" class="js-randomBg">吉祥坊娱乐</a>
+<a href="https://www.lady177.com/ylcgg14.htm" target="_blank" class="js-randomBg">亿乐彩彩票</a>
+</div>
+
+<script type="text/javascript">var fid = parseInt('37'), tid = parseInt('156592');</script>
+
+<script src="data/cache/forum_viewthread.js?Q11" type="text/javascript"></script>
+<script type="text/javascript">zoomstatus = parseInt(1);var imagemaxwidth = '600';var aimgcount = new Array();</script>
+
+<style id="diy_style" type="text/css"></style>
+<!--[diy=diynavtop]--><div id="diynavtop" class="area"></div><!--[/diy]-->
+<div id="pt" class="bm cl">
+<div class="z">
+<a href="./" class="nvhm" title="首页">色花堂</a><em>&raquo;</em><a href="forum.php">论坛</a> <em>&rsaquo;</em> <a href="forum.php?gid=1">原创BT电影</a> <em>&rsaquo;</em> <a href="forum-37-1.html">亚洲有码原创</a> <em>&rsaquo;</em> <a href="thread-156592-1-1.html">SIRO-3914  【初撮り】【女子校育ちお嬢様】【敏感潮体 ...</a>
+</div>
+</div>
+
+<style id="diy_style" type="text/css"></style>
+<div class="wp">
+<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
+</div>
+
+<div id="ct" class="wp cl">
+<div id="pgt" class="pgs mbm cl ">
+<div class="pgt"></div>
+<span class="y pgb"><a href="forum-37-1.html">返回列表</a></span>
+<a id="newspecial" onmouseover="$('newspecial').id = 'newspecialtmp';this.id = 'newspecial';showMenu({'ctrlid':this.id})" onclick="showWindow('newthread', 'forum.php?mod=post&action=newthread&fid=37')" href="javascript:;" title="发新帖"><img src="static/image/common/pn_post.png" alt="发新帖" /></a></div>
+
+
+
+<div id="postlist" class="pl bm">
+<table cellspacing="0" cellpadding="0">
+<tr>
+<td class="pls ptn pbn">
+<div class="hm ptn">
+<span class="xg1">查看:</span> <span class="xi1">276</span><span class="pipe">|</span><span class="xg1">回复:</span> <span class="xi1">2</span>
+</div>
+</td>
+<td class="plc ptm pbn vwthd">
+<div class="y">
+<a href="forum.php?mod=viewthread&amp;action=printable&amp;tid=156592" title="打印" target="_blank"><img src="static/image/common/print.png" alt="打印" class="vm" /></a>
+<a href="forum.php?mod=redirect&amp;goto=nextoldset&amp;tid=156592" title="上一主题"><img src="static/image/common/thread-prev.png" alt="上一主题" class="vm" /></a>
+<a href="forum.php?mod=redirect&amp;goto=nextnewset&amp;tid=156592" title="下一主题"><img src="static/image/common/thread-next.png" alt="下一主题" class="vm" /></a>
+</div>
+<h1 class="ts">
+<span id="thread_subject">SIRO-3914  【初撮り】【女子校育ちお嬢様】【敏感潮体質</span>
+</h1>
+<span class="xg1">
+<a href="thread-156592-1-1.html" onclick="return copyThreadUrl(this, '色花堂')" >[复制链接]</a>
+</span>
+</td>
+</tr>
+</table>
+
+
+<table cellspacing="0" cellpadding="0" class="ad">
+<tr>
+<td class="pls">
+</td>
+<td class="plc">
+</td>
+</tr>
+</table><div id="post_928091" ><table id="pid928091" class="plhin" summary="pid928091" cellspacing="0" cellpadding="0">
+<tr>
+<td class="pls" rowspan="2">
+<div id="favatar928091" class="pls favatar">
+<a name="newpost"></a> <div class="pi">
+<div class="authi"><a href="space-uid-146216.html" target="_blank" class="xw1">Hero168</a>
+</div>
+</div>
+<div class="p_pop blk bui card_gender_0" id="userinfo928091" style="display: none; margin-top: -11px;">
+<div class="m z">
+<div id="userinfo928091_ma"></div>
+</div>
+<div class="i y">
+<div>
+<strong><a href="space-uid-146216.html" target="_blank" class="xi2">Hero168</a></strong>
+<em>当前在线</em>
+</div><dl class="cl">
+<dt>积分</dt><dd><a href="home.php?mod=space&uid=146216&do=profile" target="_blank" class="xi2">34566</a></dd>
+</dl><div class="imicn">
+<a href="home.php?mod=space&amp;uid=146216&amp;do=profile" target="_blank" title="查看详细资料"><img src="static/image/common/userinfo.gif" alt="查看详细资料" /></a>
+</div>
+<div id="avatarfeed"><span id="threadsortswait"></span></div>
+</div>
+</div>
+<div>
+<div class="avatar" onmouseover="showauthor(this, 'userinfo928091')"><a href="space-uid-146216.html" class="avtm" target="_blank"><img src="/uc_server/avatar.php?uid=146216&size=middle" /></a></div>
+</div>
+<div class="tns xg2"><table cellspacing="0" cellpadding="0"><th><p><a href="home.php?mod=space&uid=146216&do=profile" class="xi2"><span title="47911">4万</span></a></p>银币</th><th><p><a href="home.php?mod=space&uid=146216&do=profile" class="xi2">0</a></p>金币</th><td><p><a href="home.php?mod=space&uid=146216&do=thread&type=thread&view=me&from=space" class="xi2"><span title="17283">1万</span></a></p>主题</td></table></div>
+
+<p><em><a href="home.php?mod=spacecp&amp;ac=usergroup&amp;gid=3" target="_blank">版主</a></em></p>
+
+
+<dl class="pil cl">
+  <dt>积分</dt><dd><a href="home.php?mod=space&uid=146216&do=profile" target="_blank" class="xi2">34566</a></dd>
+</dl>
+
+<dl class="pil cl"></dl>
+<ul class="xl xl2 o cl">
+<li class="pm2"><a href="home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_146216&amp;touid=146216&amp;pmid=0&amp;daterange=2&amp;pid=928091&amp;tid=156592" onclick="showWindow('sendpm', this.href);" title="发消息" class="xi2">发消息</a></li>
+</ul>
+</div>
+</td>
+<td class="plc">
+<div class="pi">
+<div id="fj" class="y">
+<label class="z">电梯直达</label>
+<input type="text" class="px p_fre z" size="2" onkeyup="$('fj_btn').href='forum.php?mod=redirect&ptid=156592&authorid=0&postno='+this.value" onkeydown="if(event.keyCode==13) {window.location=$('fj_btn').href;return false;}" title="跳转到指定楼层" />
+<a href="javascript:;" id="fj_btn" class="z" title="跳转到指定楼层"><img src="static/image/common/fj_btn.png" alt="跳转到指定楼层" class="vm" /></a>
+</div>
+<strong>
+<a href="thread-156592-1-1.html"   id="postnum928091" onclick="setCopy(this.href, '帖子地址复制成功');return false;">
+楼主</a>
+</strong>
+<div class="pti">
+<div class="pdbt">
+</div>
+<div class="authi">
+<img class="authicn vm" id="authicon928091" src="static/image/common/ico_lz.png" />
+&nbsp;楼主<span class="pipe">|</span>
+<em id="authorposton928091">发表于 <span title="2019-08-19 10:57:07">13&nbsp;分钟前</span></em>
+<span class="pipe">|</span>
+<a href="forum.php?mod=viewthread&amp;tid=156592&amp;page=1&amp;authorid=146216" rel="nofollow">只看该作者</a>
+<span class="pipe">|</span><a href="forum.php?mod=viewthread&amp;tid=156592&amp;from=album">只看大图</a>
+<span class="none"><img src="static/image/common/arw_r.gif" class="vm" alt="回帖奖励" /></span>
+<span class="pipe show">|</span><a href="forum.php?mod=viewthread&amp;tid=156592&amp;extra=page%3D1&amp;ordertype=1"  class="show">倒序浏览</a>
+<span class="pipe show">|</span><a href="javascript:;" onclick="readmode($('thread_subject').innerHTML, 928091);" class="show">阅读模式</a>
+</div>
+</div>
+</div><div class="pct"><style type="text/css">.pcb{margin-right:0}</style><div class="pcb">
+ 
+<div class="t_fsz">
+<table cellspacing="0" cellpadding="0"><tr><td class="t_f" id="postmessage_928091">
+影片名称：【初撮り】【女子校育ちお嬢様】【敏感潮体質】仔犬系美少女の渚ちゃん。人生初めてのデカチンに鳴きながら絶頂する.. 応募素人、初AV撮影 91<br />
+影片容量:1.59GB<br />
+出演：&nbsp; &nbsp; &nbsp; &nbsp; 渚 20歳 女子大学生<br />
+メーカー：&nbsp; &nbsp; &nbsp; &nbsp; シロウトTV<br />
+収録時間：&nbsp; &nbsp; &nbsp; &nbsp; 63min<br />
+配信開始日：&nbsp; &nbsp; &nbsp; &nbsp; 2019/08/17<br />
+シリーズ：&nbsp; &nbsp; &nbsp; &nbsp; 応募素人、初AV撮影<br />
+レーベル：&nbsp; &nbsp; &nbsp; &nbsp; <br />
+ジャンル：&nbsp; &nbsp; &nbsp; &nbsp; 独占配信 ハイビジョン(HD) 配信専用 素人 初撮り スレンダー 貧乳・微乳 潮吹き 顔射<br />
+品番：&nbsp; &nbsp; &nbsp; &nbsp; SIRO-3914<br />
+<img id="aimg_vtitr" onclick="zoom(this, this.src, 0, 0, 0)" class="zoom" file="https://image.mgstage.com/images/shirouto/siro/3914/pb_e_siro-3914.jpg" onmouseover="img_onmouseoverfunc(this)" lazyloadthumb="1" border="0" alt="" /><br />
+
+<ignore_js_op>
+
+<img id="aimg_213675" aid="213675" src="static/image/common/none.gif" zoomfile="https://www.assdrty.com/tupian/forum/201908/19/105554evkdl3y6v9vxydnh.jpg" file="https://www.assdrty.com/tupian/forum/201908/19/105554evkdl3y6v9vxydnh.jpg" class="zoom" onclick="zoom(this, this.src, 0, 0, 0)" width="600" id="aimg_213675" inpost="1" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+
+<div class="tip tip_4 aimg_tip" id="aimg_213675_menu" style="position: absolute; display: none" disautofocus="true">
+<div class="xs0">
+<p><strong>SIRO-3914.jpg</strong> <em class="xg1">(210.01 KB, 下载次数: 0)</em></p>
+<p>
+<a href="forum.php?mod=attachment&amp;aid=MjEzNjc1fDM0ZDUxMGYwfDE1NjYxODQyMDl8MHwxNTY1OTI%3D&amp;nothumb=yes" target="_blank">下载附件</a>
+
+</p>
+
+<p class="xg1 y"><span title="2019-08-19 10:55">14&nbsp;分钟前</span> 上传</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+
+</ignore_js_op>
+<br />
+磁力链接<br /><div class="blockcode"><div id="code_jgi"><ol><li>magnet:?xt=urn:btih:F12EC72A1D9220810D93EC78B2678D0B8B9D6468</ol></div><em onclick="copycode($('code_jgi'));">复制代码</em></div><br />
+<br />
+</td></tr></table>
+
+<div class="modact"><a href="forum.php?mod=misc&amp;action=viewthreadmod&amp;tid=156592" title="帖子模式" onclick="showWindow('viewthreadmod', this.href)">本主题由 Hero168 于 <span title="2019-08-19 10:59">10&nbsp;分钟前</span> 设置高亮</a></div><div class="pattl">
+
+<ignore_js_op>
+<dl class="tattl">
+<dt>
+<img src="static/image/filetype/torrent.gif" border="0" class="vm" alt="" />
+</dt>
+<dd>
+<p class="attnm">
+
+<a href="forum.php?mod=attachment&amp;aid=MjEzNjc2fDU0MjJmYjgyfDE1NjYxODQyMDl8MHwxNTY1OTI%3D" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" id="aid213676" target="_blank">SIRO-3914.torrent</a>
+
+<div class="tip tip_4" id="aid213676_menu" style="display: none" disautofocus="true">
+<div class="tip_c">
+<p class="y"><span title="2019-08-19 10:56">14&nbsp;分钟前</span> 上传</p>
+<p>点击文件名下载附件</p>
+
+</div>
+<div class="tip_horn"></div>
+</div>
+</p>
+<p>17.58 KB, 下载次数: 20</p>
+<p>
+
+</p>
+
+
+</dd>
+</dl>
+</ignore_js_op>
+</div>
+
+</div>
+<div id="comment_928091" class="cm">
+</div>
+
+<div id="post_rate_div_928091"></div>
+</div>
+</div>
+
+</td></tr>
+<tr><td class="plc plm">
+
+<div id="p_btn" class="mtw mbm hm cl">
+
+<a href="home.php?mod=spacecp&amp;ac=favorite&amp;type=thread&amp;id=156592&amp;formhash=ad442a44" id="k_favorite" onclick="showWindow(this.id, this.href, 'get', 0);" onmouseover="this.title = $('favoritenumber').innerHTML + ' 人收藏'" title="收藏本帖"><i><img src="static/image/common/fav.gif" alt="收藏" />收藏<span id="favoritenumber" style="display:none">0</span></i></a>
+</div>
+
+</td>
+</tr>
+<tr id="_postposition928091"></tr>
+<tr>
+<td class="pls"></td>
+<td class="plc" style="overflow:visible;">
+<div class="po hin">
+<div class="pob cl">
+<em>
+<a class="fastre" href="forum.php?mod=post&amp;action=reply&amp;fid=37&amp;tid=156592&amp;reppost=928091&amp;extra=page%3D1&amp;page=1" onclick="showWindow('reply', this.href)">回复</a>
+</em>
+
+<p>
+<a href="javascript:;" id="mgc_post_928091" onmouseover="showMenu(this.id)" class="showmenu">使用道具</a>
+<a href="javascript:;" onclick="showWindow('miscreport928091', 'misc.php?mod=report&rtype=post&rid=928091&tid=156592&fid=37', 'get', -1);return false;">举报</a>
+</p>
+
+<ul id="mgc_post_928091_menu" class="p_pop mgcmn" style="display: none;">
+</ul>
+<script type="text/javascript" reload="1">checkmgcmn('post_928091')</script>
+</div>
+</div>
+</td>
+</tr>
+<tr class="ad">
+<td class="pls">
+</td>
+<td class="plc">
+</td>
+</tr>
+</table>
+
+<script type="text/javascript" reload="1">
+aimgcount[928091] = ['vtitr','213675'];
+attachimggroup(928091);
+var aimgfid = 0;
+</script>
+</div>
+
+<div class="show-text2 pad-tb-10"><a href="https://www.sehuatang.net" target="_blank">广告位招租</a>
+<a href="https://www.sehuatang.net" target="_blank">广告位招租</a>
+<a href="https://www.sehuatang.net" target="_blank">广告位招租</a>
+<a href="https://www.sehuatang.net" target="_blank">广告位招租</a>
+</div>
+<table class="plhin">
+<tr class="ad">
+<td class="pls"></td>
+<td class="plc"></td>
+</tr>
+</table>
+<div id="post_928126" ><table id="pid928126" class="plhin" summary="pid928126" cellspacing="0" cellpadding="0">
+<tr>
+<td class="pls" rowspan="2">
+<div id="favatar928126" class="pls favatar">
+ <div class="pi">
+<div class="authi"><a href="space-uid-21308.html" target="_blank" class="xw1">mokyui</a>
+</div>
+</div>
+<div class="p_pop blk bui card_gender_0" id="userinfo928126" style="display: none; margin-top: -11px;">
+<div class="m z">
+<div id="userinfo928126_ma"></div>
+</div>
+<div class="i y">
+<div>
+<strong><a href="space-uid-21308.html" target="_blank" class="xi2">mokyui</a></strong>
+<em>当前在线</em>
+</div><dl class="cl">
+<dt>积分</dt><dd><a href="home.php?mod=space&uid=21308&do=profile" target="_blank" class="xi2">11087</a></dd>
+</dl><div class="imicn">
+<a href="http://" target="_blank" title="查看个人网站"><img src="static/image/common/forumlink.gif" alt="查看个人网站" /></a><a href="home.php?mod=space&amp;uid=21308&amp;do=profile" target="_blank" title="查看详细资料"><img src="static/image/common/userinfo.gif" alt="查看详细资料" /></a>
+</div>
+<div id="avatarfeed"><span id="threadsortswait"></span></div>
+</div>
+</div>
+<div>
+<div class="avatar" onmouseover="showauthor(this, 'userinfo928126')"><a href="space-uid-21308.html" class="avtm" target="_blank"><img src="/uc_server/avatar.php?uid=21308&size=middle" /></a></div>
+</div>
+<div class="tns xg2"><table cellspacing="0" cellpadding="0"><th><p><a href="home.php?mod=space&uid=21308&do=profile" class="xi2">186</a></p>银币</th><th><p><a href="home.php?mod=space&uid=21308&do=profile" class="xi2">0</a></p>金币</th><td><p><a href="home.php?mod=space&uid=21308&do=thread&type=thread&view=me&from=space" class="xi2">17</a></p>主题</td></table></div>
+
+<p><em><a href="home.php?mod=spacecp&amp;ac=usergroup&amp;gid=15" target="_blank">五星会员</a></em></p>
+<p class="xg1">波多奴隶</p>
+
+<dl class="pil cl">
+  <dt>积分</dt><dd><a href="home.php?mod=space&uid=21308&do=profile" target="_blank" class="xi2">11087</a></dd>
+</dl>
+
+<dl class="pil cl"></dl>
+<ul class="xl xl2 o cl">
+<li class="pm2"><a href="home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_21308&amp;touid=21308&amp;pmid=0&amp;daterange=2&amp;pid=928126&amp;tid=156592" onclick="showWindow('sendpm', this.href);" title="发消息" class="xi2">发消息</a></li>
+</ul>
+</div>
+</td>
+<td class="plc">
+<div class="pi">
+<strong>
+<a href="forum.php?mod=redirect&goto=findpost&ptid=156592&pid=928126"   id="postnum928126" onclick="setCopy(this.href, '帖子地址复制成功');return false;">
+沙发</a>
+</strong>
+<div class="pti">
+<div class="pdbt">
+</div>
+<div class="authi">
+<img class="authicn vm" id="authicon928126" src="static/image/common/online_member.gif" />
+<em id="authorposton928126">发表于 <span title="2019-08-19 11:00:52">9&nbsp;分钟前</span></em>
+<span class="pipe">|</span>
+<a href="forum.php?mod=viewthread&amp;tid=156592&amp;page=1&amp;authorid=21308" rel="nofollow">只看该作者</a>
+</div>
+</div>
+</div><div class="pct"><div class="pcb">
+<div class="t_fsz">
+<table cellspacing="0" cellpadding="0"><tr><td class="t_f" id="postmessage_928126">
+小美女还行</td></tr></table>
+
+
+</div>
+<div id="comment_928126" class="cm">
+</div>
+
+<div id="post_rate_div_928126"></div>
+</div>
+</div>
+
+</td></tr>
+<tr><td class="plc plm">
+
+<div id="p_btn" class="mtw mbm hm cl">
+</div>
+
+<div class="sign" style="max-height:100px;maxHeightIE:100px;">波多老师胯下走狗。。。</div>
+</td>
+</tr>
+<tr id="_postposition928126"></tr>
+<tr>
+<td class="pls"></td>
+<td class="plc" style="overflow:visible;">
+<div class="po hin">
+<div class="pob cl">
+<em>
+<a class="fastre" href="forum.php?mod=post&amp;action=reply&amp;fid=37&amp;tid=156592&amp;repquote=928126&amp;extra=page%3D1&amp;page=1" onclick="showWindow('reply', this.href)">回复</a>
+</em>
+
+<p>
+<a href="javascript:;" id="mgc_post_928126" onmouseover="showMenu(this.id)" class="showmenu">使用道具</a>
+<a href="javascript:;" onclick="showWindow('miscreport928126', 'misc.php?mod=report&rtype=post&rid=928126&tid=156592&fid=37', 'get', -1);return false;">举报</a>
+</p>
+
+<ul id="mgc_post_928126_menu" class="p_pop mgcmn" style="display: none;">
+</ul>
+<script type="text/javascript" reload="1">checkmgcmn('post_928126')</script>
+</div>
+</div>
+</td>
+</tr>
+<tr class="ad">
+<td class="pls">
+</td>
+<td class="plc">
+</td>
+</tr>
+</table>
+
+</div>
+
+<div id="post_928159" ><table id="pid928159" class="plhin" summary="pid928159" cellspacing="0" cellpadding="0">
+<tr>
+<td class="pls" rowspan="2">
+<div id="favatar928159" class="pls favatar">
+ <a name="lastpost"></a><div class="pi">
+<div class="authi"><a href="space-uid-172764.html" target="_blank" class="xw1">vmcaya</a>
+</div>
+</div>
+<div class="p_pop blk bui card_gender_0" id="userinfo928159" style="display: none; margin-top: -11px;">
+<div class="m z">
+<div id="userinfo928159_ma"></div>
+</div>
+<div class="i y">
+<div>
+<strong><a href="space-uid-172764.html" target="_blank" class="xi2">vmcaya</a></strong>
+<em>当前离线</em>
+</div><dl class="cl">
+<dt>积分</dt><dd><a href="home.php?mod=space&uid=172764&do=profile" target="_blank" class="xi2">584</a></dd>
+</dl><div class="imicn">
+<a href="http://" target="_blank" title="查看个人网站"><img src="static/image/common/forumlink.gif" alt="查看个人网站" /></a><a href="home.php?mod=space&amp;uid=172764&amp;do=profile" target="_blank" title="查看详细资料"><img src="static/image/common/userinfo.gif" alt="查看详细资料" /></a>
+</div>
+<div id="avatarfeed"><span id="threadsortswait"></span></div>
+</div>
+</div>
+<div>
+<div class="avatar" onmouseover="showauthor(this, 'userinfo928159')"><a href="space-uid-172764.html" class="avtm" target="_blank"><img src="/uc_server/avatar.php?uid=172764&size=middle" /></a></div>
+</div>
+<div class="tns xg2"><table cellspacing="0" cellpadding="0"><th><p><a href="home.php?mod=space&uid=172764&do=profile" class="xi2">562</a></p>银币</th><th><p><a href="home.php?mod=space&uid=172764&do=profile" class="xi2">0</a></p>金币</th><td><p><a href="home.php?mod=space&uid=172764&do=thread&type=thread&view=me&from=space" class="xi2">6</a></p>主题</td></table></div>
+
+<p><em><a href="home.php?mod=spacecp&amp;ac=usergroup&amp;gid=13" target="_blank">三星会员</a></em></p>
+
+
+<p><span class="pbg2"  id="upgradeprogress_928159" onmouseover="showMenu({'ctrlid':this.id, 'pos':'12!', 'menuid':'g_up928159_menu'});"><span class="pbr2" style="width:16%;"></span></span></p>
+<div id="g_up928159_menu" class="tip tip_4" style="display: none;"><div class="tip_horn"></div><div class="tip_c">三星会员, 积分 584, 距离下一级还需 416 积分</div></div>
+
+<dl class="pil cl">
+  <dt>积分</dt><dd><a href="home.php?mod=space&uid=172764&do=profile" target="_blank" class="xi2">584</a></dd>
+</dl>
+
+<dl class="pil cl"></dl>
+<ul class="xl xl2 o cl">
+<li class="pm2"><a href="home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_172764&amp;touid=172764&amp;pmid=0&amp;daterange=2&amp;pid=928159&amp;tid=156592" onclick="showWindow('sendpm', this.href);" title="发消息" class="xi2">发消息</a></li>
+</ul>
+</div>
+</td>
+<td class="plc">
+<div class="pi">
+<strong>
+<a href="forum.php?mod=redirect&goto=findpost&ptid=156592&pid=928159"   id="postnum928159" onclick="setCopy(this.href, '帖子地址复制成功');return false;">
+板凳</a>
+</strong>
+<div class="pti">
+<div class="pdbt">
+</div>
+<div class="authi">
+<img class="authicn vm" id="authicon928159" src="static/image/common/online_member.gif" />
+<em id="authorposton928159">发表于 <span title="2019-08-19 11:04:33">5&nbsp;分钟前</span></em>
+<span class="pipe">|</span>
+<a href="forum.php?mod=viewthread&amp;tid=156592&amp;page=1&amp;authorid=172764" rel="nofollow">只看该作者</a>
+</div>
+</div>
+</div><div class="pct"><div class="pcb">
+<div class="t_fsz">
+<table cellspacing="0" cellpadding="0"><tr><td class="t_f" id="postmessage_928159">
+渚ひまわり（宇佐美みか、本多なつめ）<br />
+身材真不是我的菜</td></tr></table>
+
+
+</div>
+<div id="comment_928159" class="cm">
+</div>
+
+<div id="post_rate_div_928159"></div>
+</div>
+</div>
+
+</td></tr>
+<tr><td class="plc plm">
+
+<div id="p_btn" class="mtw mbm hm cl">
+</div>
+
+<div class="sign" style="max-height:100px;maxHeightIE:100px;"><font color="DarkOrange">松下纱栄子,葵,佐山爱,园田みおん,河合あすな,奥田咲,佐藤美纪,雾岛さくら,仓持结爱</font></div>
+</td>
+</tr>
+<tr id="_postposition928159"></tr>
+<tr>
+<td class="pls"></td>
+<td class="plc" style="overflow:visible;">
+<div class="po hin">
+<div class="pob cl">
+<em>
+<a class="fastre" href="forum.php?mod=post&amp;action=reply&amp;fid=37&amp;tid=156592&amp;repquote=928159&amp;extra=page%3D1&amp;page=1" onclick="showWindow('reply', this.href)">回复</a>
+</em>
+
+<p>
+<a href="javascript:;" id="mgc_post_928159" onmouseover="showMenu(this.id)" class="showmenu">使用道具</a>
+<a href="javascript:;" onclick="showWindow('miscreport928159', 'misc.php?mod=report&rtype=post&rid=928159&tid=156592&fid=37', 'get', -1);return false;">举报</a>
+</p>
+
+<ul id="mgc_post_928159_menu" class="p_pop mgcmn" style="display: none;">
+</ul>
+<script type="text/javascript" reload="1">checkmgcmn('post_928159')</script>
+</div>
+</div>
+</td>
+</tr>
+<tr class="ad">
+<td class="pls">
+</td>
+<td class="plc">
+</td>
+</tr>
+</table>
+
+</div>
+
+<div id="postlistreply" class="pl"><div id="post_new" class="viewthread_table" style="display: none"></div></div>
+</div>
+
+
+<form method="post" autocomplete="off" name="modactions" id="modactions">
+<input type="hidden" name="formhash" value="ad442a44" />
+<input type="hidden" name="optgroup" />
+<input type="hidden" name="operation" />
+<input type="hidden" name="listextra" value="page%3D1" />
+<input type="hidden" name="page" value="1" />
+</form>
+
+
+
+<div class="pgs mtm mbm cl">
+<span class="pgb y"><a href="forum-37-1.html">返回列表</a></span>
+<a id="newspecialtmp" onmouseover="$('newspecial').id = 'newspecialtmp';this.id = 'newspecial';showMenu({'ctrlid':this.id})" onclick="showWindow('newthread', 'forum.php?mod=post&action=newthread&fid=37')" href="javascript:;" title="发新帖"><img src="static/image/common/pn_post.png" alt="发新帖" /></a>
+</div>
+
+<!--[diy=diyfastposttop]--><div id="diyfastposttop" class="area"></div><!--[/diy]-->
+<script type="text/javascript">
+var postminchars = parseInt('10');
+var postmaxchars = parseInt('500000000');
+var disablepostctrl = parseInt('0');
+</script>
+
+<div id="f_pst" class="pl bm bmw">
+<form method="post" autocomplete="off" id="fastpostform" action="forum.php?mod=post&amp;action=reply&amp;fid=37&amp;tid=156592&amp;extra=page%3D1&amp;replysubmit=yes&amp;infloat=yes&amp;handlekey=fastpost" onSubmit="return fastpostvalidate(this)">
+<table cellspacing="0" cellpadding="0">
+<tr>
+<td class="pls">
+</td>
+<td class="plc">
+
+<span id="fastpostreturn"></span>
+
+
+<div class="cl">
+<div id="fastsmiliesdiv" class="y"><div id="fastsmiliesdiv_data"><div id="fastsmilies"></div></div></div><div class="hasfsl" id="fastposteditor">
+<div class="tedt mtn">
+<div class="bar">
+<span class="y">
+<a href="forum.php?mod=post&amp;action=reply&amp;fid=37&amp;tid=156592" onclick="return switchAdvanceMode(this.href)">高级模式</a>
+</span><script src="data/cache/seditor.js?Q11" type="text/javascript"></script>
+<div class="fpd">
+<a href="javascript:;" title="文字加粗" class="fbld">B</a>
+<a href="javascript:;" title="设置文字颜色" class="fclr" id="fastpostforecolor">Color</a>
+<a id="fastpostimg" href="javascript:;" title="图片" class="fmg">Image</a>
+<a id="fastposturl" href="javascript:;" title="添加链接" class="flnk">Link</a>
+<a id="fastpostquote" href="javascript:;" title="引用" class="fqt">Quote</a>
+<a id="fastpostcode" href="javascript:;" title="代码" class="fcd">Code</a>
+<a href="javascript:;" class="fsml" id="fastpostsml">Smilies</a>
+</div></div>
+<div class="area">
+<div class="pt hm">
+您需要登录后才可以回帖 <a href="member.php?mod=logging&amp;action=login" onclick="showWindow('login', this.href)" class="xi2">登录</a> | <a href="member.php?mod=register" class="xi2">立即注册</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="seccheck_fastpost">
+</div>
+
+
+<input type="hidden" name="formhash" value="ad442a44" />
+<input type="hidden" name="usesig" value="" />
+<input type="hidden" name="subject" value="  " />
+<p class="ptm pnpost">
+<a href="home.php?mod=spacecp&amp;ac=credit&amp;op=rule&amp;fid=37" class="y" target="_blank">本版积分规则</a>
+<button type="button" onclick="showWindow('login', 'member.php?mod=logging&action=login&guestmessage=yes')" name="replysubmit" id="fastpostsubmit" class="pn pnc vm" value="replysubmit" tabindex="5"><strong>发表回复</strong></button>
+<label for="fastpostrefresh"><input id="fastpostrefresh" type="checkbox" class="pc" />回帖后跳转到最后一页</label>
+<script type="text/javascript">if(getcookie('fastpostrefresh') == 1) {$('fastpostrefresh').checked=true;}</script>
+</p>
+</td>
+</tr>
+</table>
+</form>
+</div>
+
+<script type="text/javascript">
+new lazyload();
+</script>
+<script type="text/javascript">document.onkeyup = function(e){keyPageScroll(e, 0, 0, 'forum.php?mod=viewthread&tid=156592', 1);}</script>
+</div>
+
+<div class="wp mtn">
+<!--[diy=diy3]--><div id="diy3" class="area"></div><!--[/diy]-->
+</div>
+
+<script type="text/javascript">
+function succeedhandle_followmod(url, msg, values) {
+var fObj = $('followmod_'+values['fuid']);
+if(values['type'] == 'add') {
+fObj.innerHTML = '不收听';
+fObj.href = 'home.php?mod=spacecp&ac=follow&op=del&fuid='+values['fuid'];
+} else if(values['type'] == 'del') {
+fObj.innerHTML = '收听TA';
+fObj.href = 'home.php?mod=spacecp&ac=follow&op=add&hash=ad442a44&fuid='+values['fuid'];
+}
+}
+fixed_avatar([928091,928126,928159], 1);
+</script><div class="show-text cl"><a href="https://www.sehuatang.net" target="_blank" class="js-randomBg">广告位招租</a>
+<a href="https://www.sehuatang.net" target="_blank" class="js-randomBg">广告位招租</a>
+<a href="https://www.sehuatang.net" target="_blank" class="js-randomBg">广告位招租</a>
+<a href="https://www.sehuatang.net" target="_blank" class="js-randomBg">广告位招租</a>
+</div>
+<div class="h10"></div>
+	</div>
+<div id="ft" class="wp cl">
+<div id="flk" class="y">
+<p>
+<a href="forum.php?mod=misc&action=showdarkroom" >小黑屋</a><span class="pipe">|</span><strong><a href="https://www.sehuatang.net" target="_blank">色花堂</a></strong>
+<script type="text/javascript" src="https://s19.cnzz.com/z_stat.php?id=1273692513&web_id=1273692513"></script></p>
+<p class="xs0">
+GMT+8, 2019-08-19 11:10<span id="debuginfo">
+, Processed in 0.019107 second(s), 4 queries
+, MemCache On.
+</span>
+</p>
+</div>
+<div id="frt">
+<p>Powered by <strong><a href="http://www.discuz.net" target="_blank">Discuz!</a></strong> <em>X3.4</em></p>
+<p class="xs0">&copy; 2001-2017 <a href="http://www.comsenz.com" target="_blank">Comsenz Inc.</a></p>
+</div></div>
+<script src="home.php?mod=misc&ac=sendmail&rand=1566184209" type="text/javascript"></script>
+
+<div id="scrolltop">
+<span><a href="forum.php?mod=post&amp;action=reply&amp;fid=37&amp;tid=156592&amp;extra=page%3D1&amp;page=1" onclick="showWindow('reply', this.href)" class="replyfast" title="快速回复"><b>快速回复</b></a></span>
+<span hidefocus="true"><a title="返回顶部" onclick="window.scrollTo('0','0')" class="scrolltopa" ><b>返回顶部</b></a></span>
+<span>
+<a href="forum-37-1.html" hidefocus="true" class="returnlist" title="返回列表"><b>返回列表</b></a>
+</span>
+</div>
+<script type="text/javascript">_attachEvent(window, 'scroll', function () { showTopLink(); });checkBlind();randomBg('js-randomBg');</script>
+<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","licenseKey":"6f39c4cc58","applicationID":"377839729","transactionName":"ZABXYEZQDEJWUhFcCl1KYEZdHgReRUQIGxVbFQ==","queueTime":0,"applicationTime":24,"atts":"SEdUFg5KH0w=","errorBeacon":"bam.nr-data.net","agent":""}</script></body>
+</html>

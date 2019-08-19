@@ -11,6 +11,14 @@ class ShtCrawler < Crawler
     )
   end
 
+  def crawl_censored(page:, backfill:)
+    crawl_forum(
+      @agent.get("https://www.sehuatang.org/forum-37-#{page}.html"),
+      tag: '色花堂',
+      backfill: backfill,
+    )
+  end
+
   def extract_thread_links_from_forum(page)
     page.links_with(
       text: /\S+/,
