@@ -4,8 +4,8 @@ require 'rails_helper'
 
 RSpec.describe 'movies/index' do
   before :each do
-    5.times do
-      create :movie
+    5.times do |i|
+      create :resource, tags: ["TAG_#{i}"]
     end
     @movies = Movie.all.page(1)
   end
@@ -43,18 +43,15 @@ RSpec.describe 'movies/index' do
         allow(view).to receive(:current_user).and_return(
           create(:user, is_admin: true),
         )
-        @baidu_pan_resource = 'with'
-        controller.request.path_parameters['baidu_pan_resource'] = 'with'
-        @bt_resource = 'with'
-        controller.request.path_parameters['bt_resource'] = 'with'
+        @resource = 'TAG_1'
+        controller.request.path_parameters['resource'] = @resource
         @order = 'default'
-        controller.request.path_parameters['order'] = 'default'
+        controller.request.path_parameters['order'] = @order
       end
 
       it 'renders resource filters' do
         render
-        expect(rendered).to have_selector('#baiduPanResourceNav')
-        expect(rendered).to have_selector('#btResourceNav')
+        expect(rendered).to have_selector('#resourceNav')
       end
 
       it 'renders current filters as active' do
@@ -63,10 +60,7 @@ RSpec.describe 'movies/index' do
           "#voteNav a[class*='active']", count: 1
         )
         expect(rendered).to have_selector(
-          "#baiduPanResourceNav a[class*='active']", count: 1
-        )
-        expect(rendered).to have_selector(
-          "#btResourceNav a[class*='active']", count: 1
+          "#resourceNav a[class*='active']", count: 1
         )
       end
 
@@ -80,14 +74,11 @@ RSpec.describe 'movies/index' do
       it 'renders links with combined filters' do
         render
         expect(rendered).to have_selector(
-          "#voteNav a[href*='bt_resource=with']",
+          "#voteNav a[href*='resource=TAG_1']",
         )
         expect(rendered).to have_selector("#voteNav a[href*='order=default']")
         expect(rendered).to have_selector(
-          "#baiduPanResourceNav a[href*='order=default']",
-        )
-        expect(rendered).to have_selector(
-          "#btResourceNav a[href*='order=default']",
+          "#resourceNav a[href*='order=default']",
         )
         expect(rendered).to have_selector("#orderNav a[href*='vote=up']")
       end
@@ -96,8 +87,7 @@ RSpec.describe 'movies/index' do
     context 'as non-admin' do
       it 'hides resource filters' do
         render
-        expect(rendered).not_to have_selector('#baiduPanResourceNav')
-        expect(rendered).not_to have_selector('#btResourceNav')
+        expect(rendered).not_to have_selector('#resourceNav')
       end
     end
   end
@@ -113,8 +103,7 @@ RSpec.describe 'movies/index' do
 
     it 'hides resource filters' do
       render
-      expect(rendered).not_to have_selector('#baiduPanResourceNav')
-      expect(rendered).not_to have_selector('#btResourceNav')
+      expect(rendered).not_to have_selector('#resourceNav')
     end
   end
 end

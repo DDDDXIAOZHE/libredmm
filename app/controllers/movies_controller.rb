@@ -71,32 +71,10 @@ class MoviesController < ApplicationController
   end
 
   def filter_by_resource
-    filter_by_baidu_pan_resource
-    filter_by_bt_resource
-  end
+    @resource = params[:resource]
+    return unless @resource
 
-  def filter_by_baidu_pan_resource
-    @baidu_pan_resource = params[:baidu_pan_resource]
-    case @baidu_pan_resource
-    when 'with'
-      @movies = signed_in_as_admin? ?
-        @movies.with_baidu_pan_resources :
-        Movie.none
-    when 'without'
-      @movies = signed_in_as_admin? ?
-        @movies.without_baidu_pan_resources :
-        Movie.none
-    end
-  end
-
-  def filter_by_bt_resource
-    @bt_resource = params[:bt_resource]
-    case @bt_resource
-    when 'with'
-      @movies = signed_in_as_admin? ? @movies.with_bt_resources : Movie.none
-    when 'without'
-      @movies = signed_in_as_admin? ? @movies.without_bt_resources : Movie.none
-    end
+    @movies = signed_in_as_admin? ? @movies.with_resource_tag(@resource) : Movie.none
   end
 
   def order_and_paginate

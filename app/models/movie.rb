@@ -12,17 +12,8 @@ class Movie < ApplicationRecord
     class_name: 'Resource',
   )
 
-  scope :with_baidu_pan_resources, -> {
-    where(id: joins(:resources).merge(Resource.valid.in_baidu_pan))
-  }
-  scope :without_baidu_pan_resources, -> {
-    where.not(id: joins(:resources).merge(Resource.valid.in_baidu_pan))
-  }
-  scope :with_bt_resources, -> {
-    where(id: joins(:resources).merge(Resource.valid.in_bt))
-  }
-  scope :without_bt_resources, -> {
-    where.not(id: joins(:resources).merge(Resource.valid.in_bt))
+  scope :with_resource_tag, ->(tag) {
+    where(id: joins(:resources).merge(Resource.valid.with_tag(tag)))
   }
 
   scope :bookmarked_by, ->(user) {

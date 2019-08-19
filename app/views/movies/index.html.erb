@@ -18,21 +18,14 @@
             param_name: :vote,
             options: %i[up down bookmark none],
           } %>
+
+          <% if current_user.is_admin? %>
+            <%= render partial: '/movies/filter_nav', locals: {
+              param_name: :resource,
+              options: Resource.distinct.pluck(:tags).flatten.sort.uniq.map(&:to_sym),
+            } %>
+          <% end %>
         </div>
-
-        <% if current_user.is_admin? %>
-          <div class="btn-toolbar mb-3">
-            <%= render partial: '/movies/filter_nav', locals: {
-              param_name: :baidu_pan_resource,
-              options: %i[with without],
-            } %>
-
-            <%= render partial: '/movies/filter_nav', locals: {
-              param_name: :bt_resource,
-              options: %i[with without],
-            } %>
-          </div>
-        <% end %>
       <% end %>
     </section>
 

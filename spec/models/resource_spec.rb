@@ -49,18 +49,6 @@ RSpec.describe Resource, type: :model do
       end
     end
 
-    describe 'in_baidu_pan' do
-      it 'includes resources with baidu pan url' do
-        resource = create :resource, download_uri: generate(:baidu_pan_uri)
-        expect(Resource.in_baidu_pan).to include(resource)
-      end
-
-      it 'exclude other resources' do
-        resource = create :resource
-        expect(Resource.in_baidu_pan).not_to include(resource)
-      end
-    end
-
     describe 'in_bt' do
       it 'includes resources with .torrent url' do
         resource = create :resource, download_uri: generate(:torrent_uri)
@@ -69,7 +57,7 @@ RSpec.describe Resource, type: :model do
 
       it 'exclude other resources' do
         resource = create :resource
-        expect(Resource.in_baidu_pan).not_to include(resource)
+        expect(Resource.in_bt).not_to include(resource)
       end
     end
 
