@@ -22,7 +22,7 @@ class Crawler
   def crawl_forum(page, tag:, backfill:)
     puts "=== #{page.uri} ===" unless Rails.env.test?
     return unless extract_thread_links_from_forum(page).map { |thread_link|
-      parse_thread thread_link.click, tag: tag
+      parse_thread thread_link, tag: tag
     }.any? || backfill
 
     next_page_link = extract_next_page_link_from_forum(page)
@@ -39,7 +39,8 @@ class Crawler
     page.link_with(text: /下一页/, href: /forum/)
   end
 
-  def parse_thread(page, tag:)
+  def parse_thread(link, tag:)
+    page = link.click
     resource = Resource.where(source_uri: page.uri.to_s).first
     if resource
       puts " o #{resource.movie.full_name} -- #{resource.download_uri}" unless Rails.env.test?
