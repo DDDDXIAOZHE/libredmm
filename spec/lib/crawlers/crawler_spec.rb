@@ -57,18 +57,30 @@ RSpec.describe Crawler do
         )
         crawler.crawl_forum spy('forum_page'), tag: tag, backfill: false
       end
+      
+      context 'on repeatedly crawling' do
+        before(:each) do
+          allow(crawler).to receive(:extract_thread_links_from_forum).and_return(
+            [spy('thread_link')], []
+          )
+          crawler.crawl_forum spy('forum_page'), tag: tag, backfill: false
+        end
 
-      it 'stops at current page when repeatedly crawling' do
-        expect(crawler).to receive(:crawl_forum).twice.and_call_original
-        allow(crawler).to receive(:extract_thread_links_from_forum).and_return(
-          [spy('thread_link')], []
-        )
-        crawler.crawl_forum spy('forum_page'), tag: tag, backfill: false
-        expect(crawler).to receive(:crawl_forum).once.and_call_original
-        allow(crawler).to receive(:extract_thread_links_from_forum).and_return(
-          [spy('thread_link')], []
-        )
-        crawler.crawl_forum spy('forum_page'), tag: tag, backfill: false
+        it 'stops at current page when repeatedly crawling' do
+          expect(crawler).to receive(:crawl_forum).once.and_call_original
+          allow(crawler).to receive(:extract_thread_links_from_forum).and_return(
+            [spy('thread_link')], []
+          )
+          crawler.crawl_forum spy('forum_page'), tag: tag, backfill: false
+        end
+
+        it 'does not parse thread pages' do
+          allow(crawler).to receive(:extract_thread_links_from_forum).and_return(
+            [spy('thread_link')], []
+          )
+          expect(crawler).not_to receive(:extract_title_from_thread)
+          crawler.crawl_forum spy('forum_page'), tag: tag, backfill: false
+        end
       end
     end
 
