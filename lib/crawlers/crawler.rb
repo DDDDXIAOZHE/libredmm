@@ -40,13 +40,17 @@ class Crawler
   end
 
   def parse_thread(link, tag:)
-    page = link.click
-    resource = Resource.where(source_uri: page.uri.to_s).first
+    resource = Resource.where(
+      '? = ANY(tags)', tag
+    ).where(
+      'source_uri LIKE ?', "%#{link.href}"
+    ).first
     if resource
       puts " o #{resource.movie.full_name} -- #{resource.download_uri}" unless Rails.env.test?
       return
     end
 
+    page = link.click
     title = extract_title_from_thread page
     dl_link = extract_dl_link_from_thread page
     resource = Movie.search!(title).resources.create!(
