@@ -21,11 +21,11 @@ module Admin
     def resource_params
       arr_fields = %i[actresses actress_types categories directors genres sample_images tags]
       arr_fields.each do |field|
-        params[resource_name.to_s][field.to_s] = params[resource_name.to_s][field.to_s].split(' ')
+        params[resource_name.to_s][field.to_s] = params[resource_name.to_s][field.to_s].split(" ")
       end
       params.require(resource_name).permit(
         *(dashboard.permitted_attributes - arr_fields),
-        **arr_fields.map { |field| [field, []] }.to_h
+              **arr_fields.map { |field| [field, []] }.to_h,
       )
     end
   end

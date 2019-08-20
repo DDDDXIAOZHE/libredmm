@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require 'open-uri'
+require "open-uri"
 
 namespace :resources do
   namespace :load do
-    desc 'load hd1080.org resources'
+    desc "load hd1080.org resources"
     task :hd1080, %i[dump_uri tag] => :environment do |_, args|
       duplicate = []
       failed = []
@@ -14,8 +14,8 @@ namespace :resources do
 
         path = Regexp.last_match(1)
         uri = Regexp.last_match(2)
-        code = File.basename(path, '.*').upcase.gsub(
-          /^\d*?(?=(3d|2d|[a-z]))/i, ''
+        code = File.basename(path, ".*").upcase.gsub(
+          /^\d*?(?=(3d|2d|[a-z]))/i, ""
         )
         if Resource.exists?(download_uri: uri)
           duplicate << code
@@ -39,7 +39,7 @@ namespace :resources do
   end
 
   namespace :obsolete do
-    desc 'obsolete bt resources'
+    desc "obsolete bt resources"
     task :bt, %i[email dump_uri] => :environment do |_, args|
       user = User.find_by_email!(args[:email])
       obsoleted = []

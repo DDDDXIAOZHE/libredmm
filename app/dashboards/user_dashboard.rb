@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'administrate/base_dashboard'
+require "administrate/base_dashboard"
 
 class UserDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
@@ -11,9 +11,9 @@ class UserDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     votes: Field::HasMany,
-    upvotes: Field::HasMany.with_options(class_name: 'Vote'),
-    downvotes: Field::HasMany.with_options(class_name: 'Vote'),
-    bookmarks: Field::HasMany.with_options(class_name: 'Vote'),
+    upvotes: Field::HasMany.with_options(class_name: "Vote"),
+    downvotes: Field::HasMany.with_options(class_name: "Vote"),
+    bookmarks: Field::HasMany.with_options(class_name: "Vote"),
     id: Field::Number,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,

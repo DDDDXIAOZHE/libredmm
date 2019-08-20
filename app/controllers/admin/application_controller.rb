@@ -11,7 +11,7 @@ module Admin
 
     def authenticate_admin
       unless signed_in? && current_user.is_admin?
-        deny_access(I18n.t('flashes.failure_when_not_signed_in'))
+        deny_access(I18n.t("flashes.failure_when_not_signed_in"))
       end
     end
 

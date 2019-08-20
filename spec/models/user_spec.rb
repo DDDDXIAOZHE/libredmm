@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe User, type: :model do
-  it 'has votes' do
+  it "has votes" do
     user = create :user
     2.times do
       create :vote, user: user, status: :up
@@ -14,7 +14,7 @@ RSpec.describe User, type: :model do
     expect(user.votes.size).to eq(2)
   end
 
-  it 'has upvotes and downvotes' do
+  it "has upvotes and downvotes" do
     user = create :user
     2.times do
       create :vote, user: user, status: :up
@@ -27,7 +27,7 @@ RSpec.describe User, type: :model do
     expect(user.downvotes.size).to eq(3)
   end
 
-  it 'has bookmarks' do
+  it "has bookmarks" do
     user = create :user
     2.times do
       create :vote, user: user, status: :up
@@ -38,8 +38,8 @@ RSpec.describe User, type: :model do
     expect(user.bookmarks.size).to eq(3)
   end
 
-  context 'on destroy' do
-    it 'destroys all votes' do
+  context "on destroy" do
+    it "destroys all votes" do
       user = create :user
       %i[up down bookmark].each do |status|
         create :vote, user: user, status: status

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'administrate/base_dashboard'
+require "administrate/base_dashboard"
 
 class MovieDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
@@ -12,7 +12,7 @@ class MovieDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     votes: Field::HasMany,
     resources: Field::HasMany,
-    obsolete_resources: Field::HasMany.with_options(class_name: 'Resource'),
+    obsolete_resources: Field::HasMany.with_options(class_name: "Resource"),
     id: Field::Number,
     actresses: Field::String,
     actress_types: Field::String,

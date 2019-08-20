@@ -28,12 +28,12 @@ class MoviesController < ApplicationController
     respond_to do |format|
       if @movie.refresh
         format.html do
-          redirect_back fallback_location: @movie, notice: 'Refreshed!'
+          redirect_back fallback_location: @movie, notice: "Refreshed!"
         end
         format.json { render :show, status: :ok, location: @movie }
       else
         format.html do
-          redirect_back fallback_location: @movie, alert: 'Failed to refresh!'
+          redirect_back fallback_location: @movie, alert: "Failed to refresh!"
         end
         format.json do
           render :show, status: :unprocessable_entity, location: @movie
@@ -47,9 +47,9 @@ class MoviesController < ApplicationController
   def filter_by_vr
     @vr = params[:vr]
     case @vr
-    when 'yes'
+    when "yes"
       @movies = @movies.vr
-    when 'no'
+    when "no"
       @movies = @movies.non_vr
     end
   end
@@ -57,13 +57,13 @@ class MoviesController < ApplicationController
   def filter_by_vote
     @vote = params[:vote]
     case @vote
-    when 'up'
+    when "up"
       @movies = @movies.upvoted_by(current_user)
-    when 'down'
+    when "down"
       @movies = @movies.downvoted_by(current_user)
-    when 'bookmark'
+    when "bookmark"
       @movies = @movies.bookmarked_by(current_user)
-    when 'none'
+    when "none"
       @movies = @movies.not_voted_by(current_user)
     else
       @movies = @movies.includes(:votes) if signed_in?
@@ -80,13 +80,13 @@ class MoviesController < ApplicationController
   def order_and_paginate
     @order = params[:order]
     case @order
-    when 'latest_first'
+    when "latest_first"
       @movies = @movies.latest_first
-    when 'oldest_first'
+    when "oldest_first"
       @movies = @movies.oldest_first
     else
       @movies = @movies.order(code: :asc)
-      @order = 'default'
+      @order = "default"
     end
     @movies = @movies.page(params[:page])
   end

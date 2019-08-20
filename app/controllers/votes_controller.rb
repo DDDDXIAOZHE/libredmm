@@ -11,11 +11,11 @@ class VotesController < ApplicationController
     respond_to do |format|
       format.codes do
         movies = case params[:status]
-                 when 'up'
+                 when "up"
                    Movie.upvoted_by(@user)
-                 when 'down'
+                 when "down"
                    Movie.downvoted_by(@user)
-                 when 'bookmark'
+                 when "bookmark"
                    Movie.bookmarked_by(@user)
                  else
                    Movie.voted_by(@user)
@@ -40,7 +40,7 @@ class VotesController < ApplicationController
       format.json { render :show, status: :ok, location: @movie }
     rescue ArgumentError, ActiveRecord::RecordInvalid
       format.html do
-        redirect_back fallback_location: @movie, notice: 'Vote failed!'
+        redirect_back fallback_location: @movie, notice: "Vote failed!"
       end
       format.json { render json: @vote.errors, status: :unprocessable_entity }
     end
@@ -52,7 +52,7 @@ class VotesController < ApplicationController
     @vote.destroy
     respond_to do |format|
       format.html do
-        redirect_back fallback_location: @movie, notice: 'Unvoted!'
+        redirect_back fallback_location: @movie, notice: "Unvoted!"
       end
       format.json { head :no_content }
     end

@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require 'crawlers/crawler'
+require "crawlers/crawler"
 
 class ThzCrawler < Crawler
   def crawl_censored(page:, backfill:)
     crawl_forum(
       @agent.get("http://taohuazu.cc/forum-220-#{page}.html"),
-      tag: '桃花族',
+      tag: "桃花族",
       backfill: backfill,
     )
   end
@@ -15,7 +15,7 @@ class ThzCrawler < Crawler
     page.links_with(
       text: /\S+/,
       href: /thread-\d+-1-\d+\.html/,
-      css: 'th a',
+      css: "th a",
     )
   end
 

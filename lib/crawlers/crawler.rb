@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'aws-sdk-s3'
-require 'mechanize'
+require "aws-sdk-s3"
+require "mechanize"
 
 class Crawler
   def initialize
@@ -9,14 +9,14 @@ class Crawler
 
     Aws.config.update(
       credentials: Aws::Credentials.new(
-        ENV['AWS_ACCESS_KEY_ID'],
-        ENV['AWS_SECRET_ACCESS_KEY'],
+        ENV["AWS_ACCESS_KEY_ID"],
+        ENV["AWS_SECRET_ACCESS_KEY"],
       ),
     )
     @s3_bucket = Aws::S3::Resource.new(
-      region: 'us-west-1',
+      region: "us-west-1",
       stub_responses: Rails.env.test?,
-    ).bucket(ENV['AWS_S3_BUCKET'])
+    ).bucket(ENV["AWS_S3_BUCKET"])
   end
 
   def crawl_forum(page, tag:, backfill:)
@@ -41,7 +41,7 @@ class Crawler
 
   def parse_thread(link, tag:)
     resource = Resource.with_tag(tag).where(
-      'source_uri LIKE ?', "%#{link.href}"
+      "source_uri LIKE ?", "%#{link.href}"
     ).first
     if resource
       puts " o #{resource.movie.full_name} -- #{resource.download_uri}" unless Rails.env.test?
@@ -78,9 +78,9 @@ class Crawler
     object = @s3_bucket.object(path)
     object.put(
       body: dl_link.click.content,
-      content_disposition: 'attachment',
-      content_type: 'application/x-bittorrent',
-      acl: 'public-read',
+      content_disposition: "attachment",
+      content_type: "application/x-bittorrent",
+      acl: "public-read",
     ) unless object.exists?
     object.public_url
   end

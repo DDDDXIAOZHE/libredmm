@@ -7,12 +7,12 @@ class Resource < ApplicationRecord
   validates :download_uri, uniqueness: true
   validates :download_uri, format: { with: URI.regexp(%w[http https]) }
 
-  scope :with_tag, ->(tag) { where('? = ANY(resources.tags)', tag) }
-  scope :in_bt, -> { where('download_uri ILIKE ?', '%.torrent') }
+  scope :with_tag, ->(tag) { where("? = ANY(resources.tags)", tag) }
+  scope :in_bt, -> { where("download_uri ILIKE ?", "%.torrent") }
   scope :obsolete, -> { where(is_obsolete: true) }
   scope :valid, -> { where(is_obsolete: false) }
 
   scope :not_voted_by, ->(user) {
-    where.not(id: joins(movie: :votes).where(movie: { votes: { user: user } }))
-  }
+          where.not(id: joins(movie: :votes).where(movie: { votes: { user: user } }))
+        }
 end

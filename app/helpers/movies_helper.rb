@@ -3,14 +3,14 @@
 module MoviesHelper
   def link_to_open_all(movies)
     link_to(
-      octicon('link-external', height: 20),
-      '#',
+      octicon("link-external", height: 20),
+      "#",
       data: {
-        toggle: 'tooltip',
+        toggle: "tooltip",
         urls: movies.map { |m| url_for(m) },
       },
-      title: 'Open all in new tabs',
-      class: 'link_to_open_all',
+      title: "Open all in new tabs",
+      class: "link_to_open_all",
     )
   end
 

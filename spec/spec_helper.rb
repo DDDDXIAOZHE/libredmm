@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'database_cleaner'
-require 'webmock/rspec'
+require "database_cleaner"
+require "webmock/rspec"
 
 WebMock.disable_net_connect!(allow_localhost: true)
 
@@ -60,8 +60,8 @@ RSpec.configure do |config|
 
   config.filter_run_excluding benchmark: true
 
-# The settings below are suggested to provide a good initial experience
-# with RSpec, but feel free to customize to your heart's content.
+  # The settings below are suggested to provide a good initial experience
+  # with RSpec, but feel free to customize to your heart's content.
 =begin
   # Allows RSpec to persist some state between runs in order to support
   # the `--only-failures` and `--next-failure` CLI options. We recommend

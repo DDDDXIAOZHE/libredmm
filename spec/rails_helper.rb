@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'simplecov'
-SimpleCov.start 'rails' do
+require "simplecov"
+SimpleCov.start "rails" do
   add_filter %r{^/app/channels/}
   add_filter %r{^/app/controllers/admin/}
   add_filter %r{^/app/dashboards/}
@@ -9,20 +9,20 @@ SimpleCov.start 'rails' do
   add_filter %r{^/app/mailers/}
 end
 
-if ENV['CI'] == 'true'
-  require 'codecov'
+if ENV["CI"] == "true"
+  require "codecov"
   SimpleCov.formatter = SimpleCov::Formatter::Codecov
 end
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-require 'spec_helper'
-ENV['RAILS_ENV'] ||= 'test'
-require File.expand_path('../config/environment', __dir__)
+require "spec_helper"
+ENV["RAILS_ENV"] ||= "test"
+require File.expand_path("../config/environment", __dir__)
 # Prevent database truncation if the environment is production
-abort('The Rails environment is running in production mode!') if Rails.env.production?
-require 'rspec/rails'
+abort("The Rails environment is running in production mode!") if Rails.env.production?
+require "rspec/rails"
 # Add additional requires below this line. Rails is not loaded until this point!
-require 'clearance/rspec'
+require "clearance/rspec"
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -37,7 +37,7 @@ require 'clearance/rspec'
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
-Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
@@ -75,7 +75,7 @@ RSpec.configure do |config|
         attributes_for(:movie).map { |k, v|
           [k.to_s.camelize.to_sym, v]
         }.to_h.merge(
-          Code: request.uri.query_values['q'],
+          Code: request.uri.query_values["q"],
         ).to_json
       },
     )

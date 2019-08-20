@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe 'movies/show' do
+RSpec.describe "movies/show" do
   before :each do
     @movie = create(:movie)
     2.times do
@@ -14,57 +14,57 @@ RSpec.describe 'movies/show' do
     end
   end
 
-  it 'renders cover image and sample images in a carousel' do
+  it "renders cover image and sample images in a carousel" do
     render
     expect(rendered).to have_selector(
-      '.carousel-item', count: @movie.sample_images.size + 1
+      ".carousel-item", count: @movie.sample_images.size + 1,
     )
-    expect(rendered).to have_selector('.carousel-item.active', count: 1)
+    expect(rendered).to have_selector(".carousel-item.active", count: 1)
   end
 
-  it 'includes movie info in title' do
-    render template: 'movies/show', layout: 'layouts/application'
+  it "includes movie info in title" do
+    render template: "movies/show", layout: "layouts/application"
     expect(rendered).to have_title("#{@movie.code} #{@movie.title}")
   end
 
-  context 'when signed in' do
+  context "when signed in" do
     before :each do
       @user = create :user, is_admin: false
       allow(view).to receive(:signed_in?).and_return(true)
       allow(view).to receive(:current_user).and_return(@user)
     end
 
-    it 'hides refresh button' do
+    it "hides refresh button" do
       render
-      expect(rendered).not_to have_selector('#refresh')
+      expect(rendered).not_to have_selector("#refresh")
     end
 
-    it 'hides resources' do
+    it "hides resources" do
       render
-      expect(rendered).not_to have_selector('#resources')
+      expect(rendered).not_to have_selector("#resources")
     end
 
-    context 'when voted' do
+    context "when voted" do
       before :each do
         create :vote, movie: @movie, user: @user
       end
 
-      it 'renders two vote link and one unvote link' do
+      it "renders two vote link and one unvote link" do
         render
         expect(rendered).to have_selector(
-          "a[href*='#{@movie.code}/vote'][data-method='put']", count: 2
+          "a[href*='#{@movie.code}/vote'][data-method='put']", count: 2,
         )
         expect(rendered).to have_selector(
-          "a[href*='#{@movie.code}/vote'][data-method='delete']", count: 1
+          "a[href*='#{@movie.code}/vote'][data-method='delete']", count: 1,
         )
       end
     end
 
-    context 'when not voted' do
-      it 'renders three vote links' do
+    context "when not voted" do
+      it "renders three vote links" do
         render
         expect(rendered).to have_selector(
-          "a[href*='#{@movie.code}/vote'][data-method='put']", count: 3
+          "a[href*='#{@movie.code}/vote'][data-method='put']", count: 3,
         )
         expect(rendered).not_to have_selector(
           "a[href*='#{@movie.code}/vote'][data-method='delete']",
@@ -73,7 +73,7 @@ RSpec.describe 'movies/show' do
     end
   end
 
-  context 'when signed in as admin' do
+  context "when signed in as admin" do
     before :each do
       @admin = create :user, is_admin: true
       allow(view).to receive(:signed_in?).and_return(true)
@@ -83,53 +83,53 @@ RSpec.describe 'movies/show' do
       allow(view).to receive(:current_user).and_return(@admin)
     end
 
-    it 'renders refresh button' do
+    it "renders refresh button" do
       render
-      expect(rendered).to have_selector('#refresh')
+      expect(rendered).to have_selector("#refresh")
     end
 
-    it 'renders resources' do
+    it "renders resources" do
       render
       expect(rendered).to have_selector(
-        '#resources tbody tr', count: @movie.resources.count
+        "#resources tbody tr", count: @movie.resources.count,
       )
     end
 
-    it 'renders download links' do
+    it "renders download links" do
       render
       expect(rendered).to have_selector(
         "#resources a[href*='#{resource_path(@movie.resources.first)}']",
       )
     end
 
-    it 'renders mark obsolete links' do
+    it "renders mark obsolete links" do
       render
       expect(rendered).to have_selector(
-        "#resources a[href*='#{resource_path(@movie.resources.first)}']"\
+        "#resources a[href*='#{resource_path(@movie.resources.first)}']" \
         "[data-method='delete']",
       )
     end
 
-    context 'when movie has no resource' do
-      it 'hides resources' do
+    context "when movie has no resource" do
+      it "hides resources" do
         @movie = create(:movie)
-        expect(rendered).not_to have_selector('#resources')
+        expect(rendered).not_to have_selector("#resources")
       end
     end
   end
 
-  context 'when not signed in' do
-    it 'hides refresh button' do
+  context "when not signed in" do
+    it "hides refresh button" do
       render
-      expect(rendered).not_to have_selector('#refresh')
+      expect(rendered).not_to have_selector("#refresh")
     end
 
-    it 'hides resources' do
+    it "hides resources" do
       render
-      expect(rendered).not_to have_selector('#resources')
+      expect(rendered).not_to have_selector("#resources")
     end
 
-    it 'hides vote links' do
+    it "hides vote links" do
       render
       expect(rendered).not_to have_selector("a[href*='#{@movie.code}/vote']")
     end

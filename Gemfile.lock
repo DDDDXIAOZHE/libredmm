@@ -55,7 +55,6 @@ GEM
       sass-rails (~> 5.0)
       selectize-rails (~> 0.6)
     arel (9.0.0)
-    ast (2.4.0)
     autoprefixer-rails (9.6.1)
       execjs
     aws-eventstream (1.0.3)
@@ -909,7 +908,6 @@ GEM
       domain_name (~> 0.5)
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
-    jaro_winkler (1.5.3)
     jbuilder (2.9.1)
       activesupport (>= 4.2.0)
     jmespath (1.4.0)
@@ -977,9 +975,6 @@ GEM
     octicons_helper (9.1.1)
       octicons (= 9.1.1)
       rails
-    parallel (1.17.0)
-    parser (2.6.3.0)
-      ast (~> 2.4.0)
     pg (1.1.4)
     popper_js (1.14.5)
     pry (0.12.2)
@@ -1021,7 +1016,6 @@ GEM
       method_source
       rake (>= 0.8.7)
       thor (>= 0.19.0, < 2.0)
-    rainbow (3.0.0)
     rake (12.3.3)
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
@@ -1044,19 +1038,10 @@ GEM
       rspec-mocks (~> 3.8.0)
       rspec-support (~> 3.8.0)
     rspec-support (3.8.2)
-    rubocop (0.74.0)
-      jaro_winkler (~> 1.5.1)
-      parallel (~> 1.10)
-      parser (>= 2.6)
-      rainbow (>= 2.2.2, < 4.0)
-      ruby-progressbar (~> 1.7)
-      unicode-display_width (>= 1.4.0, < 1.7)
-    rubocop-rspec (1.35.0)
-      rubocop (>= 0.60.0)
-    ruby-progressbar (1.10.1)
     ruby_dep (1.5.0)
     ruby_http_client (3.3.0)
     rubyzip (1.2.3)
+    rufo (0.7.0)
     safe_yaml (1.0.5)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
@@ -1125,7 +1110,6 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.6)
-    unicode-display_width (1.6.0)
     url (0.3.2)
     web-console (3.7.0)
       actionview (>= 5.0)
@@ -1175,8 +1159,7 @@ DEPENDENCIES
   rack-mini-profiler
   rails
   rspec-rails
-  rubocop
-  rubocop-rspec
+  rufo
   sass-rails
   selenium-webdriver
   sendgrid-ruby

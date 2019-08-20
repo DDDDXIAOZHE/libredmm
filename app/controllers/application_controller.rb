@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   end
 
   helper_method :signed_in_as_admin?
+
   def signed_in_as_admin?
     signed_in? && current_user.is_admin?
   end

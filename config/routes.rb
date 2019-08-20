@@ -7,20 +7,20 @@ Rails.application.routes.draw do
     resources :users
     resources :votes
 
-    root to: 'movies#index'
+    root to: "movies#index"
   end
 
-  root 'pages#index'
-  get '/search', to: 'pages#search'
+  root "pages#index"
+  get "/search", to: "pages#search"
 
   resources :movies, param: :code, only: %i[index show destroy] do
-    put 'vote', to: 'votes#update'
-    delete 'vote', to: 'votes#destroy'
+    put "vote", to: "votes#update"
+    delete "vote", to: "votes#destroy"
   end
 
   resources :resources, only: %i[show destroy]
 
-  get 'rss/torrents.rss', to: 'rss#torrents', format: false, as: 'torrents'
+  get "rss/torrents.rss", to: "rss#torrents", format: false, as: "torrents"
 
   resources(
     :users,
@@ -28,8 +28,8 @@ Rails.application.routes.draw do
     constraints: { user_email: /.+/ },
     only: [],
   ) do
-    get 'votes.codes', to: 'votes#index', format: false, as: :vote_codes
-    get 'votes.user.js', to: 'votes#index', format: false
-    get 'pipe.rss', to: 'rss#pipe', format: false
+    get "votes.codes", to: "votes#index", format: false, as: :vote_codes
+    get "votes.user.js", to: "votes#index", format: false
+    get "pipe.rss", to: "rss#pipe", format: false
   end
 end

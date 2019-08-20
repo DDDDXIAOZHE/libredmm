@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'open-uri'
+require "open-uri"
 
 namespace :votes do
-  desc 'load votes'
+  desc "load votes"
   task :load, %i[email vote uri force] => :environment do |_, args|
     user = User.find_by_email!(args[:email])
     voted = []
