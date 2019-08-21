@@ -102,4 +102,16 @@ RSpec.describe Resource, type: :model do
       end
     end
   end
+
+  describe "in_bt?" do
+    it "returns true for torrents" do
+      resource = create :resource, download_uri: generate(:torrent_uri)
+      expect(resource).to be_in_bt
+    end
+
+    it "returns false otherwise" do
+      resource = create :resource
+      expect(resource).not_to be_in_bt
+    end
+  end
 end

@@ -84,15 +84,31 @@
       <tbody>
         <% @movie.resources.each do |resource| %>
           <tr>
-            <td><%= link_to resource.download_uri, resource, class: 'resource-download' %></td>
+            <td><%= link_to(
+              resource.in_bt? ? 
+                CGI::unescape(File.basename(resource.download_uri)) :
+                resource.download_uri,
+              resource,
+              class: 'resource-download',
+            ) %></td>
             <td><%= link_to(resource.source_uri, resource.source_uri) if resource.source_uri %></td>
             <td><% resource.tags.each do |tag| %>
               <span class="badge badge-light"><%= tag %></span>
             <% end %></td>
-            <td><%= link_to(
-              octicon(:trashcan), resource,
-              method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' }
-            ) %></td>
+            <td>
+              <%= link_to(
+                octicon(resource.in_bt? ? 'desktop-download' : 'cloud-download'),
+                resource,
+                class: 'btn btn-primary',
+              ) %>
+              <%= link_to(
+                octicon(:trashcan),
+                resource,
+                method: :delete,
+                class: 'btn btn-danger',
+                data: { confirm: 'Are you sure?' }
+              ) %>
+            </td>
           </tr>
         <% end %>
       </tbody>

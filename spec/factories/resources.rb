@@ -2,10 +2,6 @@
 
 FactoryBot.define do
   sequence :uri do |n|
-    "https://foobar.com/#{n}"
-  end
-
-  sequence :baidu_pan_uri do |n|
     "http://pan.baidu.com/s/#{n}"
   end
 

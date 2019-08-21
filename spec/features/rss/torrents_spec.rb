@@ -7,10 +7,10 @@ RSpec.feature "Request torrents RSS", type: :feature do
   end
 
   scenario "without tag" do
-    baidu = create :resource, download_uri: generate(:baidu_pan_uri)
+    regular = create :resource
     torrent = create :resource, download_uri: generate(:torrent_uri)
     visit torrents_url
-    expect(page.body).not_to include(baidu.download_uri)
+    expect(page.body).not_to include(regular.download_uri)
     expect(page.body).to include(torrent.download_uri)
   end
 

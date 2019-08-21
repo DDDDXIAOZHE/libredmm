@@ -15,4 +15,8 @@ class Resource < ApplicationRecord
   scope :not_voted_by, ->(user) {
           where.not(id: joins(movie: :votes).where(movie: { votes: { user: user } }))
         }
+
+  def in_bt?
+    download_uri.end_with? ".torrent"
+  end
 end

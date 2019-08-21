@@ -34,12 +34,12 @@ RSpec.describe Movie, type: :model do
   describe ".vr?" do
     it "returns true for VR movie" do
       movie = create :movie, title: "【VR】Dummy VR"
-      expect(movie.vr?).to be_truthy
+      expect(movie).to be_vr
     end
 
     it "returns false for regular movie" do
       movie = create :movie
-      expect(movie.vr?).to be_falsey
+      expect(movie).not_to be_vr
     end
   end
 
