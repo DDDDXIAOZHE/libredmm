@@ -16,7 +16,7 @@
         var m = a.text.match(/<%= oneregex(
             Movie.voted_by(@user).pluck(:code) +
             Movie.bookmarked_by(@user).pluck(:code) +
-            Movie.with_baidu_pan_resources.pluck(:code)
+            Movie.joins(:resources).pluck(:code)
         )%>/i);
         if (m) {
             var cls = []
@@ -27,9 +27,11 @@
             } else if (m[0].match(/<%= oneregex(Movie.bookmarked_by(@user).pluck(:code)) %>/i)) {
                 cls.push('bookmark')
             }
-            if (m[0].match(/<%= oneregex(Movie.with_baidu_pan_resources.pluck(:code)) %>/i)) {
-                cls.push('baidu_pan')
+            <% Resource.distinct.pluck(:tags).flatten.sort.uniq.each do |tag| %>
+            if (m[0].match(/<%= oneregex(Movie.with_resource_tag(tag).pluck(:code)) %>/i)) {
+                cls.push('<%= tag %>')
             }
+            <% end %>
             var mark = `<mark class="${cls.join(' ')}">${m[0]}</mark>`;
             a.innerHTML = a.innerHTML.replace(m[0], mark);
         }

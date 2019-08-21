@@ -3,9 +3,6 @@
 require "rails_helper"
 
 RSpec.feature "Request torrents RSS", type: :feature do
-  before :each do
-  end
-
   scenario "without tag" do
     regular = create :resource
     torrent = create :resource, download_uri: generate(:torrent_uri)

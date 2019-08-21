@@ -29,7 +29,7 @@ Rails.application.routes.draw do
     only: [],
   ) do
     get "votes.codes", to: "votes#index", format: false, as: :vote_codes
-    get "votes.user.js", to: "votes#index", format: false
+    get "votes.user.js", to: "votes#index", format: false, as: :vote_user_js
     get "pipe.rss", to: "rss#pipe", format: false
   end
 end
