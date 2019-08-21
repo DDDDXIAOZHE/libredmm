@@ -7,7 +7,7 @@ RSpec.describe ShtCrawler do
   let(:crawler) { ShtCrawler.new }
 
   describe ".crawl_subtitled" do
-    before(:each) do
+    before :each do
       stub_request(:get, %r{/forum-\d+-1.html}).to_return(
         File.new("spec/lib/crawlers/sht/fixtures/forum-103-1.trimmed.html"),
       )
@@ -39,7 +39,7 @@ RSpec.describe ShtCrawler do
   end
 
   describe ".crawl_censored" do
-    before(:each) do
+    before :each do
       stub_request(:get, %r{/forum-\d+-1.html}).to_return(
         File.new("spec/lib/crawlers/sht/fixtures/forum-37-1.trimmed.html"),
       )

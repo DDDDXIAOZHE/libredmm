@@ -3,8 +3,15 @@
 require "rails_helper"
 
 RSpec.describe Movie, type: :model do
+  let(:movie) { create :movie }
+  let(:vr_movie) { create :movie, title: "【VR】Dummy VR" }
+
+  let(:user) { create :user }
+  let(:bookmark) { create :vote, user: user, status: :bookmark }
+  let(:upvote) { create :vote, user: user, status: :up }
+  let(:downvote) { create :vote, user: user, status: :down }
+
   it "has resources" do
-    movie = create :movie
     resource = create :resource, movie: movie
     obsolete_resource = create :resource, movie: movie, is_obsolete: true
     expect(movie.resources).to include(resource)
@@ -12,7 +19,6 @@ RSpec.describe Movie, type: :model do
   end
 
   it "has obsolete resources" do
-    movie = create :movie
     resource = create :resource, movie: movie
     obsolete_resource = create :resource, movie: movie, is_obsolete: true
     expect(movie.obsolete_resources).not_to include(resource)
@@ -21,24 +27,20 @@ RSpec.describe Movie, type: :model do
 
   describe ".full_name" do
     it "contains code" do
-      movie = create :movie
       expect(movie.full_name).to include(movie.code)
     end
 
     it "contains title" do
-      movie = create :movie
       expect(movie.full_name).to include(movie.title)
     end
   end
 
   describe ".vr?" do
     it "returns true for VR movie" do
-      movie = create :movie, title: "【VR】Dummy VR"
-      expect(movie).to be_vr
+      expect(vr_movie).to be_vr
     end
 
     it "returns false for regular movie" do
-      movie = create :movie
       expect(movie).not_to be_vr
     end
   end
@@ -46,44 +48,44 @@ RSpec.describe Movie, type: :model do
   describe ".normalize_code" do
     context "on short code" do
       it "does nothing" do
-        movie = build :movie, code: "CODE-020"
+        unsaved_movie = build :movie, code: "CODE-020"
         expect {
-          movie.normalize_code
+          unsaved_movie.normalize_code
         }.not_to change {
-          movie.code
+          unsaved_movie.code
         }
       end
     end
 
     context "on long code without leading zero" do
       it "does nothing" do
-        movie = build :movie, code: "CODE-12345"
+        unsaved_movie = build :movie, code: "CODE-12345"
         expect {
-          movie.normalize_code
+          unsaved_movie.normalize_code
         }.not_to change {
-          movie.code
+          unsaved_movie.code
         }
       end
     end
 
     context "on long code with leading zero" do
       it "removes leading zero" do
-        movie = build :movie, code: "CODE-00123"
+        unsaved_movie = build :movie, code: "CODE-00123"
         expect {
-          movie.normalize_code
+          unsaved_movie.normalize_code
         }.to change {
-          movie.code
+          unsaved_movie.code
         }.to("CODE-123")
       end
     end
 
     context "on code with 3 leading digits" do
       it "removes 3 leading digits" do
-        movie = build :movie, code: "300CODE-90"
+        unsaved_movie = build :movie, code: "300CODE-90"
         expect {
-          movie.normalize_code
+          unsaved_movie.normalize_code
         }.to change {
-          movie.code
+          unsaved_movie.code
         }.to("CODE-90")
       end
     end
@@ -91,17 +93,13 @@ RSpec.describe Movie, type: :model do
 
   describe "#search" do
     context "for code in db" do
-      before :each do
-        @movie = create :movie
-      end
-
       it "returns existing movie" do
-        expect(Movie.search!(@movie.code)).to eq(@movie)
+        expect(Movie.search!(movie.code)).to eq(movie)
       end
 
       it "ignores cases" do
-        expect(Movie.search!(@movie.code.downcase)).to eq(@movie)
-        expect(Movie.search!(@movie.code.upcase)).to eq(@movie)
+        expect(Movie.search!(movie.code.downcase)).to eq(movie)
+        expect(Movie.search!(movie.code.upcase)).to eq(movie)
       end
 
       it "allows paddings" do
@@ -133,7 +131,6 @@ RSpec.describe Movie, type: :model do
 
       context "when api returns movie already in db" do
         it "returns existing movie" do
-          movie = create(:movie)
           stub_request(:any, %r{api\.libredmm\.com/search\?q=}).to_return(
             body: ->(_) {
               {
@@ -184,14 +181,12 @@ RSpec.describe Movie, type: :model do
     end
 
     it "rejects duplicate code" do
-      movie = create(:movie)
       expect {
         create(:movie, code: movie.code)
       }.to raise_error(ActiveRecord::RecordInvalid)
     end
 
     it "rejects duplicate code case insensitively" do
-      movie = create(:movie)
       expect {
         create(:movie, code: movie.code.downcase)
       }.to raise_error(ActiveRecord::RecordInvalid)
@@ -228,13 +223,9 @@ RSpec.describe Movie, type: :model do
   end
 
   describe ".refresh" do
-    before :each do
-      @movie = create :movie
-    end
-
     it "searches details via api" do
       expect(@api_stub).not_to have_been_requested
-      @movie.refresh
+      movie.refresh
       expect(@api_stub).to have_been_requested
     end
 
@@ -250,14 +241,14 @@ RSpec.describe Movie, type: :model do
       end
 
       it "return true attrs" do
-        expect(@movie.refresh).to be_truthy
+        expect(movie.refresh).to be_truthy
       end
 
       it "update attrs" do
         expect {
-          @movie.refresh
+          movie.refresh
         }.to change {
-          @movie.code
+          movie.code
         }.to("ABC-123")
       end
     end
@@ -267,7 +258,7 @@ RSpec.describe Movie, type: :model do
         stub_request(:any, %r{api\.libredmm\.com/search\?q=}).to_return(
           status: 404,
         )
-        expect(@movie.refresh).to be_falsey
+        expect(movie.refresh).to be_falsey
       end
     end
 
@@ -280,7 +271,7 @@ RSpec.describe Movie, type: :model do
             }.to_json
           },
         )
-        expect(@movie.refresh).to be_falsey
+        expect(movie.refresh).to be_falsey
       end
     end
   end
@@ -288,7 +279,6 @@ RSpec.describe Movie, type: :model do
   context "scope" do
     describe "with_code" do
       it "ignores case" do
-        movie = create :movie, code: "Carib 123456-789"
         expect(Movie.with_code(movie.code.downcase)).to include(movie)
       end
     end
@@ -310,7 +300,6 @@ RSpec.describe Movie, type: :model do
       end
 
       it "excludes movies with obsolete baidu pan and valid other resource" do
-        movie = create :movie
         create(
           :resource,
           movie: movie,
@@ -325,7 +314,6 @@ RSpec.describe Movie, type: :model do
         "peforms better than naive intersection on already limited scope",
         benchmark: true,
       ) do
-        user = create :user
         100.times do
           movie = create :movie
           create :vote, movie: movie, user: user
@@ -349,17 +337,10 @@ RSpec.describe Movie, type: :model do
     end
 
     describe "bookmarked_by, upvoted_by and downvoted_by" do
-      before :each do
-        @user = create :user
-        @bookmark = create :vote, user: @user, status: :bookmark
-        @upvote = create :vote, user: @user, status: :up
-        @downvote = create :vote, user: @user, status: :down
-      end
-
       it "works" do
-        expect(Movie.bookmarked_by(@user).all).to eq([@bookmark.movie])
-        expect(Movie.upvoted_by(@user).all).to eq([@upvote.movie])
-        expect(Movie.downvoted_by(@user).all).to eq([@downvote.movie])
+        expect(Movie.bookmarked_by(user).all).to eq([bookmark.movie])
+        expect(Movie.upvoted_by(user).all).to eq([upvote.movie])
+        expect(Movie.downvoted_by(user).all).to eq([downvote.movie])
       end
 
       it "nil does not exist" do
@@ -371,20 +352,13 @@ RSpec.describe Movie, type: :model do
     end
 
     describe "voted_by" do
-      before :each do
-        @user = create :user
-        @bookmark = create :vote, user: @user, status: :bookmark
-        @upvote = create :vote, user: @user, status: :up
-        @downvote = create :vote, user: @user, status: :down
-      end
-
       it "includes upvoted and downvoted movies" do
-        expect(Movie.voted_by(@user).all).to include(@upvote.movie)
-        expect(Movie.voted_by(@user).all).to include(@downvote.movie)
+        expect(Movie.voted_by(user).all).to include(upvote.movie)
+        expect(Movie.voted_by(user).all).to include(downvote.movie)
       end
 
       it "excludes bookmarked movies" do
-        expect(Movie.voted_by(@user).all).not_to include(@bookmark.movie)
+        expect(Movie.voted_by(user).all).not_to include(bookmark.movie)
       end
 
       it "nil does not exist" do
@@ -394,39 +368,31 @@ RSpec.describe Movie, type: :model do
 
     describe "not_voted_by" do
       it "includes movies without votes" do
-        user = create :user
-        movie = create :movie
         expect(Movie.not_voted_by(user)).to include(movie)
       end
 
       it "excludes voted movies" do
-        user = create :user
         vote = create :vote, user: user
         expect(Movie.not_voted_by(user)).not_to include(vote.movie)
       end
 
       it "excludes bookmarked movies" do
-        user = create :user
         vote = create :vote, user: user, status: :bookmark
         expect(Movie.not_voted_by(user)).not_to include(vote.movie)
       end
 
       it "includes movies only voted by other" do
-        user = create :user
         vote = create :vote
         expect(Movie.not_voted_by(user)).to include(vote.movie)
       end
 
       it "excludes movies also voted by other" do
-        user = create :user
-        movie = create :movie
         create :vote, user: user, movie: movie
         create :vote, movie: movie
         expect(Movie.not_voted_by(user)).not_to include(movie)
       end
 
       it "nil includes movies without votes" do
-        movie = create :movie
         expect(Movie.not_voted_by(nil)).to include(movie)
       end
 
@@ -437,32 +403,22 @@ RSpec.describe Movie, type: :model do
     end
 
     describe "vr" do
-      before :each do
-        @vr_movie = create :movie, title: "【VR】Dummy VR"
-        @regular_movie = create :movie
-      end
-
       it "includes vr movies" do
-        expect(Movie.vr.all).to include(@vr_movie)
+        expect(Movie.vr.all).to include(vr_movie)
       end
 
       it "excludes regular movies" do
-        expect(Movie.vr.all).not_to include(@regular_movie)
+        expect(Movie.vr.all).not_to include(movie)
       end
     end
 
     describe "non_vr" do
-      before :each do
-        @vr_movie = create :movie, title: "【VR】Dummy VR"
-        @regular_movie = create :movie
-      end
-
       it "excludes vr movies" do
-        expect(Movie.non_vr.all).not_to include(@vr_movie)
+        expect(Movie.non_vr.all).not_to include(vr_movie)
       end
 
       it "includes regular movies" do
-        expect(Movie.non_vr.all).to include(@regular_movie)
+        expect(Movie.non_vr.all).to include(movie)
       end
     end
 

@@ -113,6 +113,7 @@ RSpec.describe "movies/show" do
     context "when movie has no resource" do
       it "hides resources" do
         @movie = create(:movie)
+        render
         expect(rendered).not_to have_selector("#resources")
       end
     end

@@ -3,19 +3,20 @@
 require "rails_helper"
 
 RSpec.feature "List movies with vote filter", type: :feature do
+  let(:user) { create :user }
+
   before :each do
-    @user = create :user
     2.times do
       create :movie
     end
     3.times do
-      create :vote, user: @user, status: :up
+      create :vote, user: user, status: :up
     end
     4.times do
-      create :vote, user: @user, status: :down
+      create :vote, user: user, status: :down
     end
     5.times do
-      create :vote, user: @user, status: :bookmark
+      create :vote, user: user, status: :bookmark
     end
   end
 
@@ -42,10 +43,10 @@ RSpec.feature "List movies with vote filter", type: :feature do
 
   context "up" do
     scenario "when signed in" do
-      visit movies_url(vote: "up", as: @user)
+      visit movies_url(vote: "up", as: user)
       expect(page).to have_selector(
         ".movie",
-        count: Movie.upvoted_by(@user).count,
+        count: Movie.upvoted_by(user).count,
       )
     end
 
@@ -57,10 +58,10 @@ RSpec.feature "List movies with vote filter", type: :feature do
 
   context "down" do
     scenario "when signed in" do
-      visit movies_url(vote: "down", as: @user)
+      visit movies_url(vote: "down", as: user)
       expect(page).to have_selector(
         ".movie",
-        count: Movie.downvoted_by(@user).count,
+        count: Movie.downvoted_by(user).count,
       )
     end
 
@@ -72,10 +73,10 @@ RSpec.feature "List movies with vote filter", type: :feature do
 
   context "bookmark" do
     scenario "when signed in" do
-      visit movies_url(vote: "bookmark", as: @user)
+      visit movies_url(vote: "bookmark", as: user)
       expect(page).to have_selector(
         ".movie",
-        count: Movie.bookmarked_by(@user).count,
+        count: Movie.bookmarked_by(user).count,
       )
     end
 
@@ -87,10 +88,10 @@ RSpec.feature "List movies with vote filter", type: :feature do
 
   context "none" do
     scenario "when signed in" do
-      visit movies_url(vote: "none", as: @user)
+      visit movies_url(vote: "none", as: user)
       expect(page).to have_selector(
         ".movie",
-        count: Movie.not_voted_by(@user).count,
+        count: Movie.not_voted_by(user).count,
       )
     end
 

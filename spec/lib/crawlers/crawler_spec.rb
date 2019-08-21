@@ -7,7 +7,7 @@ RSpec.describe Crawler do
   let(:crawler) { Crawler.new }
   let(:tag) { "TAG" }
 
-  before(:each) do
+  before :each do
     allow(crawler).to receive(:extract_thread_links_from_forum).and_return(
       [spy("thread_link")],
     )
@@ -59,7 +59,7 @@ RSpec.describe Crawler do
       end
 
       context "on repeatedly crawling" do
-        before(:each) do
+        before :each do
           allow(crawler).to receive(:extract_thread_links_from_forum).and_return(
             [spy("thread_link")], []
           )

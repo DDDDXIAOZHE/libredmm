@@ -3,9 +3,10 @@
 require "rails_helper"
 
 RSpec.feature "List movies with resource filter", type: :feature do
+  let(:user) { create :user }
+  let(:admin) { create :user, is_admin: true }
+
   before :each do
-    @user = create :user
-    @admin = create :user, is_admin: true
     2.times do
       create :movie
     end
@@ -23,12 +24,12 @@ RSpec.feature "List movies with resource filter", type: :feature do
 
   context "present" do
     scenario "when signed in" do
-      visit movies_url(resource: "TAG", as: @user)
+      visit movies_url(resource: "TAG", as: user)
       expect(page).not_to have_selector(".movie")
     end
 
     scenario "when signed in as admin" do
-      visit movies_url(resource: "TAG", as: @admin)
+      visit movies_url(resource: "TAG", as: admin)
       expect(page).to have_selector(
         ".movie",
         count: Movie.with_resource_tag("TAG").count,
@@ -43,11 +44,11 @@ RSpec.feature "List movies with resource filter", type: :feature do
     scenario "and chained after vote filter" do
       create(
         :vote,
-        user: @admin,
+        user: admin,
         movie: Movie.with_resource_tag("TAG").first,
         status: :up,
       )
-      visit movies_url(resource: "TAG", vote: "up", as: @admin)
+      visit movies_url(resource: "TAG", vote: "up", as: admin)
       expect(page).to have_selector(".movie", count: 1)
     end
   end

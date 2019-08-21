@@ -6,7 +6,7 @@ require "crawlers/thz"
 RSpec.describe ThzCrawler do
   let(:crawler) { ThzCrawler.new }
 
-  before(:each) do
+  before :each do
     stub_request(:get, %r{/forum-\d+-1.html}).to_return(
       File.new("spec/lib/crawlers/thz/fixtures/forum-220-1.trimmed.html"),
     )
