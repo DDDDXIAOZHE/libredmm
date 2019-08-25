@@ -13,7 +13,6 @@
         } else if (e.key === "b") {
           $("a.vote-bookmark")[0].click();
         } else if (e.key === "h") {
-          console.log($("a.resource-download.HD1080")[0])
           $("a.resource-download.HD1080")[0].click();
         }
       };
@@ -90,7 +89,7 @@
                 CGI::unescape(File.basename(resource.download_uri)) :
                 resource.download_uri,
               resource,
-              class: resource.tags.push('resource-download')
+              class: resource.tags + ['resource-download'],
             ) %></td>
             <td><%= link_to(resource.source_uri, resource.source_uri) if resource.source_uri %></td>
             <td><% resource.tags.each do |tag| %>
