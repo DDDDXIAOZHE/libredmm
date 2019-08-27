@@ -1,15 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  namespace :admin do
-    resources :movies
-    resources :resources
-    resources :users
-    resources :votes
-
-    root to: "movies#index"
-  end
-
   root "pages#index"
   get "/search", to: "pages#search"
 
