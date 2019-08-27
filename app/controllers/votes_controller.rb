@@ -30,7 +30,7 @@ class VotesController < ApplicationController
   # PUT /movies/CODE-001/vote.json
   def update
     respond_to do |format|
-      @vote.update_attributes(vote_params)
+      @vote.update(vote_params)
       format.html do
         redirect_back(
           fallback_location: @movie,

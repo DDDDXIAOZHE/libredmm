@@ -29,7 +29,7 @@ RSpec.describe "movies/show" do
 
   context "when signed in" do
     before :each do
-      @user = create :user, is_admin: false
+      @user = create :user
       allow(view).to receive(:signed_in?).and_return(true)
       allow(view).to receive(:current_user).and_return(@user)
     end
@@ -75,7 +75,7 @@ RSpec.describe "movies/show" do
 
   context "when signed in as admin" do
     before :each do
-      @admin = create :user, is_admin: true
+      @admin = create :admin
       allow(view).to receive(:signed_in?).and_return(true)
       without_partial_double_verification do
         allow(view).to receive(:signed_in_as_admin?).and_return(true)

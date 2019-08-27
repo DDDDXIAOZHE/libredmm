@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe "Resources", type: :request do
   let(:resource) { create :resource }
   let(:user) { create :user }
-  let(:admin) { create :user, is_admin: true }
+  let(:admin) { create :admin }
 
   describe "GET /resources/:resource_id" do
     context "when signed out" do

@@ -29,17 +29,13 @@ gem "sass-rails"
 gem "sendgrid-ruby"
 gem "turbolinks"
 gem "uglifier"
+gem "webpacker"
 
 gem "rack-mini-profiler"
 
 gem "flamegraph"
 gem "memory_profiler"
 gem "stackprof"
-
-# See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
-# Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 3.0'
 
 group :development, :test do
   gem "byebug", platforms: %i[mri mingw x64_mingw]
