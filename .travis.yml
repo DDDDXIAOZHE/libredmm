@@ -7,7 +7,7 @@ env:
   - TAMPERMONKEY_MATCHES="http*://localhost*"
 language: ruby
 rvm:
-- 2.6.3
+- 2.6.4
 cache: bundler
 services:
 - postgresql
